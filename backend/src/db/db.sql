@@ -1,52 +1,65 @@
-CREATE DATABASE register_store;
-USE register_store;
+CREATE DATABASE bikestore_sebas;
+USE bikestore_sebas;
 
---------------------------------------- BASE DE DATOS DE PRUEBA ----------------------------------------------
--- Crear tabla personas
-CREATE TABLE personas (
-    id_persona INT AUTO_INCREMENT PRIMARY KEY,       -- Identificador único autoincremental
-    nombre VARCHAR(100),                             -- Cadena para el nombre
-    apellido VARCHAR(100),                           -- Cadena para el apellido
-    tipo_identificacion VARCHAR(50),                 -- Tipo de documento: CC, TI, CE, etc.
-    nuip INT,                                        -- Número único de identificación (ej: cédula)
-    email VARCHAR(100),                              -- Correo electrónico del usuario
-    clave VARCHAR(500),                              -- Contraseña encriptada
-    salario DECIMAL(10,2),                           -- Valor numérico decimal para salario
-    activo BOOLEAN DEFAULT TRUE,                     -- Valor booleano: 1 (activo), 0 (inactivo)
-    fecha_registro DATE DEFAULT (CURRENT_DATE),      -- Fecha en la que se registra a la persona
-    imagen LONGBLOB                                  -- Imagen en binario (para subir una foto)
+# -------- Creación de la tabla usuarios (Clientes y administradores) -----------#
+CREATE TABLE usuarios(
+id_usuario int primary key auto_increment,
+nombre varchar(30),
+apellido varchar(30),
+rol enum('Administrador','Cliente'),
+email varchar(100),
+contraseña varchar(200),
+telefono bigint,
+direccion varchar(100),
+ciudad varchar(25),
+departamento varchar(25),
+codigo_postal int,
+pais enum('Argentina','Colombia','Chile','Ecuador','Brazil','Mexico')
 );
 
--- Ver los registros actuales de la tabla personas
-SELECT * FROM personas;
-
--- Crear tabla usuarios
-CREATE TABLE usuarios (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    apellido VARCHAR(100),
-    telefono VARCHAR(20),
-    email VARCHAR(100) unique,
-    clave VARCHAR(500),
-    rol ENUM('cliente', 'admin', 'super_usuario') DEFAULT 'cliente',
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+# -------- Creación de la tabla Estados para los pedidos. --------#
+CREATE TABLE estados(
+id_estado int primary key auto_increment,
+nombre_estado enum('En alistamiento','En envio','Entregado'),
+fecha_estado date
 );
 
-Select * From usuarios;
+# -------- Creación de la tabla pedidos. --------#
+CREATE TABLE pedidos(
+id_pedido int primary key auto_increment,
+id_usuario int,
+id_estado int,
+CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+CONSTRAINT fk_estado FOREIGN KEY (id_estado) REFERENCES estados(id_estado)
+);
 
--- Crear tabla productos con campo stock calculado
+# -------- Creación de la tabla categorias --------#
+CREATE TABLE categorias(
+id_categoria int primary key auto_increment,
+nombre_categoria varchar(25)
+);
+
+# -------- Creación de la tabla Productos. --------#
 CREATE TABLE productos (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,      -- Identificador único autoincremental
-    nombre VARCHAR(100) NOT NULL,                    -- Nombre del producto
-    descripcion TEXT,                                -- Descripción del producto
-    categoria VARCHAR(100),                          -- Categoría a la que pertenece el producto
-    entradas INT DEFAULT 0,                          -- La cantidad de productos que entran
-    salidas INT DEFAULT 0,                           -- La cantidad de productos que se venden
-    stock INT AS (entradas - salidas) VIRTUAL,       -- Stock calculado automáticamente
-    precio DECIMAL(10,2) NOT NULL,                   -- Precio con dos decimales
-    imagen LONGBLOB,                                 -- Imagen del producto en binario
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP -- Fecha de creación del registro
+id_producto int primary key auto_increment,
+id_categoria int,
+nombre_producto varchar(30),
+marca varchar(30),
+stock int,
+precio_unitario int,
+CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
 
--- Ver los registros actuales de la tabla productos
-SELECT * FROM productos;
+# -------- Creación de la tabla detalle_pedido. --------#
+CREATE TABLE detalle_pepido(
+id_detalle int primary key auto_increment,
+id_pedido int,
+id_producto int,
+cantidad int,
+total int,
+CONSTRAINT fk_pedido FOREIGN KEY (id_pedido) REFERENCES pedidos(id_pedido),
+CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+);
+
+
+

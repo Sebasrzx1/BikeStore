@@ -6,8 +6,8 @@ const crudController = require('../controllers/crud.controller')
 const crud = new crudController()
 
 // Tabla y campo que usaremos para este CRUD
-const tabla = 'personas'
-const idcampo = 'id_persona'
+const tabla = 'usuarios'
+const idcampo = 'id_usuario'
 
 // Obtener todas las personas
 router.get('/', async (req, res) =>{
