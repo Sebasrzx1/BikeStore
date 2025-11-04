@@ -6,7 +6,7 @@ CREATE TABLE usuarios(
 id_usuario int primary key auto_increment,
 nombre varchar(30),
 apellido varchar(30),
-rol enum('Administrador','Cliente'),
+rol enum('Administrador','Cliente') DEFAULT 'Cliente',
 email varchar(100),
 contraseña varchar(200),
 telefono bigint,
