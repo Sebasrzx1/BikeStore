@@ -1,7 +1,6 @@
 const db = require('../config/conexion_db'); //Importamos base de datos de BikeStore.
 const bcrypt = require('bcrypt'); //Importamos libreria para encriptar contraseñas
-const jwt = require('jsonwebtoken') //Importamos libreria para manejar tokens en los inicio de sesion.
-const SECRET_KEY = process.env.JWT_SECRET || 'clave_secreta_bikestore'
+
 
 class AuthController{
 
@@ -94,6 +93,15 @@ class AuthController{
             
         }catch(error){
             console.error('Error en iniciar Sesion: ', error);
+            throw error
+        }
+    }
+
+    async verificarUsuario(userId){
+        try{
+            const [usuarios] = await db.query('SELECT id_usuario, nombre, apellido, email, rol FROM usuarios WHERE id_usuario = ?',[userId])
+        }catch(error){
+            console.log('Error al verificar usuario:', error)
             throw error
         }
     }
