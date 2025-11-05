@@ -13,5 +13,4 @@ app.listen(PORT, () => {
 │  Launching digital bikeshop...│
 └───────────────────────────────┘
         `)
-   
 })
