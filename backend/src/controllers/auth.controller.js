@@ -1,111 +1,111 @@
-const db = require('../config/conexion_db'); //Importamos base de datos de BikeStore.
-const bcrypt = require('bcrypt'); //Importamos libreria para encriptar contraseñas
+const db = require('../config/conexion_db');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.JWT_SECRET || 'clave_secreta';
 
+class AuthController {
+    /* ------------ Registro de usuarios ------------ */
+    async registrar(usuarioData) {
+        try {
+            const [emailExistente] = await db.query(
+                'SELECT email FROM usuarios WHERE email = ?',
+                [usuarioData.email]
+            );
 
-class AuthController{
-
-/* ------------ Registro de usuarios.  ------------*/  
-    
-    async registrar(usuarioData){
-        try{
-            //Intentamos verificar si el email ingresado ya existe o esta asociado a una cuenta ya registrada.
-            const[emailExistente] = await db.query('SELECT email FROM usuarios WHERE email = ?')
-
-            if(emailExistente.lenght > 0){
-                return{
+            if (emailExistente.length > 0) {
+                return {
                     success: false,
-                    message:'El email ya esta registrado'
-                }
+                    message: 'El email ya está registrado',
+                };
             }
 
-            //Encriptamos la contraseña
             const saltosRondas = 10;
-            const passwordHasheada = await bcrypt.hash(usuarioData.contraseña, saltosRondas)
+            const passwordHasheada = await bcrypt.hash(usuarioData.contraseña, saltosRondas);
 
-            //Creacion del usuario como objeto con su contraseña encriptada.
             const usuarioNuevo = {
                 ...usuarioData,
-                contraseña:passwordHasheada
-            }
+                contraseña: passwordHasheada,
+            };
 
-            //Cuando el usuario esta creado como un objeto por ultimo lo insertamos directamente a la base datos de bikestore.
+            const [resultado] = await db.query('INSERT INTO usuarios SET ?', [usuarioNuevo]);
 
-            const[resultado] = await db.query('INSERT INTO usuarios SET ?',[usuarioNuevo])
-
-            return{
+            return {
                 success: true,
-                mesagge: 'Usuario registrado correctamente en BikeStore',
-                userID: resultado.insertId
-            }
-        }catch(error){
-            console.error('Error al registrar el usuario', error);
-            throw error
+                message: 'Usuario registrado correctamente en BikeStore',
+                userID: resultado.insertId,
+            };
+        } catch (error) {
+            console.error('Error al registrar el usuario:', error);
+            throw error;
         }
     }
 
+    /* ------------ Inicio de Sesión ------------ */
+    async iniciarSesion(email, contraseña) {
+        try {
+            const [usersLogin] = await db.query(
+                'SELECT * FROM usuarios WHERE email = ?',
+                [email]
+            );
 
-
-/* ------------ Inicio de Sesión de los usuarios.  ------------*/  
-    async iniciarSesion(email, contraseña){
-        try{
-            //Buscamos el usuario por el email
-            const [usersLogin] = await db.query('SELECT * FROM email = ?',[email])
-
-            if(usersLogin.lenght === 0){
-                return{
+            if (usersLogin.length === 0) {
+                return {
                     success: false,
-                    mesagge: 'El correo o la contraseña no coinciden'
-                }
+                    message: 'El correo o la contraseña no coinciden',
+                };
             }
 
-            const usuario = usersLogin[0]
+            const usuario = usersLogin[0];
+            const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
 
-            //Verificamos su contraseña
-            const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña)
-
-            if(!passwordMatch){
-                return{
+            if (!passwordMatch) {
+                return {
                     success: false,
-                    message: "El correo o la contraseña no coinciden"
-                }
+                    message: 'El correo o la contraseña no coinciden',
+                };
             }
 
-            //Creamos un token con los datos de los usuarios (excluyendo la contraseña)
+            const token = jwt.sign(
+                { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol },
+                SECRET_KEY,
+                { expiresIn: '30h' }
+            );
 
-            const token = jwt.sing(
-                { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol}, 
-                SECRET_KEY, 
-                {expiresIn: '30h'}
-            )
-
-            //Retornar los datos del usuario y el token
             return {
                 success: true,
                 message: 'Inicio de sesión exitoso',
                 token,
                 usuario: {
-                id: usuario.id_usuario,
-                nombre: usuario.nombre,
-                email: usuario.email,
-                rol: usuario.rol
-                }
+                    id: usuario.id_usuario,
+                    nombre: usuario.nombre,
+                    email: usuario.email,
+                    rol: usuario.rol,
+                },
             };
-            
-        }catch(error){
-            console.error('Error en iniciar Sesion: ', error);
-            throw error
+        } catch (error) {
+            console.error('Error en iniciar sesión:', error);
+            throw error;
         }
     }
 
-    async verificarUsuario(userId){
-        try{
-            const [usuarios] = await db.query('SELECT id_usuario, nombre, apellido, email, rol FROM usuarios WHERE id_usuario = ?',[userId])
-        }catch(error){
-            console.log('Error al verificar usuario:', error)
-            throw error
+    /* ------------ Verificación de usuario ------------ */
+    async verificarUsuario(userId) {
+        try {
+            const [usuarios] = await db.query(
+                'SELECT id_usuario, nombre, apellido, email, rol FROM usuarios WHERE id_usuario = ?',
+                [userId]
+            );
+
+            if (usuarios.length === 0) {
+                return { success: false, message: 'Usuario no encontrado' };
+            }
+
+            return { success: true, usuario: usuarios[0] };
+        } catch (error) {
+            console.log('Error al verificar usuario:', error);
+            throw error;
         }
     }
-
 }
 
-module.exports = new AuthController()
+module.exports = new AuthController();
