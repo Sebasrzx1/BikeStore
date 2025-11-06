@@ -35,7 +35,7 @@ class CrudController{
             if(resultado.affectedRows === 0){
                 throw new Error('Registro no encontrado')
             }
-            return await this.obtenerTodos(tabla, idCampo, id)
+            return await this.obtenerUno(tabla, idCampo, id)
         }catch(error){
             throw error
         }
