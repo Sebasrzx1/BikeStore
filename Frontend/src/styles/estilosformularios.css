@@ -28,7 +28,7 @@
   align-self: stretch;
 }
 
-.auth-logo {
+.loginLogo {
   width: 204px;
   height: 71px;
   flex-shrink: 0;

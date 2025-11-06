@@ -5,6 +5,8 @@ import RegisterForm from "./components/RegisterForm.jsx";
 export default function App() {
   const [isRegistering, setIsRegistering] = useState(false);
 
+
+
   return (
     <div>
       {isRegistering ? (
