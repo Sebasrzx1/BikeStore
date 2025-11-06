@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "../styles/estilosformularios.css";
-
+import "../styles/login.css"
 
 
 export default function LoginForm({ setIsRegistering }) {
@@ -38,6 +37,8 @@ export default function LoginForm({ setIsRegistering }) {
     }
   };
 
+
+  /* ESTRUCTURA HTML */
   return (
     <div className="LoginSection">
       <div className="contenedorlogin">
@@ -48,25 +49,22 @@ export default function LoginForm({ setIsRegistering }) {
             Inicia sesión para continuar tu viaje en bicicleta
           </p>
         </div>
-
-
+        <div className="BotonesLogin">
+          <div className="botondir" onClick={() => setIsRegistering(false)}>
+            Iniciar sesión
+          </div>
+          <div className="botonder" onClick={() => setIsRegistering(true)}>
+            Registrarse
+          </div>
+        </div>
 
         <form className="CardLogin" onSubmit={handleSubmit}>
-
-          <div className="BotonesLogin">
-            <div className="botondir" onClick={() => setIsRegistering(false)}>
-              iniciar sesión
-            </div>
-            <div className="botonder" onClick={() => setIsRegistering(true)}>
-              registrarse
-            </div>
-          </div>
-
           <div className="LoginCampo">
             <label>Correo electrónico</label>
             <input
               className="LoginInput"
               type="email"
+              placeholder="✉️ Tu@correo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -78,6 +76,7 @@ export default function LoginForm({ setIsRegistering }) {
             <input
               className="LoginInput"
               type="password"
+              placeholder="*****"
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
               required
