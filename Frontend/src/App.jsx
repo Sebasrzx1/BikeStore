@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import LoginForm from "./components/LoginForm/LoginForm.jsx";
-import RegisterForm from "./components/RegisterForm/RegisterForm.jsx";
+import LoginForm from "./components/LoginForm.jsx";
+import RegisterForm from "./components/RegisterForm.jsx";
 
 export default function App() {
   const [isRegistering, setIsRegistering] = useState(false);

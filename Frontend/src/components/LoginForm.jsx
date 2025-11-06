@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/estilosformularios.css";
+import "../styles/estilosformularios.css";
 
 
 
@@ -53,16 +53,16 @@ export default function LoginForm({ setIsRegistering }) {
 
         <form className="CardLogin" onSubmit={handleSubmit}>
 
-                  <div className="BotonesLogin">
-          <div className="botondir" onClick={() => setIsRegistering(false)}>
-            INICIAR SESIÓN
+          <div className="BotonesLogin">
+            <div className="botondir" onClick={() => setIsRegistering(false)}>
+              iniciar sesión
+            </div>
+            <div className="botonder" onClick={() => setIsRegistering(true)}>
+              registrarse
+            </div>
           </div>
-          <div className="botondir" onClick={() => setIsRegistering(true)}>
-            REGISTRARSE
-          </div>
-        </div>
 
-          <div className="auth-field">
+          <div className="LoginCampo">
             <label>Correo electrónico</label>
             <input
               className="LoginInput"
@@ -73,7 +73,7 @@ export default function LoginForm({ setIsRegistering }) {
             />
           </div>
 
-          <div className="auth-field">
+          <div className="LoginCampo">
             <label>Contraseña</label>
             <input
               className="LoginInput"
@@ -84,7 +84,7 @@ export default function LoginForm({ setIsRegistering }) {
             />
           </div>
 
-          <div className="auth-forgot">¿Olvidaste tu contraseña?</div>
+          <div className="LoginOlvidar">¿Olvidaste tu contraseña?</div>
 
           <button className="auth-button" type="submit">
             Iniciar sesión

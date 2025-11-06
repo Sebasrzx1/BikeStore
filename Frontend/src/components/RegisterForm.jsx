@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/estilosformularios.css";
+import "../styles/estilosformularios.css";
 
 export default function RegisterForm({ setIsRegistering }) {
   const [mensaje, setMensaje] = useState("");
