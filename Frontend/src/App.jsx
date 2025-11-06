@@ -1,16 +1,17 @@
-import LoginRegisterForm from "./components/LoginRegisterForm/LoginRegisterForm.jsx";
-import Productos from "./components/Productos.jsx";
+import React, { useState } from "react";
+import LoginForm from "./components/LoginRegisterForm/LoginRegisterForm.jsx";
+import RegisterForm from "./components/RegisterForm/RegisterForm.jsx";
 
+export default function App() {
+  const [isRegistering, setIsRegistering] = useState(false);
 
-function App() {
   return (
-    <div className="App">
-      <LoginRegisterForm />
-      <h1>Panel de administracion - BikeStore</h1>
-      <Productos/>
+    <div>
+      {isRegistering ? (
+        <RegisterForm setIsRegistering={setIsRegistering} />
+      ) : (
+        <LoginForm setIsRegistering={setIsRegistering} />
+      )}
     </div>
-    
   );
 }
-
-export default App;

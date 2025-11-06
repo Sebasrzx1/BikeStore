@@ -1,49 +1,20 @@
 import React, { useState } from "react";
+import "../../styles/estilosformularios.css";
 
-export default function LoginRegisterForm() {
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [mensaje, setMensaje] = useState("");
 
-  // Campos comunes
+
+export default function LoginForm({ setIsRegistering }) {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
-
-  // Campos adicionales para registro
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [ciudad, setCiudad] = useState("");
-  const [departamento, setDepartamento] = useState("");
-  const [codigoPostal, setCodigoPostal] = useState("");
-  const [pais, setPais] = useState("Colombia");
-  const [rol, setRol] = useState("Cliente");
+  const [mensaje, setMensaje] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const endpoint = isRegistering
-      ? "http://localhost:3000/api/auth/registro"
-      : "http://localhost:3000/api/auth/login";
-
-    const payload = isRegistering
-      ? {
-          nombre,
-          apellido,
-          email,
-          contraseña,
-          telefono,
-          direccion,
-          ciudad,
-          departamento,
-          codigo_postal: codigoPostal,
-          pais,
-          rol,
-        }
-      : { email, contraseña };
+    const payload = { email, contraseña };
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -52,30 +23,14 @@ export default function LoginRegisterForm() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMensaje(`✅ ${data.message || "Operación exitosa"}`);
-
-        if (isRegistering) {
-          // Limpia campos de registro
-          setNombre("");
-          setApellido("");
-          setTelefono("");
-          setDireccion("");
-          setCiudad("");
-          setDepartamento("");
-          setCodigoPostal("");
-          setPais("Colombia");
-          setRol("Cliente");
-        } else {
-          // Guardar token y datos de usuario
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("rol", data.usuario.rol);
-          localStorage.setItem("nombre", data.usuario.nombre);
-        }
-
+        setMensaje(`✅ ${data.message || "Inicio de sesión exitoso"}`);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("rol", data.usuario.rol);
+        localStorage.setItem("nombre", data.usuario.nombre);
         setEmail("");
         setContraseña("");
       } else {
-        setMensaje(`❌ ${data.message || "Error en la operación"}`);
+        setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }
     } catch (error) {
       console.error(error);
@@ -84,99 +39,60 @@ export default function LoginRegisterForm() {
   };
 
   return (
-    <div className="form-container">
-      <h2>{isRegistering ? "Registro de Usuario" : "Inicio de Sesión"}</h2>
-      <form onSubmit={handleSubmit}>
-        {isRegistering && (
-          <>
-            <input
-              type="text"
-              placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Apellido"
-              value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
-              required
-            />
-            <input
-              type="tel"
-              placeholder="Teléfono"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Dirección"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Ciudad"
-              value={ciudad}
-              onChange={(e) => setCiudad(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              placeholder="Departamento"
-              value={departamento}
-              onChange={(e) => setDepartamento(e.target.value)}
-              required
-            />
-            <input
-              type="number"
-              placeholder="Código Postal"
-              value={codigoPostal}
-              onChange={(e) => setCodigoPostal(e.target.value)}
-              required
-            />
-            <select value={pais} onChange={(e) => setPais(e.target.value)}>
-              <option value="Colombia">Colombia</option>
-              <option value="Argentina">Argentina</option>
-              <option value="Chile">Chile</option>
-              <option value="Ecuador">Ecuador</option>
-              <option value="Brazil">Brazil</option>
-              <option value="Mexico">Mexico</option>
-            </select>
-          </>
-        )}
+    <div className="LoginSection">
+      <div className="contenedorlogin">
+        <div className="EncabezadoLogin">
+          <img src="/public/logo.png" alt="BikeStore" className="auth-logo" />
+          <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
+          <p className="ParrafoLogin">
+            Inicia sesión para continuar tu viaje en bicicleta
+          </p>
+        </div>
 
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
 
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contraseña}
-          onChange={(e) => setContraseña(e.target.value)}
-          required
-        />
 
-        <button type="submit">
-          {isRegistering ? "Registrarse" : "Iniciar Sesión"}
-        </button>
-      </form>
+        <form className="CardLogin" onSubmit={handleSubmit}>
 
-      <button onClick={() => setIsRegistering(!isRegistering)}>
-        {isRegistering
-          ? "¿Ya tienes cuenta? Inicia sesión"
-          : "¿No tienes cuenta? Regístrate"}
-      </button>
+                  <div className="BotonesLogin">
+          <div className="botondir" onClick={() => setIsRegistering(false)}>
+            INICIAR SESIÓN
+          </div>
+          <div className="botondir" onClick={() => setIsRegistering(true)}>
+            REGISTRARSE
+          </div>
+        </div>
 
-      {mensaje && <p>{mensaje}</p>}
+          <div className="auth-field">
+            <label>Correo electrónico</label>
+            <input
+              className="LoginInput"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="auth-field">
+            <label>Contraseña</label>
+            <input
+              className="LoginInput"
+              type="password"
+              value={contraseña}
+              onChange={(e) => setContraseña(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="auth-forgot">¿Olvidaste tu contraseña?</div>
+
+          <button className="auth-button" type="submit">
+            Iniciar sesión
+          </button>
+        </form>
+
+        {mensaje && <p className="auth-message">{mensaje}</p>}
+      </div>
     </div>
   );
 }
