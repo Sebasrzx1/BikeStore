@@ -1,0 +1,90 @@
+.hero-slider {
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background-image 1s ease-in-out;
+  animation: fadeBackground 1s ease-in-out;
+}
+
+/* Capa oscura */
+.slider-content {
+  padding-left: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Animaciones individuales con delay */
+.slider-content h1 {
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0;
+  transform: translateX(-80px);
+  animation: fadeInText 1s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.slider-content p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  color: #e5e7eb;
+  margin: 10px 0 30px 0;
+  opacity: 0;
+  transform: translateX(-80px);
+  animation: fadeInText 1s ease forwards;
+  animation-delay: 0.5s;
+}
+
+.slider-button {
+  background: #8b0000;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-80px);
+  animation: fadeInText 1s ease forwards;
+  animation-delay: 0.8s;
+  transition: background-color 0.3s ease;
+}
+
+.slider-button:hover {
+  background-color: #420404;
+}
+
+/* Animación de entrada suave */
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animación de fondo (opcional si usas transición JS) */
+@keyframes fadeBackground {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
