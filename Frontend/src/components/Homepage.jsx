@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Homepage.css";
+import HeroSlider from "./Heroslider";
 
 const Homepage = () => {
   const [productos, setProductos] = useState([]);
@@ -21,12 +22,10 @@ const Homepage = () => {
 
   return (
     <div className="productos-page">
+      <HeroSlider />
       <section className="hero">
-        <h1>Encuentra la bicicleta de tus sueños</h1>
-        <p>Bicicletas de alta calidad para todo tipo de terreno y estilo</p>
-        <button className="btn-hero" onClick={() => navigate("/login")}>
-          Iniciar sesión
-        </button>
+        <h1>COMPRA POR CATALOGO</h1>
+        <p>Encuentra exactamente lo qu enecesitas para tu viaje en bicicleta</p>
       </section>
 
       <section className="productos-lista">

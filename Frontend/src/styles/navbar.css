@@ -2,15 +2,46 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 0.8rem 2rem;
   position: sticky;
   top: 0;
   z-index: 100;
+  padding: 10px 150px;
+  font-family: Poppins;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(7.699999809265137px);
 }
 
-.nav-logo  {
+.desingloginregister {
+display: flex;
+width: 150px;
+height: 42px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 11px;
+border: 3px solid #000;
+background: rgba(255, 255, 255, 0.85);
+}
+.desingloginregister a {
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-decoration: none;
+  color: #000;
+}
+
+
+.contcarrito {
+  justify-content: column;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-logo img {
+  width: 152px;
   display: flex;
   align-items: center;
 }
@@ -34,10 +65,14 @@
 }
 
 .nav-links a {
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+color: #000;
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+text-decoration: none;
+
 }
 
 .nav-links a:hover {
