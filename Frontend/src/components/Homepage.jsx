@@ -37,7 +37,7 @@ const Homepage = () => {
               <div key={p.id_producto} className="card">
                 <div className="card-img">
                   <img
-                    src={`http://localhost:3000/${p.imagen}`}
+                    src={`http://localhost:3000${p.imagen}`}
                     alt={p.nombre_producto}
                   />
                 </div>

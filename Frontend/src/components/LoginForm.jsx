@@ -44,11 +44,8 @@ export default function LoginForm() {
     <div className="LoginSection">
       <div className="contenedorlogin">
         <div className="EncabezadoLogin">
-<<<<<<< HEAD
-          <img src="/Logo.png" alt="BikeStore" className="auth-logo" />
-=======
+
           <img src="/public/logo.png" alt="BikeStore" className="loginLogo" />
->>>>>>> 4b16fc76531c3cff202a1b9950acf9874205a9c7
           <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
           <p className="ParrafoLogin">
             Inicia sesión para continuar tu viaje en bicicleta
@@ -68,7 +65,6 @@ export default function LoginForm() {
           <div className="LoginCampo">
 
             <label>Correo electrónico</label>
-            <img src="/IconEmail.svg" alt="IconoEmail" />
             <input
               className="LoginInput"
               type="email"

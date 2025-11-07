@@ -6,7 +6,7 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 
 // Componente auxiliar para manejar la lógica del Navbar
-function AppContent({ isRegistering, setIsRegistering }) {
+function AppContent({ setIsRegistering }) {
   const location = useLocation();
 
   // Oculta el Navbar si estás en /login o /register
