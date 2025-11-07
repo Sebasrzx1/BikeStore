@@ -33,6 +33,8 @@ function AppContent({ isRegistering, setIsRegistering }) {
 export default function App() {
   const [isRegistering, setIsRegistering] = useState(false);
 
+
+
   return (
     <Router>
       <AppContent isRegistering={isRegistering} setIsRegistering={setIsRegistering} />
