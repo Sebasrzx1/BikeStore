@@ -1,0 +1,209 @@
+.tienda-page {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  font-family: "Poppins", sans-serif;
+}
+
+/* === SIDEBAR DE FILTROS === */
+.tienda-filtros {
+  flex: 0 0 220px; /* Sidebar un poco más angosto */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  height: fit-content;
+}
+
+.tienda-filtros-titulo {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: #222;
+}
+
+.tienda-busqueda label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.tienda-busqueda input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.tienda-categorias h3 {
+  font-weight: 600;
+  margin: 1.5rem 0 1rem;
+  color: #222;
+}
+
+.tienda-categorias ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tienda-categorias li {
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tienda-btn-limpiar {
+  background: #ddd;
+  border: none;
+  color: #333;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.tienda-btn-limpiar:hover {
+  background: #ae2020;
+  color: white;
+}
+
+/* === PRODUCTOS === */
+.tienda-productos {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas fijas en pantallas grandes */
+  gap: 2rem;
+  justify-items: center;
+}
+
+.tienda-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 360px;
+  max-width: 100%;
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tienda-card:hover {
+  transform: scale(1.03);
+}
+
+/* === IMAGEN === */
+.tienda-card-img img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.tienda-card-body {
+  padding: 1rem;
+  text-align: center;
+}
+
+.tienda-marca {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.tienda-nombre {
+  font-weight: 600;
+  margin: 0.3rem 0;
+}
+
+.tienda-precio {
+  color: #b30000;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.tienda-stock {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.tienda-btn-add {
+  background: #a60000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.tienda-btn-add:hover {
+  background: #7c0000;
+}
+
+.tienda-vacio {
+  text-align: center;
+  color: #555;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+/* === RESPONSIVE === */
+
+/* 🔹 Tablets (pantallas medianas): 2 columnas */
+@media (max-width: 1200px) {
+  .tienda-productos {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+
+  .tienda-card {
+    width: 320px;
+  }
+}
+
+/* 🔹 Móviles grandes (pantallas pequeñas): 1 columna centrada */
+@media (max-width: 768px) {
+  .tienda-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tienda-filtros {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .tienda-productos {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .tienda-card {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .tienda-card-img img {
+    height: 250px;
+  }
+}
+
+/* 🔹 Celulares pequeños */
+@media (max-width: 480px) {
+  .tienda-card {
+    width: 90%;
+  }
+
+  .tienda-card-img img {
+    height: 220px;
+  }
+}
