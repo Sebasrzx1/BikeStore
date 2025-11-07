@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "../styles/login.css"
+import { useNavigate } from "react-router-dom";
+import "../styles/login.css";
 
-
-export default function LoginForm({ setIsRegistering }) {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +29,8 @@ export default function LoginForm({ setIsRegistering }) {
         localStorage.setItem("nombre", data.usuario.nombre);
         setEmail("");
         setContraseña("");
+        // Redirigir al home o dashboard si lo deseas
+        navigate("/");
       } else {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }
@@ -37,23 +40,22 @@ export default function LoginForm({ setIsRegistering }) {
     }
   };
 
-
-  /* ESTRUCTURA HTML */
   return (
     <div className="LoginSection">
       <div className="contenedorlogin">
         <div className="EncabezadoLogin">
-          <img src="/public/logo.png" alt="BikeStore" className="auth-logo" />
+          <img src="/Logo.png" alt="BikeStore" className="auth-logo" />
           <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
           <p className="ParrafoLogin">
             Inicia sesión para continuar tu viaje en bicicleta
           </p>
         </div>
+
         <div className="BotonesLogin">
-          <div className="botondir" onClick={() => setIsRegistering(false)}>
+          <div className="botondir" onClick={() => navigate("/login")}>
             Iniciar sesión
           </div>
-          <div className="botonder" onClick={() => setIsRegistering(true)}>
+          <div className="botonder" onClick={() => navigate("/register")}>
             Registrarse
           </div>
         </div>
@@ -64,7 +66,7 @@ export default function LoginForm({ setIsRegistering }) {
             <input
               className="LoginInput"
               type="email"
-              placeholder="✉️ Tu@correo.com"
+              placeholder="✉️ tu@correo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

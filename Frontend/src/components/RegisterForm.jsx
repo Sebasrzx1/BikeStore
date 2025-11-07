@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/register.css";
 
 export default function RegisterForm({ setIsRegistering }) {
@@ -63,6 +64,8 @@ export default function RegisterForm({ setIsRegistering }) {
 
     setErrores((prev) => ({ ...prev, [nombreCampo]: error }));
   };
+
+  const navigate = useNavigate();
 
   // ✅ Manejar cambios de input
   const handleChange = (e) => {
@@ -137,14 +140,15 @@ export default function RegisterForm({ setIsRegistering }) {
           </p>
         </div>
 
-        <div className="BotonesRegister">
-          <div className="botonIZQ" onClick={() => setIsRegistering(false)}>
-            Iniciar Sesion
+        <div className="BotonesLogin">
+          <div className="botonIZQ" onClick={() => navigate("/login")}>
+            Iniciar sesión
           </div>
-          <div className="botonDER" onClick={() => setIsRegistering(true)}>
+          <div className="botonDER" onClick={() => navigate("/register")}>
             Registrarse
           </div>
         </div>
+
         <form className="CardRegister" onSubmit={handleSubmit}>
           {/* Nombre y Apellido en la misma fila */}
           <div className="nombre-apellido-row">
