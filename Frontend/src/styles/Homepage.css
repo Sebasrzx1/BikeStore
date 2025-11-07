@@ -10,13 +10,23 @@
 }
 
 .hero h1 {
-color: #000;
-text-align: center;
-font-family: Poppins;
-font-size: 36px;
-font-style: normal;
-font-weight: 600;
-line-height: 40px;
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.titulocategoria {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px;
 }
 
 .btn-hero {
@@ -47,31 +57,51 @@ line-height: 40px;
 }
 
 /* Estilos de la card */
-.card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 260px;
-  transition: transform 0.2s ease;
+.cardProductos {
   display: flex;
+  width: 345.75px;
+  padding: 1px;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 34.75px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: #FFF;
 }
 
 .card:hover {
   transform: scale(1.03);
 }
 
+.card-img {
+  display: flex;
+  width: 343.75px;
+  padding: 35px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .card-img img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+  height: 263px;
+  align-self: stretch;
 }
 
 .card-body {
-  padding: 1rem;
-  text-align: center;
+  display: flex;
+  width: 345px;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.contprecio {
+  justify-content: space-between;
+  display: flex;
 }
 
 .marca {

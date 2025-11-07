@@ -12,7 +12,7 @@ const Navbar = () => {
 
       <ul className="nav-links">
         <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/tienda" className="hover:text-blue-400">Tienda</Link></li>
+        <li><Link to="/catalogo" className="hover:text-blue-400">Productos</Link></li>
         <li><Link to="/">Sobre Nostros</Link></li>
       </ul>
         <div className="contcarrito">
