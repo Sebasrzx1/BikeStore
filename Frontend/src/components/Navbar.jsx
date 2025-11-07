@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/navbar.css";
-import logo from "../../public/Logo.png"; // cambia el nombre si tu archivo es diferente
+import logo from '/Logo.png'
 
 const Navbar = () => {
   return (
@@ -12,7 +12,7 @@ const Navbar = () => {
 
       <ul className="nav-links">
         <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/">Productos</Link></li>
+        <li><Link to="/tienda" className="hover:text-blue-400">Tienda</Link></li>
         <li><Link to="/">Sobre Nostros</Link></li>
         <li><Link to="/login">Registro/Acceso</Link></li>
       </ul>

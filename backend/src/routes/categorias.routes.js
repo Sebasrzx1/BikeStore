@@ -8,14 +8,14 @@ const crud = new CrudController()
 
 //Indicamos tabla y campo ID que utilizaremos para este crud de productos.
 
-const tabla = 'productos'
-const idCampo = 'id_producto'
+const tabla = 'categorias'
+const idCampo = 'id_categoria'
 
 //Obtener todos los productos
 router.get('/', async(req, res)=>{
     try{
-        const productos = await crud.obtenerTodos(tabla);
-        res.json(productos);
+        const categorias = await crud.obtenerTodos(tabla);
+        res.json(categorias);
     }catch(error){
         res.status(500).json({error: error.message})
     }
@@ -24,8 +24,8 @@ router.get('/', async(req, res)=>{
 //Obtener producto por su id
 router.get('/:id', async(req, res)=>{
     try{
-        const producto = await crud.obtenerUno(tabla, idCampo, req.params.id)
-        res.json(producto)
+        const categoria = await crud.obtenerUno(tabla, idCampo, req.params.id)
+        res.json(categoria)
     }catch(error){
         res.status(500).json({error: error.message})
     }
@@ -34,8 +34,8 @@ router.get('/:id', async(req, res)=>{
 //Postear, agregar o crear producto
 router.post('/', async(req, res) => {
     try{
-        const nuevoProducto = await crud.crear(tabla, req.body)
-        res.status(201).json(nuevoProducto)
+        const nuevaCategoria = await crud.crear(tabla, req.body)
+        res.status(201).json(nuevaCategoria)
     }catch(error){
         res.status(500).json({error: error.message})
     }
@@ -44,8 +44,8 @@ router.post('/', async(req, res) => {
 //Actualizar producto por su id
 router.put('/:id', async(req, res) => {
     try{
-        const productoActualizado = await crud.actualizar(tabla, idCampo, req.params.id, req.body);
-        res.json(productoActualizado);
+        const categoriaActualizada = await crud.actualizar(tabla, idCampo, req.params.id, req.body);
+        res.json(categoriaActualizada);
     }catch(error){
         res.status(500).json({error: error.message})
     }
@@ -54,8 +54,8 @@ router.put('/:id', async(req, res) => {
 //Eliminar producto por su id
 router.delete('/:id', async(req,res)=>{
     try{
-        const productoEliminado = await crud.eliminar(tabla, idCampo, req.params.id);
-        res.json(productoEliminado)
+        const categoriaEliminada = await crud.eliminar(tabla, idCampo, req.params.id);
+        res.json(categoriaEliminada)
     }catch(error){
         res.status(500).json({error: error.message})
     }
