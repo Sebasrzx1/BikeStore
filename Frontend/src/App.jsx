@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Homepage from "./components/Homepage";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import Tienda from "./components/Tienda";
 
 // Componente auxiliar para manejar la lógica del Navbar
 function AppContent({ setIsRegistering }) {
@@ -25,6 +26,8 @@ function AppContent({ setIsRegistering }) {
           path="/register"
           element={<RegisterForm setIsRegistering={setIsRegistering} />}
         />
+        <Route path="/tienda" element={<Tienda />} /> {/* 👈 NUEVA RUTA */}
+
       </Routes>
     </>
   );
