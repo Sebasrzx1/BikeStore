@@ -61,42 +61,6 @@ CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos(id_product
 );
 
 
-#------- INSERT INTO de prueba -----------#
-
-# -------- Insertar datos en usuarios --------#
-INSERT INTO usuarios (nombre, apellido, rol, email, contraseña, telefono, direccion, ciudad, departamento, codigo_postal, pais)
-VALUES
-('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', '12345', 3001234567, 'Calle 10 #5-20', 'Medellín', 'Antioquia', 050001, 'Colombia'),
-('María', 'González', 'Cliente', 'maria@correo.com', '54321', 3209876543, 'Carrera 45 #15-30', 'Bogotá', 'Cundinamarca', 110111, 'Colombia');
-
-# -------- Insertar datos en categorias --------#
-INSERT INTO categorias (nombre_categoria)
-VALUES
-('Bicicletas'),
-('Repuestos'),
-('Accesorios');
-
-# -------- Insertar datos en productos --------#
-INSERT INTO productos (id_categoria, nombre_producto, marca, precio_unitario, material, peso, descripcion, imagen, entradas, salidas)
-VALUES
-(1, 'Bicicleta Montañera', 'Trek', 2500000, 'Aluminio', '14kg', 'Bicicleta todo terreno ideal para caminos difíciles', 'img/bici1.jpg', 10, 2),
-(2, 'Casco Profesional', 'Giro', 350000, 'Policarbonato', '0.5kg', 'Casco liviano con excelente ventilación', 'img/casco1.jpg', 15, 5);
-
-# -------- Insertar datos en pedidos --------#
-INSERT INTO pedidos (id_usuario, estado)
-VALUES
-(2, 'En alistamiento'),
-(2, 'En envío');
-
-# -------- Insertar datos en detalle_pedido --------#
-INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, total)
-VALUES
-(1, 1, 1, 2500000),
-(2, 2, 2, 700000);
-
-select*from usuarios;
-
-
 
 #------- INSERT INTO DE PRUEBA ----------#
 
@@ -119,7 +83,7 @@ VALUES
 INSERT INTO productos (id_categoria, nombre_producto, marca, precio_unitario, material, peso, descripcion, imagen, entradas, salidas)
 VALUES
 -- Bicicletas
-(1, 'Bicicleta MTB Aro 29', 'Trek', 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'mtb_trek.jpg', 15, 3),
+(1, 'Bicicleta MTB Aro 29', 'Trek', 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'uploads/productos/1762359316974.webp', 15, 3),
 (1, 'Bicicleta Urbana', 'Giant', 1800000, 'Acero', '12kg', 'Bicicleta urbana cómoda para ciudad.', 'urbana_giant.jpg', 10, 2),
 (1, 'Bicicleta Infantil', 'Scott', 950000, 'Aluminio', '8kg', 'Ideal para niños entre 6 y 9 años.', 'infantil_scott.jpg', 8, 1),
 (1, 'Bicicleta de Ruta Carbono', 'Specialized', 5200000, 'Fibra de carbono', '7.8kg', 'Bicicleta de ruta profesional ultraliviana.', 'ruta_specialized.jpg', 6, 1),
@@ -152,3 +116,5 @@ VALUES
 (2, 4, 2, 500000),   -- Carlos compra 2 llantas MTB
 (3, 9, 1, 60000),    -- Ana compra una luz LED
 (3, 8, 1, 85000);    -- y unos guantes
+
+select*from categorias;

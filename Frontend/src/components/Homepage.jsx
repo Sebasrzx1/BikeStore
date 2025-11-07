@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/Homepage.css";
 import HeroSlider from "./Heroslider";
 
 const Homepage = () => {
   const [productos, setProductos] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -36,7 +34,7 @@ const Homepage = () => {
               <div key={p.id_producto} className="card">
                 <div className="card-img">
                   <img
-                    src={`http://localhost:3000${p.imagen}`}
+                    src={`http://localhost:3000/${p.imagen}`}
                     alt={p.nombre_producto}
                   />
                 </div>
