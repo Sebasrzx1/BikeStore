@@ -108,7 +108,7 @@ export default function RegisterForm({ setIsRegistering }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMensaje(`✅ ${data.message || "Registro exitoso"}`);
+        setMensaje(`✅ ${data.message || "Registro exitoso"}`); //redirigir a inicio de sesion
         setFormData({
           nombre: "",
           apellido: "",

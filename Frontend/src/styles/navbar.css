@@ -6,75 +6,145 @@
   top: 0;
   z-index: 100;
   padding: 10px 150px;
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(7.699999809265137px);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
-
-.desingloginregister {
-display: flex;
-width: 150px;
-height: 42px;
-justify-content: center;
-align-items: center;
-gap: 10px;
-border-radius: 11px;
-border: 3px solid #000;
-background: rgba(255, 255, 255, 0.85);
-}
-.desingloginregister a {
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-decoration: none;
-  color: #000;
-}
-
-
-.contcarrito {
-  justify-content: column;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.nav-logo{
+  width: 152px;
+  height: 53px;
 }
 .nav-logo img {
   width: 152px;
-  display: flex;
-  align-items: center;
-}
-
-.LogoHome {
-  width: 152px;
-  height: auto;
-}
-
-.logo-text {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #a60000;
-  text-decoration: none;
+  height: 53px;
+  object-fit: contain;
 }
 
 .nav-links {
   display: flex;
   list-style: none;
   gap: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .nav-links a {
-color: #000;
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-text-decoration: none;
-
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .nav-links a:hover {
   color: #a60000;
+}
+
+.desingloginregister {
+  display: flex;
+  width: 150px;
+  height: 42px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 11px;
+  border: 3px solid #000;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.desingloginregister a {
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+}
+
+.contcarrito {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Botón hamburguesa --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  width: 30px;
+  height: 24px;
+  gap: 5px;
+  z-index: 200;
+}
+
+.hamburger span {
+  background: #000;
+  height: 3px;
+  border-radius: 5px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 10px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 30px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    flex-direction: column;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    gap: 2rem;
+    padding: 2rem 0;
+    transition: left 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .nav-links.active {
+    left: 0;
+    opacity: 1;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .desingloginregister {
+    display: none;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
 }
