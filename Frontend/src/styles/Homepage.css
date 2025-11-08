@@ -3,14 +3,35 @@
 }
 
 .hero {
-  background: url('/img/banner-bike.jpg') center/cover no-repeat;
-  color: rgb(0, 0, 0);
-  text-align: center;
-  padding: 6rem 1rem;
+display: flex;
+height: 536px;
+padding: 80px 32px 0 32px;
+text-align: center;
+flex-direction: column;
+align-items: flex-start;
+gap: 48px;
 }
-
+p{
+  color: #717182;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+.heroTitulo {
+  text-align: center;
+  display: flex;
+  height: 84px;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
 .hero h1 {
   color: #000;
+  justify-content: center;
   text-align: center;
   font-family: Poppins;
   font-size: 36px;
@@ -39,9 +60,122 @@
   margin-top: 1rem;
 }
 
-.productos-lista {
+.ContCategoria {
+  display: flex;
+  padding-bottom: 1px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.categoria-item {
+  display: flex;
+  width: 404px;
+  padding: 34px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 37px;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.10);
+  background: #FFF;
+}
+.ContIcono {
+  display: flex;
+  width: 403px;
+  align-items: center;
+  gap: 10px;
+}
+.icono {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 33554400px;
+  background: #8B0000;
+}
+.CategTitulo {
+  display: flex;
+  padding-right: 285.656px;
+  align-items: center;
+  align-self: stretch;
+  }
+  
+  .CategTitulo h4 {
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+.CategPar {
+  display: flex;
+  height: 24px;
+  align-items: flex-start;
+  align-self: stretch;
+}
+.CategPar p {
+  color: #717182;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+.CategBoton {
+  display: flex;
+  width: 404px;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.CategBoton p {
+  color: #8B0000;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.SectProducTitulo {
   text-align: center;
-  margin: 3rem 0;
+  display: flex;
+  height: 84px;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.ContPopul {
+  display: flex;
+  width: 1479px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.categoria-seccion {
+  flex-direction: column;
+  display: flex;
+  gap: 20px;
+}
+.productos-lista {
+  display: flex;
+  height: auto;
+  padding: 80px 32px;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: #F5F5F5;
 }
 
 .productos-lista h2 {
@@ -58,16 +192,20 @@
 
 /* Estilos de la card */
 .cardProductos {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 344;
+  max-width: 100%;
+  transition: transform 0.2s ease;
   display: flex;
-  width: 345.75px;
-  padding: 1px;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 34.75px;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: #FFF;
+  justify-content: space-between;
+}
+
+.cardProductos:hover {
+  transform: scale(1.03);
 }
 
 .card:hover {
@@ -75,28 +213,27 @@
 }
 
 .card-img {
-  display: flex;
-  width: 343.75px;
-  padding: 35px 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  width: 343px;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
 }
 
 .card-img img {
-  height: 263px;
-  align-self: stretch;
+
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
 }
 
 .card-body {
   display: flex;
-  width: 345px;
-  padding: 16px;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  padding: 1rem;
+  text-align: center;
 }
 
 .contprecio {
@@ -105,13 +242,23 @@
 }
 
 .marca {
-  color: #666;
-  font-size: 0.9rem;
+  display: flex;
+  color: #717182;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .nombre {
+  display: flex;
+  color: #000;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
   font-weight: 600;
-  margin: 0.3rem 0;
+  line-height: 24px;
 }
 
 .precio {
@@ -121,21 +268,38 @@
 }
 
 .stock {
+  display: flex;
+  align-items: center;
   font-size: 0.9rem;
   color: #444;
 }
 
 .btn-add {
-  background: #a60000;
-  color: white;
+  padding: 8px 66.406px 8px 66.406px;
   border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  margin-top: 0.5rem;
-  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  border-radius: 33554400px;
+  background: #8B0000;
   transition: background 0.3s ease;
 }
 
 .btn-add:hover {
   background: #7c0000;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: white;
+  font-family: Poppins;
+}
+
+.ContPrecioADD {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }

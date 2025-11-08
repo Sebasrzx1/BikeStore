@@ -1,0 +1,122 @@
+.footer {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+width: auto;
+background: #000;
+padding: 48px 32px 0 32px;
+gap: 32px;
+}
+
+.ContInfo {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+gap: 80px;
+width: 100%;
+max-width: 1200px;
+}
+
+.ContLogo,
+.ContEnlaces,
+.ContContact {
+flex: 1; 
+min-width: 280px; 
+max-width: 320px; 
+display: flex;
+flex-direction: column;
+align-items: flex-start; 
+text-align: center;
+gap: 16px;
+}
+
+
+.ContLogo img {
+width: 204px;
+height: 71px;
+}
+
+.ContLogo p {
+color: #99A1AF;
+font-family: Poppins;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+margin: 0;
+}
+
+
+.ContEn p,
+.EncabContact p {
+color: #FFF;
+font-family: Poppins;
+font-size: 18px;
+font-weight: 500;
+line-height: 27px;
+margin-bottom: 8px;
+}
+
+
+.Contlist,
+.ListCont {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
+}
+
+.list p,
+.ParCont p {
+color: #99A1AF;
+font-family: Poppins;
+font-size: 16px;
+line-height: 24px;
+margin: 0;
+}
+
+
+.itemCont {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+
+.itemCont img {
+width: 16px;
+height: 16px;
+}
+
+
+.ContCopy {
+display: flex;
+justify-content: center;
+align-items: center;
+border-top: 1px solid #1E2939;
+padding-top: 24px;
+width: 100%;
+}
+
+.ContCopy p {
+color: #99A1AF;
+font-family: Poppins;
+font-size: 16px;
+line-height: 24px;
+text-align: center;
+}
+
+
+@media (max-width: 900px) {
+.ContInfo {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.ContLogo,
+.ContEnlaces,
+.ContContact {
+    max-width: none;
+}
+}
