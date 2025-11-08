@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 const Productos = () => {
   const [productos, setProductos] = useState([]);
   const [formulario, setFormulario] = useState({

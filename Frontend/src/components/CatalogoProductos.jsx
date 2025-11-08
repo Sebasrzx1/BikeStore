@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/Tienda.css"; // 👈 Nueva hoja de estilos
+import { useNavigate } from "react-router-dom"; // 👈 Agregado
+import "../styles/Tienda.css"; // Tu hoja de estilo
 
 export default function Catalogo() {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate(); // 👈 Agregado
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +96,12 @@ export default function Catalogo() {
       <section className="tienda-productos">
         {productosFiltrados.length > 0 ? (
           productosFiltrados.map((p) => (
-            <div key={p.id_producto} className="tienda-card">
+            <div
+              key={p.id_producto}
+              className="tienda-card"
+              onClick={() => navigate(`/producto/${p.id_producto}`)} // 👈 Navega al detalle
+              style={{ cursor: "pointer" }} // 👈 Indica que se puede hacer clic
+            >
               <div className="tienda-card-img">
                 <img
                   src={`http://localhost:3000/${p.imagen}`}
@@ -110,7 +117,15 @@ export default function Catalogo() {
                 <p className="tienda-stock">
                   {p.entradas - p.salidas} en stock
                 </p>
-                <button className="tienda-btn-add">Añadir al carrito</button>
+                <button
+                  className="tienda-btn-add"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 👈 Evita que también dispare el click de la card
+                    console.log("Producto añadido:", p.nombre_producto);
+                  }}
+                >
+                  Añadir al carrito
+                </button>
               </div>
             </div>
           ))

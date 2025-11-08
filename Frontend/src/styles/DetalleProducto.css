@@ -1,0 +1,281 @@
+* {
+  font-family: Poppins, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+.detalle-contenedor {
+  width: 100%;
+  max-width: 1300px;
+  margin: 25px auto;
+}
+
+/* Botón volver */
+.btn-volver {
+  border: none;
+  background: none;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+  margin-left: 30px;
+}
+.btn-volver:hover {
+  color: #000;
+}
+
+/* Card del producto */
+.detalle-card {
+  display: flex;
+  gap: 3rem;
+  padding: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* Imagen principal */
+.detalle-imagen {
+  flex: 1.1; /* Más ancho que la información */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 15px;
+  padding: 25px;
+  background-color: #fff;
+  height: 500px;
+  overflow: hidden;
+  box-shadow: 0 0 5px 0px rgb(184, 184, 184);
+}
+
+.detalle-imagen img {
+  width: 540px;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Información derecha */
+.detalle-info {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.detalle-marca {
+  color: #777;
+  font-size: 14px;
+}
+
+.detalle-nombre {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.detalle-precio-stock {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.detalle-precio {
+  color: #b31313;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.detalle-stock {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding: 5px 12px;
+  border-radius: 18px;
+  color: #fff;
+  font-weight: 500;
+}
+.detalle-stock.ok {
+  background-color: #1ba94c;
+}
+.detalle-stock.out {
+  background-color: #c93030;
+}
+.icon-stock {
+  width: 18px;
+  margin-right: 6px;
+}
+
+/* Descripción */
+.detalle-descripcion {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+.detalle-descripcion h3 {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+.detalle-descripcion p {
+  color: #444;
+  font-size: 15px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* Especificaciones */
+.detalle-especificaciones {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+.detalle-especificaciones h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 6px 15px;
+}
+.detalle-grid p {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Cantidad y subtotal */
+.detalle-cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.cantidad-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.cantidad-selector button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cantidad-selector button:hover {
+  background-color: #f5f5f5;
+}
+.cantidad-selector input {
+  width: 55px;
+  text-align: center;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  background: none;
+}
+
+.detalle-subtotal {
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Botón agregar */
+.btn-add-carrito {
+  width: 100%;
+  background-color: #b31313;
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 25px;
+  font-size: 17px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-add-carrito:hover {
+  background-color: #941010;
+}
+
+/* ====== 🔹 Responsive ====== */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .detalle-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .detalle-imagen {
+    width: 100%;
+    height: auto;
+  }
+
+  .detalle-imagen img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .detalle-info {
+    width: 100%;
+    align-items: center;
+  }
+
+  .detalle-precio-stock {
+    justify-content: center;
+  }
+
+  .detalle-descripcion,
+  .detalle-especificaciones {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .detalle-card {
+    padding: 20px;
+  }
+
+  .detalle-imagen {
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .detalle-imagen img {
+    max-width: 100%;
+  }
+
+  .detalle-nombre {
+    font-size: 22px;
+  }
+
+  .detalle-precio {
+    font-size: 24px;
+  }
+
+  .detalle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detalle-cantidad {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-add-carrito {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
