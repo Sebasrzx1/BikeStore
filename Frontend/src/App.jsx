@@ -5,6 +5,8 @@ import Homepage from "./components/Homepage";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Catalogo from "./components/CatalogoProductos";
+import DetalleProducto from "./components/DetalleProducto";
+
 
 // Componente auxiliar para manejar la lógica del Navbar
 function AppContent({ setIsRegistering }) {
@@ -17,16 +19,12 @@ function AppContent({ setIsRegistering }) {
     <>
       {!hideNavbar && <Navbar />} {/* Solo se muestra si NO está en login/register */}
       <Routes>
+        
         <Route path="/" element={<Homepage />} />
-        <Route
-          path="/login"
-          element={<LoginForm setIsRegistering={setIsRegistering} />}
-        />
-        <Route
-          path="/register"
-          element={<RegisterForm setIsRegistering={setIsRegistering} />}
-        />
+        <Route path="/login" element={<LoginForm setIsRegistering={setIsRegistering} />} />
+        <Route path="/register" element={<RegisterForm setIsRegistering={setIsRegistering} />} />
         <Route path="/catalogo" element={<Catalogo />} /> {/* 👈 NUEVA RUTA */}
+        <Route path="/producto/:id" element={<DetalleProducto />} />
 
       </Routes>
     </>
