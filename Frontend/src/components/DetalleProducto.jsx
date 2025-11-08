@@ -16,6 +16,8 @@ export default function DetalleProducto() {
       try {
         const res = await axios.get(`http://localhost:3000/api/productos/${id}`);
         setProducto(res.data);
+        console.log("📦 Producto cargado:", res.data);
+
       } catch (error) {
         console.error("Error al cargar el producto:", error);
       } finally {
@@ -69,13 +71,15 @@ export default function DetalleProducto() {
 
   const agregarAlCarrito = () => {
     if (cantidad < 1 || cantidad > stockDisponible) return;
-
     const itemCarrito = {
       id_producto: producto.id_producto,
       nombre: producto.nombre_producto,
       precio: producto.precio_unitario,
       cantidad,
       subtotal: producto.precio_unitario * cantidad,
+      imagen: producto.imagen
+        ? `http://localhost:3000/${producto.imagen}`
+        : "/placeholder.png", // si no tiene imagen
     };
 
     const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
