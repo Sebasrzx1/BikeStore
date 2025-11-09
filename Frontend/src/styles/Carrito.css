@@ -84,8 +84,56 @@
 }
 
 .carrito-vacio {
-  text-align: center;
-  margin-top: 3rem;
+  display: flex;
+  padding: 326px 574px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 21px;
+  flex: 1 0 0;
+  align-self: stretch;
+  background: #FFF;
+}
+.ContIconCarrito{
+  display: flex;
+  width: 96px;
+  height: 96px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 33554400px;
+  background: #F5F5F5;
+}
+
+.carrito-vacio img{
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+.TitCarrito{
+  color: #000;
+text-align: center;
+font-family: Poppins;
+font-size: 30px;
+font-style: normal;
+font-weight: 600;
+line-height: 36px;
+}
+.carrito-vacio button{
+  display: flex;
+  padding: 10px 7px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 33554400px;
+  background: #8B0000;
+}
+button p{
+  color: #FFF;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .carrito-icono{

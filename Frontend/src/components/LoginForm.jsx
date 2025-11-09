@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/login.css";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
   const navigate = useNavigate();
+  const { login, redirectPath, setRedirectPath } = useAuth(); // ✅ Usar contexto
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const payload = { email, contraseña };
 
     try {
@@ -24,13 +26,15 @@ export default function LoginForm() {
 
       if (response.ok && data.success) {
         setMensaje(`✅ ${data.message || "Inicio de sesión exitoso"}`);
-        localStorage.setItem("token", data.token);
+        login(data.token); // ✅ Guarda token y estado global
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
-        setEmail("");
-        setContraseña("");
-        // Redirigir al home o dashboard si lo deseas
-        navigate("/");
+
+        // ✅ Redirige según intención previa (carrito, home, etc.)
+        const destino = redirectPath || "/";
+        navigate(destino);
+
+        setRedirectPath("/");
       } else {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }
@@ -44,8 +48,8 @@ export default function LoginForm() {
     <div className="LoginSection">
       <div className="contenedorlogin">
         <div className="EncabezadoLogin">
-
-          <img src="/public/logo.png" alt="BikeStore" className="loginLogo" />
+          {/* ⚠️ Mejor ruta: evita /public/ en la URL */}
+          <img src="/logo.png" alt="BikeStore" className="loginLogo" />
           <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
           <p className="ParrafoLogin">
             Inicia sesión para continuar tu viaje en bicicleta
@@ -63,7 +67,6 @@ export default function LoginForm() {
 
         <form className="CardLogin" onSubmit={handleSubmit}>
           <div className="LoginCampo">
-
             <label>Correo electrónico</label>
             <input
               className="LoginInput"
@@ -93,7 +96,11 @@ export default function LoginForm() {
             Iniciar sesión
           </button>
         </form>
-
+        <div className="volver-inicio">
+        <Link to="/" className="volver-btn">
+          ← Volver al inicio
+        </Link>
+      </div>
         {mensaje && <p className="auth-message">{mensaje}</p>}
       </div>
     </div>

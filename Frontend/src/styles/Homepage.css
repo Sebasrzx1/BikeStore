@@ -127,7 +127,7 @@ p{
 }
 .CategBoton {
   display: flex;
-  width: 404px;
+  width: 100%;
   height: 24px;
   justify-content: center;
   align-items: center;
@@ -144,8 +144,8 @@ p{
 
 .SectProducTitulo {
   text-align: center;
+  width: 100%;
   display: flex;
-  height: 84px;
   flex-direction: column;
   gap: 16px;
   flex-shrink: 0;
@@ -154,9 +154,9 @@ p{
 
 .ContPopul {
   display: flex;
-  width: 1479px;
+  width: 100%;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
   flex-shrink: 0;
 }

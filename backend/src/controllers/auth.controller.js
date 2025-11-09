@@ -42,51 +42,66 @@ class AuthController {
 
     /* ------------ Inicio de Sesión ------------ */
     async iniciarSesion(email, contraseña) {
-        try {
-            const [usersLogin] = await db.query(
-                'SELECT * FROM usuarios WHERE email = ?',
-                [email]
-            );
+    try {
+        console.log('🟡 Intentando iniciar sesión con:', email);
 
-            if (usersLogin.length === 0) {
-                return {
-                    success: false,
-                    message: 'El correo o la contraseña no coinciden',
-                };
-            }
+        const [usersLogin] = await db.query(
+            'SELECT * FROM usuarios WHERE email = ?',
+            [email]
+        );
 
-            const usuario = usersLogin[0];
-            const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
+        console.log('🟢 Resultado de búsqueda:', usersLogin);
 
-            if (!passwordMatch) {
-                return {
-                    success: false,
-                    message: 'El correo o la contraseña no coinciden',
-                };
-            }
-
-            const token = jwt.sign(
-                { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol },
-                SECRET_KEY,
-                { expiresIn: '30h' }
-            );
-
+        if (usersLogin.length === 0) {
+            console.log('🔴 No se encontró el usuario');
             return {
-                success: true,
-                message: 'Inicio de sesión exitoso',
-                token,
-                usuario: {
-                    id: usuario.id_usuario,
-                    nombre: usuario.nombre,
-                    email: usuario.email,
-                    rol: usuario.rol,
-                },
+                success: false,
+                message: 'El correo o la contraseña no coinciden',
             };
-        } catch (error) {
-            console.error('Error en iniciar sesión:', error);
-            throw error;
         }
+
+        const usuario = usersLogin[0];
+        console.log('🧩 Usuario encontrado:', usuario);
+
+        const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
+        console.log('🔐 Comparación de contraseña:', passwordMatch);
+
+        if (!passwordMatch) {
+            console.log('🔴 Contraseña incorrecta');
+            return {
+                success: false,
+                message: 'El correo o la contraseña no coinciden',
+            };
+        }
+
+        const token = jwt.sign(
+            { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol },
+            SECRET_KEY,
+            { expiresIn: '30h' }
+        );
+
+        console.log('✅ Token generado correctamente');
+
+        return {
+            success: true,
+            message: 'Inicio de sesión exitoso',
+            token,
+            usuario: {
+                id: usuario.id_usuario,
+                nombre: usuario.nombre,
+                email: usuario.email,
+                rol: usuario.rol,
+            },
+        };
+    } catch (error) {
+        console.error('❌ Error en iniciar sesión:', error);
+        return {
+            success: false,
+            message: 'Error interno al iniciar sesión',
+            error: error.message,
+        };
     }
+}
 
     /* ------------ Verificación de usuario ------------ */
     async verificarUsuario(userId) {

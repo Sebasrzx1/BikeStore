@@ -1,13 +1,13 @@
 /* === CONTENEDOR GENERAL === */
 .RegisterSection {
     display: flex;
-    height: 620px;
+    height: auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background: linear-gradient(180deg, #F5F5F5 0%, #FFF 50%, #F5F5F5 100%);
-    padding-top: 150PX;
-    padding-bottom: 150PX;
+    padding-top: 100PX;
+    padding-bottom: 100PX;
 }
 
 /*ENCABEZADO LOGO Y TEXTO*/

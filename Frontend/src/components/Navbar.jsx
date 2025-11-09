@@ -1,63 +1,55 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/navbar.css";
-import logo from "/Logo.png";
+import { useAuth } from "../context/AuthContext.jsx";
+import "../styles/Navbar.css";
 
-const Navbar = () => {
-  const [cantidadCarrito, setCantidadCarrito] = useState(0);
+const Navbar = ({ cantidadCarrito }) => {
+  const { isAuthenticated } = useAuth();
+  const [menuAbierto, setMenuAbierto] = useState(false);
 
-  // Leer carrito desde localStorage al cargar la página
-  useEffect(() => {
-    const actualizarCarrito = () => {
-      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      const total = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-      setCantidadCarrito(total);
-    };
-
-    actualizarCarrito();
-
-    // Escucha cambios en localStorage desde otras partes del app
-    window.addEventListener("storage", actualizarCarrito);
-    return () => window.removeEventListener("storage", actualizarCarrito);
-  }, []);
-
-  // Cada vez que se agregue algo al carrito (por ejemplo, desde DetalleProducto),
-  // actualiza el número inmediatamente.
-  useEffect(() => {
-    const observer = setInterval(() => {
-      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      const total = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-      setCantidadCarrito(total);
-    }, 500); // revisa cada medio segundo (suave y efectivo)
-    return () => clearInterval(observer);
-  }, []);
+  const toggleMenu = () => setMenuAbierto(!menuAbierto);
 
   return (
     <nav className="navbar">
       <div className="nav-logo">
-        <img src={logo} alt="BikeStore" />
+        <Link to="/">
+          <img src="/Logo.png" alt="BikeStore Logo" />
+        </Link>
       </div>
 
-      <ul className="nav-links">
+      <ul className={`nav-links ${menuAbierto ? "active" : ""}`}>
         <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/catalogo" className="hover:text-blue-400">Productos</Link></li>
-        <li><Link to="/">Sobre Nosotros</Link></li>
+        <li><Link to="/catalogo">Catálogo</Link></li>
+        <li><Link to="/">Sobre nosotros</Link></li>
       </ul>
 
-      <div className="contcarrito">
-        <div className="desingloginregister">
-          <p><Link to="/login">Registro/Acceso</Link></p>
-        </div>
-        <div className="carrito-icono">
-          <Link to="/carrito">
-            <img src="/Vector.svg" alt="Carrito" className="icono-carrito" />
-            {cantidadCarrito > 0 && (
-              <span className="carrito-badge">{cantidadCarrito}</span>
-            )}
+      <div className="Contcarrito-accesoregistro">
+        {isAuthenticated ? (
+          <Link to="/cuenta" className="desingloginregister">
+            <p>Mi cuenta</p>
           </Link>
-        </div>
+        ) : (
+          <Link to="/login" className="desingloginregister">
+            <p>Acceso / Registro</p>
+          </Link>
+        )}
 
+        <div className="contcarrito">
+          <div className="carrito-icono">
+            <Link to="/carrito">
+              <img src="/Vector.svg" alt="Carrito" className="icono-carrito" />
+              {cantidadCarrito > 0 && (
+                <span className="carrito-contador">{cantidadCarrito}</span>
+              )}
+            </Link>
+          </div>
+        </div>
       </div>
+
+      <div
+        className={`hamburger ${menuAbierto ? "active" : ""}`}
+        onClick={toggleMenu}
+      ></div>
     </nav>
   );
 };
