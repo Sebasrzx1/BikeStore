@@ -12,6 +12,11 @@
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
+.Contcarrito-accesoregistro{
+  display: flex;
+  align-items: center;
+  gap: 29px;
+}
 .nav-logo{
   width: 152px;
   height: 53px;
@@ -51,7 +56,19 @@
   border-radius: 11px;
   border: 3px solid #000;
   background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0);
 }
+.desingloginregister p {
+  color: #000;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
 
 .desingloginregister a {
   font-size: 14px;
@@ -60,12 +77,17 @@
   color: #000;
 }
 
+.desingloginregister:hover {
+  border: 4px solid #8B0000;
+  background: #9F0000;
+  color: #fff;
+  transform: scale(1.05);
+}
 .contcarrito {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
-
 /* --- Botón hamburguesa --- */
 .hamburger {
   display: none;
@@ -86,11 +108,37 @@
   transition: all 0.3s ease;
 }
 
-/* === Estilos del icono del carrito y su contador === */
+
 .carrito-icono {
   position: relative;
   display: inline-block;
 }
+
+.carrito-icono img{
+  display: flex;
+  align-items: center;
+}
+
+
+.carrito-contador {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+
 
 .icono-carrito {
   width: 28px;
@@ -103,12 +151,12 @@
   transform: scale(1.05);
 }
 
-/* Badge rojo con número blanco */
+
 .carrito-badge {
   position: absolute;
-  top: -6px;         /* Sube el círculo un poco */
-  right: -8px;       /* Muévelo hacia la derecha */
-  background-color: #e50914; /* rojo brillante */
+  top: -6px;      
+  right: -8px; 
+  background-color: #8B0000; 
   color: #fff;
   font-size: 12px;
   font-weight: 700;

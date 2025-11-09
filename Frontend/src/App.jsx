@@ -6,46 +6,54 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Catalogo from "./components/CatalogoProductos";
 import DetalleProducto from "./components/DetalleProducto";
-import Carrito from "./components/Carrito"; // ✅ Nuevo import
+import Carrito from "./components/Carrito";
+import FooterBikestore from "./components/FooterBikestore";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import CuentaCliente from "./components/CuentaCliente";
 
-// Componente auxiliar para manejar la lógica del Navbar
-function AppContent({ setIsRegistering }) {
+const Pago = () => (
+  <div style={{ padding: "100px", textAlign: "center" }}>
+    <h1>Página de Pago 💳</h1>
+    <p>Aquí irán los métodos de pago y la confirmación de compra.</p>
+  </div>
+);
+
+function AppContent({ cantidadCarrito, setCantidadCarrito }) {
   const location = useLocation();
-
-  // Oculta el Navbar si estás en /login o /register
   const hideNavbar =
     location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <>
-      {!hideNavbar && <Navbar />} {/* Solo se muestra si NO está en login/register */}
+      {!hideNavbar && <Navbar cantidadCarrito={cantidadCarrito} />}
+
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route
-          path="/login"
-          element={<LoginForm setIsRegistering={setIsRegistering} />}
-        />
-        <Route
-          path="/register"
-          element={<RegisterForm setIsRegistering={setIsRegistering} />}
-        />
-        <Route path="/catalogo" element={<Catalogo />} />
-        <Route path="/producto/:id" element={<DetalleProducto />} />
-        <Route path="/carrito" element={<Carrito />} /> {/* ✅ Nueva ruta */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
+        <Route path="/cuenta" element={<CuentaCliente />} />
+        <Route path="/producto/:id" element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />} />
+        <Route path="/carrito" element={<Carrito />} />
+        <Route path="/pago" element={<Pago />} />
       </Routes>
+
+      {!hideNavbar && <FooterBikestore />}
     </>
   );
 }
 
 export default function App() {
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
   return (
     <Router>
-      <AppContent
-        isRegistering={isRegistering}
-        setIsRegistering={setIsRegistering}
-      />
+      <AuthProvider>
+        <AppContent
+          cantidadCarrito={cantidadCarrito}
+          setCantidadCarrito={setCantidadCarrito}
+        />
+      </AuthProvider>
     </Router>
   );
 }
