@@ -26,14 +26,17 @@ export default function LoginForm() {
 
       if (response.ok && data.success) {
         setMensaje(`✅ ${data.message || "Inicio de sesión exitoso"}`);
-        login(data.token); // ✅ Guarda token y estado global
+
+        // ✅ Guarda el usuario completo, no solo el token
+        login(data.usuario);
+
+        // (Opcional) guarda rol y nombre en localStorage para accesos rápidos
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
 
-        // ✅ Redirige según intención previa (carrito, home, etc.)
-        const destino = redirectPath || "/";
+        // ✅ Redirige según lo que el usuario estaba haciendo antes
+        const destino = redirectPath || "/cuenta";
         navigate(destino);
-
         setRedirectPath("/");
       } else {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
@@ -97,10 +100,10 @@ export default function LoginForm() {
           </button>
         </form>
         <div className="volver-inicio">
-        <Link to="/" className="volver-btn">
-          ← Volver al inicio
-        </Link>
-      </div>
+          <Link to="/" className="volver-btn">
+            ← Volver al inicio
+          </Link>
+        </div>
         {mensaje && <p className="auth-message">{mensaje}</p>}
       </div>
     </div>

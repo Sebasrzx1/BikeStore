@@ -77,7 +77,7 @@ class AuthController {
         const token = jwt.sign(
             { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol },
             SECRET_KEY,
-            { expiresIn: '30h' }
+            { expiresIn: '2h' }
         );
 
         console.log('✅ Token generado correctamente');
