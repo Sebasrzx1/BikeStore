@@ -51,8 +51,8 @@ export default function LoginForm() {
     <div className="LoginSection">
       <div className="contenedorlogin">
         <div className="EncabezadoLogin">
-          {/* ⚠️ Mejor ruta: evita /public/ en la URL */}
-          <img src="/logo.png" alt="BikeStore" className="loginLogo" />
+          
+          <img src="/Logo.png" alt="BikeStore" className="loginLogo" />
           <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
           <p className="ParrafoLogin">
             Inicia sesión para continuar tu viaje en bicicleta
