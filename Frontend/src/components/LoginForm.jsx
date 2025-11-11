@@ -9,8 +9,8 @@ export default function LoginForm() {
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
   const navigate = useNavigate();
-  const { login, redirectPath, setRedirectPath } = useAuth(); // ✅ Usar contexto
-
+  const { login, redirectPath, setRedirectPath } = useAuth();
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = { email, contraseña };
@@ -27,14 +27,11 @@ export default function LoginForm() {
       if (response.ok && data.success) {
         setMensaje(`✅ ${data.message || "Inicio de sesión exitoso"}`);
 
-        // ✅ Guarda el usuario completo, no solo el token
         login(data.usuario);
 
-        // (Opcional) guarda rol y nombre en localStorage para accesos rápidos
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
 
-        // ✅ Redirige según lo que el usuario estaba haciendo antes
         const destino = redirectPath || "/cuenta";
         navigate(destino);
         setRedirectPath("/");
@@ -51,7 +48,6 @@ export default function LoginForm() {
     <div className="LoginSection">
       <div className="contenedorlogin">
         <div className="EncabezadoLogin">
-          
           <img src="/Logo.png" alt="BikeStore" className="loginLogo" />
           <h2 className="TituloLogin">¡Bienvenido a BikeStore!</h2>
           <p className="ParrafoLogin">
@@ -71,26 +67,42 @@ export default function LoginForm() {
         <form className="CardLogin" onSubmit={handleSubmit}>
           <div className="LoginCampo">
             <label>Correo electrónico</label>
-            <input
-              className="LoginInput"
-              type="email"
-              placeholder="✉️ tu@correo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <div className="ContCampo">
+              <img src="../public/IconEmail.svg" alt="" />
+              <input
+                className="LoginInput"
+                type="email"
+                placeholder="tu@correo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           <div className="LoginCampo">
             <label>Contraseña</label>
+            <div className="ContCampo">
+            <img src="../public/Icon Lock.svg" alt="" />
             <input
               className="LoginInput"
-              type="password"
+              type={mostrarContraseña ? "text" : "password"}
               placeholder="*****"
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
               required
             />
+            <img
+                src={
+                  mostrarContraseña
+                    ? "../public/IconEyeoff.svg" // 👈 Usa otro icono si quieres (por ejemplo, un ojo tachado)
+                    : "../public/IconEye.svg"
+                }
+                alt="Mostrar contraseña"
+                className="icono-ojo"
+                onClick={() => setMostrarContraseña(!mostrarContraseña)}
+              />
+            </div>
           </div>
 
           <div className="LoginOlvidar">¿Olvidaste tu contraseña?</div>
