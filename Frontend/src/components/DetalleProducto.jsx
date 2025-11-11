@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/DetalleProducto.css";
 
-export default function DetalleProducto() {
+export default function DetalleProducto({ setCantidadCarrito }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [producto, setProducto] = useState(null);
@@ -14,10 +14,11 @@ export default function DetalleProducto() {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/productos/${id}`);
+        const res = await axios.get(
+          `http://localhost:3000/api/productos/${id}`
+        );
         setProducto(res.data);
         console.log("📦 Producto cargado:", res.data);
-
       } catch (error) {
         console.error("Error al cargar el producto:", error);
       } finally {
@@ -61,7 +62,9 @@ export default function DetalleProducto() {
       setCantidad(1);
       setCantidadTemporal("1");
     } else if (val > stockDisponible) {
-      alert(`Excediste la cantidad máxima del stock. Solo hay ${stockDisponible} unidades disponibles.`);
+      alert(
+        `Excediste la cantidad máxima del stock. Solo hay ${stockDisponible} unidades disponibles.`
+      );
       setCantidad(1);
       setCantidadTemporal("1");
     } else {
@@ -95,36 +98,52 @@ export default function DetalleProducto() {
     }
 
     localStorage.setItem("carrito", JSON.stringify(carritoActual));
-    alert(`${producto.nombre_producto} añadido al carrito (${cantidad} unidades).`);
+
+    const totalCantidad = carritoActual.reduce((acc, p) => acc + p.cantidad, 0);
+    setCantidadCarrito(totalCantidad);
+
+    alert(
+      `${producto.nombre_producto} añadido al carrito (${cantidad} unidades).`
+    );
   };
 
   return (
     <div className="detalle-contenedor">
       <div className="ContVolver">
-        <button className="btn-volver" onClick={() => navigate(-1)}>← Volver</button>
+        <button className="btn-volver" onClick={() => navigate(-1)}>
+          ← Volver
+        </button>
       </div>
       <div className="detalle-card">
-          <div className="detalle-imagen">
-            <img
-              src={`http://localhost:3000/${producto.imagen}`}
-              alt={producto.nombre_producto}
+        <div className="detalle-imagen">
+          <img
+            src={`http://localhost:3000/${producto.imagen}`}
+            alt={producto.nombre_producto}
           />
         </div>
 
         <div className="detalle-info">
-            <div className="ContTitulo">
-              <p className="detalle-marca"><strong>Marca:</strong> {producto.marca}</p>
-              <h1 className="detalle-nombre">{producto.nombre_producto}</h1>
-              <div className="detalle-precio-stock">
-                <p className="detalle-precio">${producto.precio_unitario?.toLocaleString("es-CO")}</p>
-                <p className={`detalle-stock ${stockDisponible > 0 ? "ok" : "out"}`}>
-                  <img src="/Icon_stock.png" className="icon-stock" alt="stock" />
-                  {stockDisponible > 0
-                    ? ` En stock (${stockDisponible} disponibles)`
-                    : "Sin disponibilidad"}
-                </p>
-              </div>
+          <div className="ContTitulo">
+            <p className="detalle-marca">
+              <strong>Marca:</strong> {producto.marca}
+            </p>
+            <h1 className="detalle-nombre">{producto.nombre_producto}</h1>
+            <div className="detalle-precio-stock">
+              <p className="detalle-precio">
+                ${producto.precio_unitario?.toLocaleString("es-CO")}
+              </p>
+              <p
+                className={`detalle-stock ${
+                  stockDisponible > 0 ? "ok" : "out"
+                }`}
+              >
+                <img src="/Icon_stock.png" className="icon-stock" alt="stock" />
+                {stockDisponible > 0
+                  ? ` En stock (${stockDisponible} disponibles)`
+                  : "Sin disponibilidad"}
+              </p>
             </div>
+          </div>
           <div className="detalle-descripcion">
             <h3>Descripción</h3>
             <p>{producto.descripcion || "Sin descripción"}</p>
@@ -133,16 +152,27 @@ export default function DetalleProducto() {
           <div className="detalle-especificaciones">
             <h3>Especificaciones</h3>
             <div className="detalle-grid">
-              <p><strong>Categoría: </strong> {producto.nombre_categoria || "Sin categoría"}</p>
-              <p><strong>Material: </strong> {producto.material || "No especificado"}</p>
-              <p><strong>Peso: </strong> {producto.peso ? `${producto.peso}` : "No especificado"}</p>
+              <p>
+                <strong>Categoría: </strong>{" "}
+                {producto.nombre_categoria || "Sin categoría"}
+              </p>
+              <p>
+                <strong>Material: </strong>{" "}
+                {producto.material || "No especificado"}
+              </p>
+              <p>
+                <strong>Peso: </strong>{" "}
+                {producto.peso ? `${producto.peso}` : "No especificado"}
+              </p>
             </div>
           </div>
           <div className="Contdetalle">
             <p>Cantidad</p>
             <div className="detalle-cantidad">
               <div className="cantidad-selector">
-                <button onClick={decrementar} disabled={cantidad <= 1}>−</button>
+                <button onClick={decrementar} disabled={cantidad <= 1}>
+                  −
+                </button>
                 <input
                   type="number"
                   value={cantidadTemporal}
@@ -150,22 +180,24 @@ export default function DetalleProducto() {
                   onBlur={handleCantidadBlur}
                   min="1"
                 />
-                <button onClick={incrementar} disabled={cantidad >= stockDisponible}>+</button>
+                <button
+                  onClick={incrementar}
+                  disabled={cantidad >= stockDisponible}
+                >
+                  +
+                </button>
               </div>
               <p className="detalle-subtotal">
-                <strong>Subtotal:</strong> ${(producto.precio_unitario * cantidad).toLocaleString("es-CO")}
+                <strong>Subtotal:</strong> $
+                {(producto.precio_unitario * cantidad).toLocaleString("es-CO")}
               </p>
             </div>
           </div>
-          <div  className="btn-add-carrito" onClick={agregarAlCarrito}>
+          <div className="btn-add-carrito" onClick={agregarAlCarrito}>
             <img src="./public/IconCarritoBoton.svg" alt="" />
-          <button >
-            Añadir al carrito
-          </button>
+            <button>Añadir al carrito</button>
           </div>
-          <div className="ContDecoration">
-
-          </div>
+          <div className="ContDecoration"></div>
         </div>
       </div>
     </div>

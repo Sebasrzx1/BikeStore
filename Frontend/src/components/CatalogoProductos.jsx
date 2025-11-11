@@ -40,7 +40,8 @@ export default function Catalogo({ setCantidadCarrito }) {
         if (categoriaParam) {
           const categoriaEncontrada = resCat.data.find(
             (cat) =>
-              cat.nombre_categoria.toLowerCase() === categoriaParam.toLowerCase()
+              cat.nombre_categoria.toLowerCase() ===
+              categoriaParam.toLowerCase()
           );
           if (categoriaEncontrada) {
             setCategoriasSeleccionadas([categoriaEncontrada.id_categoria]);
@@ -80,7 +81,9 @@ export default function Catalogo({ setCantidadCarrito }) {
     <div className="tienda-page">
       <div className="ContTienda">
         <h1>Catálogo de productos</h1>
-        <p>Mostrando {productosFiltrados.length} de {productos.length} productos</p>
+        <p>
+          Mostrando {productosFiltrados.length} de {productos.length} productos
+        </p>
       </div>
 
       <div className="tienda-contenido">
@@ -108,7 +111,9 @@ export default function Catalogo({ setCantidadCarrito }) {
                     <input
                       type="checkbox"
                       id={`cat-${cat.id_categoria}`}
-                      checked={categoriasSeleccionadas.includes(cat.id_categoria)}
+                      checked={categoriasSeleccionadas.includes(
+                        cat.id_categoria
+                      )}
                       onChange={() => toggleCategoria(cat.id_categoria)}
                     />
                     <label htmlFor={`cat-${cat.id_categoria}`}>
@@ -122,7 +127,8 @@ export default function Catalogo({ setCantidadCarrito }) {
             {/* Rango de precios */}
             <div className="tienda-precios">
               <p>
-                Mostrando productos entre ${precioMin.toLocaleString("es-CO")} y ${precioMax.toLocaleString("es-CO")}
+                Mostrando productos entre ${precioMin.toLocaleString("es-CO")} y
+                ${precioMax.toLocaleString("es-CO")}
               </p>
               <h3>Rango de precios</h3>
               <div className="rango-precios">
@@ -171,7 +177,11 @@ export default function Catalogo({ setCantidadCarrito }) {
                   onClick={() => navigate(`/producto/${p.id_producto}`)}
                 >
                   <img
-                    src={p.imagen ? `http://localhost:3000/${p.imagen}` : "/placeholder.png"}
+                    src={
+                      p.imagen
+                        ? `http://localhost:3000/${p.imagen}`
+                        : "/placeholder.png"
+                    }
                     alt={p.nombre_producto}
                   />
                 </button>
@@ -188,13 +198,17 @@ export default function Catalogo({ setCantidadCarrito }) {
                       <p className="tienda-precio">
                         ${p.precio_unitario.toLocaleString("es-CO")}
                       </p>
-                      <p className="tienda-stock">{p.entradas - p.salidas} en stock</p>
+                      <p className="tienda-stock">
+                        {p.entradas - p.salidas} en stock
+                      </p>
                     </div>
 
                     {/* Botón agregar al carrito */}
                     <button
                       className="tienda-btn-add"
-                      onClick={() => agregarUnidadAlCarrito(p, setCantidadCarrito)}
+                      onClick={() =>
+                        agregarUnidadAlCarrito(p, setCantidadCarrito)
+                      }
                     >
                       <img src="./public/IconCarritoBoton.svg" alt="" />
                       <p>Añadir al carrito</p>

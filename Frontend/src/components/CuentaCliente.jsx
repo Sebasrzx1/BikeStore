@@ -18,9 +18,12 @@ const CuentaCliente = () => {
 
       {user ? (
         <>
-          <p><strong>Nombre:</strong> {user.nombre}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Rol:</strong> {user.rol}</p>
+          <p>
+            <strong>Nombre:</strong> {user.nombre}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
         </>
       ) : (
         <p>No hay información del usuario</p>

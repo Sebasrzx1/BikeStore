@@ -3,13 +3,12 @@ import "../styles/Carrito.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Carrito() {
+export default function Carrito({ setCantidadCarrito }) {
   const [carrito, setCarrito] = useState([]);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const { isAuthenticated, setRedirectPath } = useAuth();
 
-  // ✅ ESTA es la única versión válida
   const procederPago = () => {
     if (!isAuthenticated) {
       setRedirectPath("/carrito");
@@ -19,15 +18,20 @@ export default function Carrito() {
     }
   };
 
+  // Cargar carrito
   useEffect(() => {
     const guardado = JSON.parse(localStorage.getItem("carrito")) || [];
     setCarrito(guardado);
   }, []);
 
+  // Calcular total y actualizar contador global
   useEffect(() => {
     const nuevoTotal = carrito.reduce((acc, p) => acc + p.subtotal, 0);
     setTotal(nuevoTotal);
-  }, [carrito]);
+
+    const totalCantidad = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+    setCantidadCarrito(totalCantidad);
+  }, [carrito, setCantidadCarrito]);
 
   const eliminarProducto = (id_producto) => {
     const nuevoCarrito = carrito.filter((p) => p.id_producto !== id_producto);
@@ -83,14 +87,31 @@ export default function Carrito() {
                 </div>
 
                 <div className="carrito-controles">
-                  <button onClick={() => actualizarCantidad(p.id_producto, p.cantidad - 1)}>−</button>
+                  <button
+                    onClick={() =>
+                      actualizarCantidad(p.id_producto, p.cantidad - 1)
+                    }
+                  >
+                    −
+                  </button>
                   <span>{p.cantidad}</span>
-                  <button onClick={() => actualizarCantidad(p.id_producto, p.cantidad + 1)}>+</button>
+                  <button
+                    onClick={() =>
+                      actualizarCantidad(p.id_producto, p.cantidad + 1)
+                    }
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
             <div className="contenedor-eliminar-precio">
-              <button className="btn-eliminar" onClick={() => eliminarProducto(p.id_producto)}>🗑️</button>
+              <button
+                className="btn-eliminar"
+                onClick={() => eliminarProducto(p.id_producto)}
+              >
+                🗑️
+              </button>
               <p id="precioUnitario">${p.precio.toLocaleString("es-CO")}</p>
             </div>
           </div>

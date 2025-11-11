@@ -3,7 +3,7 @@ import axios from "axios";
 import "../styles/Homepage.css";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
 import { useNavigate, useLocation } from "react-router-dom";
-import HeroSlider from "./Heroslider";
+import HeroSlider from "./HeroSlider";
 
 const Homepage = ({ setCantidadCarrito }) => {
   const [productos, setProductos] = useState([]);
@@ -11,7 +11,6 @@ const Homepage = ({ setCantidadCarrito }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Cargar productos
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -63,7 +62,9 @@ const Homepage = ({ setCantidadCarrito }) => {
       <section className="hero">
         <div className="heroTitulo">
           <h1>COMPRA POR CATÁLOGO</h1>
-          <p>Encuentra exactamente lo que necesitas para tu viaje en bicicleta</p>
+          <p>
+            Encuentra exactamente lo que necesitas para tu viaje en bicicleta
+          </p>
         </div>
 
         <div className="ContCategoria">
@@ -98,7 +99,10 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <img src="./public/IconAccesori.svg" alt="IconoAccesorios" />
               </div>
             </div>
-            <div className="CategTitulo" onClick={() => navigate("/catalogo?categoria=accesorios")}>
+            <div
+              className="CategTitulo"
+              onClick={() => navigate("/catalogo?categoria=accesorios")}
+            >
               <h4>Accesorios</h4>
             </div>
             <div className="CategPar">
@@ -119,7 +123,10 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <img src="./public/IconStem.svg" alt="IconoRepuestos" />
               </div>
             </div>
-            <div className="CategTitulo" onClick={() => navigate("/catalogo?categoria=repuestos")}>
+            <div
+              className="CategTitulo"
+              onClick={() => navigate("/catalogo?categoria=repuestos")}
+            >
               <h4>Repuestos</h4>
             </div>
             <div className="CategPar">
@@ -154,7 +161,10 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <div className="productos-grid">
                   {items.map((p) => (
                     <div key={p.id_producto} className="cardProductos">
-                      <button className="card-img" onClick={() => navigate(`/producto/${p.id_producto}`)}>
+                      <button
+                        className="card-img"
+                        onClick={() => navigate(`/producto/${p.id_producto}`)}
+                      >
                         <img
                           src={`http://localhost:3000/${p.imagen}`}
                           alt={p.nombre_producto}
@@ -169,13 +179,17 @@ const Homepage = ({ setCantidadCarrito }) => {
                             <p className="precio">
                               ${p.precio_unitario.toLocaleString("es-CO")}
                             </p>
-                            <p className="stock">{p.entradas - p.salidas} en stock</p>
+                            <p className="stock">
+                              {p.entradas - p.salidas} en stock
+                            </p>
                           </div>
 
                           {/* Botón agregar al carrito */}
                           <button
                             className="btn-add"
-                            onClick={() => agregarUnidadAlCarrito(p, setCantidadCarrito)}
+                            onClick={() =>
+                              agregarUnidadAlCarrito(p, setCantidadCarrito)
+                            }
                           >
                             <img src="./public/IconCarritoBoton.svg" alt="" />
                             <p>Añadir al carrito</p>
