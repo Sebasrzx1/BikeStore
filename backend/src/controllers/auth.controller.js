@@ -1,126 +1,83 @@
-const db = require('../config/conexion_db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const SECRET_KEY = process.env.JWT_SECRET || 'clave_secreta';
+// controllers/auth.controller.js
+const db = require("../config/conexion_db");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class AuthController {
-    /* ------------ Registro de usuarios ------------ */
-    async registrar(usuarioData) {
-        try {
-            const [emailExistente] = await db.query(
-                'SELECT email FROM usuarios WHERE email = ?',
-                [usuarioData.email]
-            );
-
-            if (emailExistente.length > 0) {
-                return {
-                    success: false,
-                    message: 'El email ya está registrado',
-                };
-            }
-
-            const saltosRondas = 10;
-            const passwordHasheada = await bcrypt.hash(usuarioData.contraseña, saltosRondas);
-
-            const usuarioNuevo = {
-                ...usuarioData,
-                contraseña: passwordHasheada,
-            };
-
-            const [resultado] = await db.query('INSERT INTO usuarios SET ?', [usuarioNuevo]);
-
-            return {
-                success: true,
-                message: 'Usuario registrado correctamente en BikeStore',
-                userID: resultado.insertId,
-            };
-        } catch (error) {
-            console.error('Error al registrar el usuario:', error);
-            throw error;
-        }
-    }
-
-    /* ------------ Inicio de Sesión ------------ */
-    async iniciarSesion(email, contraseña) {
+  // 🔹 Registro
+  async registrar({ nombre, apellido, email, contraseña, telefono, rol, pais }) {
     try {
-        console.log('🟡 Intentando iniciar sesión con:', email);
+      // Verificar si ya existe el usuario
+      const [existe] = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+      if (existe.length > 0) {
+        return { success: false, message: "El correo ya está registrado" };
+      }
 
-        const [usersLogin] = await db.query(
-            'SELECT * FROM usuarios WHERE email = ?',
-            [email]
-        );
+      const hash = await bcrypt.hash(contraseña, 10);
+      await db.query(
+        "INSERT INTO usuarios (nombre, apellido, email, contraseña, telefono, rol, pais) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [nombre, apellido, email, hash, telefono || null, rol || "Cliente", pais || ""]
+      );
 
-        console.log('🟢 Resultado de búsqueda:', usersLogin);
-
-        if (usersLogin.length === 0) {
-            console.log('🔴 No se encontró el usuario');
-            return {
-                success: false,
-                message: 'El correo o la contraseña no coinciden',
-            };
-        }
-
-        const usuario = usersLogin[0];
-        console.log('🧩 Usuario encontrado:', usuario);
-
-        const passwordMatch = await bcrypt.compare(contraseña, usuario.contraseña);
-        console.log('🔐 Comparación de contraseña:', passwordMatch);
-
-        if (!passwordMatch) {
-            console.log('🔴 Contraseña incorrecta');
-            return {
-                success: false,
-                message: 'El correo o la contraseña no coinciden',
-            };
-        }
-
-        const token = jwt.sign(
-            { id: usuario.id_usuario, email: usuario.email, rol: usuario.rol },
-            SECRET_KEY,
-            { expiresIn: '2h' }
-        );
-
-        console.log('✅ Token generado correctamente');
-
-        return {
-            success: true,
-            message: 'Inicio de sesión exitoso',
-            token,
-            usuario: {
-                id: usuario.id_usuario,
-                nombre: usuario.nombre,
-                email: usuario.email,
-                rol: usuario.rol,
-            },
-        };
+      return { success: true, message: "Usuario registrado correctamente" };
     } catch (error) {
-        console.error('❌ Error en iniciar sesión:', error);
-        return {
-            success: false,
-            message: 'Error interno al iniciar sesión',
-            error: error.message,
-        };
+      console.error("Error en registrar:", error);
+      return { success: false, message: "Error al registrar usuario" };
     }
-}
+  }
 
-    /* ------------ Verificación de usuario ------------ */
-    async verificarUsuario(userId) {
-        try {
-            const [usuarios] = await db.query(
-                'SELECT id_usuario, nombre, apellido, email, rol FROM usuarios WHERE id_usuario = ?',
-                [userId]
-            );
+  // 🔹 Login
+  async iniciarSesion(email, contraseña) {
+    try {
+      const [rows] = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
+      if (rows.length === 0)
+        return { success: false, message: "Usuario no encontrado" };
 
-            if (usuarios.length === 0) {
-                return { success: false, message: 'Usuario no encontrado' };
-            }
+      const usuario = rows[0];
+      const coincide = await bcrypt.compare(contraseña, usuario.contraseña);
+      if (!coincide)
+        return { success: false, message: "Contraseña incorrecta" };
 
-            return { success: true, usuario: usuarios[0] };
-        } catch (error) {
-            console.log('Error al verificar usuario:', error);
-            throw error;
-        }
+      const token = jwt.sign(
+        {
+          id_usuario: usuario.id_usuario,
+          rol: usuario.rol,
+        },
+        process.env.JWT_SECRET || "clave_secreta",
+        { expiresIn: "2h" }
+      );
+
+      return {
+        success: true,
+        message: "Inicio de sesión exitoso",
+        token,
+        usuario: {
+          id_usuario: usuario.id_usuario,
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          email: usuario.email,
+          rol: usuario.rol,
+        },
+      };
+    } catch (error) {
+      console.error("Error en iniciarSesion:", error);
+      return { success: false, message: "Error al iniciar sesión" };
     }
+  }
+
+  // 🔹 (Opcional) Verificar usuario por ID
+  async verificarUsuario(id) {
+    try {
+      const [rows] = await db.query("SELECT * FROM usuarios WHERE id_usuario = ?", [id]);
+      if (rows.length === 0)
+        return { success: false, message: "Usuario no encontrado" };
+
+      return { success: true, usuario: rows[0] };
+    } catch (error) {
+      console.error("Error en verificarUsuario:", error);
+      return { success: false, message: "Error al verificar usuario" };
+    }
+  }
 }
 
 module.exports = new AuthController();
