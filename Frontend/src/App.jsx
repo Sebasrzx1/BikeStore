@@ -10,6 +10,7 @@ import Carrito from "./components/Carrito";
 import FooterBikestore from "./components/FooterBikestore";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import CuentaCliente from "./components/CuentaCliente";
+import { Navigate } from "react-router-dom";
 
 const Pago = () => (
   <div style={{ padding: "100px", textAlign: "center" }}>
@@ -17,6 +18,11 @@ const Pago = () => (
     <p>Aquí irán los métodos de pago y la confirmación de compra.</p>
   </div>
 );
+
+function RutaPrivada({ children }) {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
+}
 
 function AppContent({ cantidadCarrito, setCantidadCarrito }) {
   const location = useLocation();
@@ -34,9 +40,16 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
-        <Route path="/cuenta" element={<CuentaCliente />} />
+        <Route
+          path="/cuenta"
+          element={
+            <RutaPrivada>
+              <CuentaCliente />
+            </RutaPrivada>
+          }
+        />
         <Route path="/producto/:id" element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />} />
-        <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito}/>} />
+        <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/pago" element={<Pago />} />
       </Routes>
 

@@ -1,3 +1,4 @@
+// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -7,32 +8,51 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [redirectPath, setRedirectPath] = useState("/");
 
+  // 🟢 Al montar, intenta recuperar el usuario guardado
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("usuario");
+
+    if (token && userData) {
+      setUser(JSON.parse(userData));
       setIsAuthenticated(true);
     }
   }, []);
 
-  const login = (usuario) => {
-    // Aquí puedes guardar también el token si lo necesitas
+  // 🟢 Iniciar sesión
+  const login = (usuario, token) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("usuario", JSON.stringify(usuario));
     setUser(usuario);
     setIsAuthenticated(true);
-    localStorage.setItem("user", JSON.stringify(usuario));
   };
 
+  // 🟢 🔄 NUEVO: Actualizar información del usuario en el contexto y localStorage
+  const updateUser = (nuevosDatos) => {
+    const usuarioActualizado = { ...user, ...nuevosDatos };
+    setUser(usuarioActualizado);
+    localStorage.setItem("usuario", JSON.stringify(usuarioActualizado));
+  };
+
+  // 🔴 Cerrar sesión
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem("user");
-    localStorage.removeItem("rol");
-    localStorage.removeItem("nombre");
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, logout, redirectPath, setRedirectPath }}
+      value={{
+        user,
+        isAuthenticated,
+        login,
+        logout,
+        updateUser, // ✅ Incluimos la nueva función
+        redirectPath,
+        setRedirectPath,
+      }}
     >
       {children}
     </AuthContext.Provider>
