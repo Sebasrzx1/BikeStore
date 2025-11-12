@@ -5,6 +5,9 @@ import "../styles/register.css";
 export default function RegisterForm({ setIsRegistering }) {
   const [mensaje, setMensaje] = useState("");
   const [errores, setErrores] = useState({});
+  const [aceptaDatos, setAceptaDatos] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -18,7 +21,6 @@ export default function RegisterForm({ setIsRegistering }) {
   const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]*$/;
   const soloNumeros = /^[0-9]*$/;
 
-  // ✅ Validar campos individualmente
   const validarCampo = (nombreCampo, valor) => {
     let error = "";
 
@@ -67,18 +69,15 @@ export default function RegisterForm({ setIsRegistering }) {
 
   const navigate = useNavigate();
 
-  // ✅ Manejar cambios de input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     validarCampo(name, value);
   };
 
-  // ✅ Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar todos los campos antes de enviar
     Object.keys(formData).forEach((campo) =>
       validarCampo(campo, formData[campo])
     );
@@ -88,7 +87,11 @@ export default function RegisterForm({ setIsRegistering }) {
       return;
     }
 
-    // Crear payload sin confirmarContraseña
+    if (!aceptaDatos) {
+      setMensaje("⚠️ Debes aceptar el tratamiento de tus datos personales.");
+      return;
+    }
+
     const payload = {
       nombre: formData.nombre,
       apellido: formData.apellido,
@@ -108,7 +111,7 @@ export default function RegisterForm({ setIsRegistering }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMensaje(`✅ ${data.message || "Registro exitoso"}`); //redirigir a inicio de sesion
+        setMensaje(` ${data.message || "Registro exitoso"}`);
         setFormData({
           nombre: "",
           apellido: "",
@@ -119,16 +122,16 @@ export default function RegisterForm({ setIsRegistering }) {
           pais: "Colombia",
         });
         setErrores({});
+        setAceptaDatos(false);
       } else {
-        setMensaje(`❌ ${data.message || "Error al registrarse"}`);
+        setMensaje(` ${data.message || "Error al registrarse"}`);
       }
     } catch (error) {
       console.error(error);
-      setMensaje("❌ No se pudo conectar con el servidor");
+      setMensaje(" No se pudo conectar con el servidor");
     }
   };
 
-  // Estructura del formulario HTML
   return (
     <div className="RegisterSection">
       <div className="contenedorRegister">
@@ -150,15 +153,16 @@ export default function RegisterForm({ setIsRegistering }) {
         </div>
 
         <form className="CardRegister" onSubmit={handleSubmit}>
-          {/* Nombre y Apellido en la misma fila */}
+          {/* Nombre y Apellido */}
           <div className="nombre-apellido-row">
             <div className="contenedor-input-nombre">
               <label>Nombre</label>
               <input
-                className={`RegisterInput ${errores.nombre ? "input-error" : ""}`}
+                className={`RegisterInput ${
+                  errores.nombre ? "input-error" : ""
+                }`}
                 type="text"
                 name="nombre"
-                placeholder=""
                 value={formData.nombre}
                 onChange={handleChange}
                 required
@@ -169,18 +173,22 @@ export default function RegisterForm({ setIsRegistering }) {
             <div className="contenedor-input-apellido">
               <label>Apellido</label>
               <input
-                className={`RegisterInput ${errores.apellido ? "input-error" : ""}`}
+                className={`RegisterInput ${
+                  errores.apellido ? "input-error" : ""
+                }`}
                 type="text"
                 name="apellido"
                 value={formData.apellido}
                 onChange={handleChange}
                 required
               />
-              {errores.apellido && <p className="error-text">{errores.apellido}</p>}
+              {errores.apellido && (
+                <p className="error-text">{errores.apellido}</p>
+              )}
             </div>
           </div>
 
-          {/* Resto de inputs normales */}
+          {/* Campos normales */}
           <div className="auth-field">
             <label>Correo electrónico</label>
             <input
@@ -204,7 +212,9 @@ export default function RegisterForm({ setIsRegistering }) {
               onChange={handleChange}
               required
             />
-            {errores.telefono && <p className="error-text">{errores.telefono}</p>}
+            {errores.telefono && (
+              <p className="error-text">{errores.telefono}</p>
+            )}
           </div>
 
           <div className="auth-field">
@@ -228,20 +238,26 @@ export default function RegisterForm({ setIsRegistering }) {
           <div className="auth-field">
             <label>Contraseña</label>
             <input
-              className={`InputNormal ${errores.contraseña ? "input-error" : ""}`}
+              className={`InputNormal ${
+                errores.contraseña ? "input-error" : ""
+              }`}
               type="password"
               name="contraseña"
               value={formData.contraseña}
               onChange={handleChange}
               required
             />
-            {errores.contraseña && <p className="error-text">{errores.contraseña}</p>}
+            {errores.contraseña && (
+              <p className="error-text">{errores.contraseña}</p>
+            )}
           </div>
 
           <div className="auth-field">
             <label>Confirmar contraseña</label>
             <input
-              className={`InputNormal ${errores.confirmarContraseña ? "input-error" : ""}`}
+              className={`InputNormal ${
+                errores.confirmarContraseña ? "input-error" : ""
+              }`}
               type="password"
               name="confirmarContraseña"
               value={formData.confirmarContraseña}
@@ -253,13 +269,51 @@ export default function RegisterForm({ setIsRegistering }) {
             )}
           </div>
 
-          <button className="button-crear-cuenta" type="submit">
+          <div className="checkbox-datos">
+            <input
+              type="checkbox"
+              id="aceptaDatos"
+              checked={aceptaDatos}
+              onChange={(e) => setAceptaDatos(e.target.checked)}
+            />
+            <label htmlFor="aceptaDatos">
+              Acepto el{" "}
+              <span
+                className="link-datos"
+                onClick={() => setMostrarModal(true)}
+              >
+                tratamiento de mis datos personales
+              </span>
+              .
+            </label>
+          </div>
+
+          <button
+            className="button-crear-cuenta"
+            type="submit"
+            disabled={!aceptaDatos}
+          >
             Crear cuenta
           </button>
         </form>
 
         {mensaje && <p className="auth-message">{mensaje}</p>}
       </div>
+
+      {mostrarModal && (
+        <div className="modal-overlay" onClick={() => setMostrarModal(false)}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <h3>Tratamiento de datos personales</h3>
+            <p>
+              En BikeStore respetamos tu privacidad. Los datos que nos
+              proporcionas serán utilizados únicamente para crear tu cuenta y
+              mejorar tu experiencia dentro de la tienda. No compartiremos tu
+              información con terceros sin tu consentimiento.
+            </p>
+            <button onClick={() => setMostrarModal(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

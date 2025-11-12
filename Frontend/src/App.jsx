@@ -10,6 +10,7 @@ import Carrito from "./components/Carrito";
 import FooterBikestore from "./components/FooterBikestore";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import CuentaCliente from "./components/CuentaCliente";
+import { ToastProvider } from "./context/ToastContext";
 
 const Pago = () => (
   <div style={{ padding: "100px", textAlign: "center" }}>
@@ -29,14 +30,13 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
       {!hideNavbar && <Navbar cantidadCarrito={cantidadCarrito} />}
 
       <Routes>
-        {/* ✅ Ahora Homepage también recibe setCantidadCarrito */}
         <Route path="/" element={<Homepage setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/cuenta" element={<CuentaCliente />} />
         <Route path="/producto/:id" element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />} />
-        <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito}/>} />
+        <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/pago" element={<Pago />} />
       </Routes>
 
@@ -48,7 +48,6 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
 export default function App() {
   const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
-  // ✅ Leer el carrito de localStorage al cargar la app
   useEffect(() => {
     const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
     const cantidadTotal = carritoGuardado.reduce((acc, item) => acc + item.cantidad, 0);
@@ -58,10 +57,12 @@ export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent
-          cantidadCarrito={cantidadCarrito}
-          setCantidadCarrito={setCantidadCarrito}
-        />
+        <ToastProvider>
+          <AppContent
+            cantidadCarrito={cantidadCarrito}
+            setCantidadCarrito={setCantidadCarrito}
+          />
+        </ToastProvider>
       </AuthProvider>
     </Router>
   );

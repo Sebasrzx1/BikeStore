@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../styles/Carrito.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/ToastContext";
 
 export default function Carrito({ setCantidadCarrito }) {
   const [carrito, setCarrito] = useState([]);
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const { isAuthenticated, setRedirectPath } = useAuth();
+  const { mostrarToast } = useToast();
 
   const procederPago = () => {
     if (!isAuthenticated) {
@@ -40,12 +42,35 @@ export default function Carrito({ setCantidadCarrito }) {
   };
 
   const actualizarCantidad = (id_producto, cantidadNueva) => {
-    if (cantidadNueva < 1) return;
-    const actualizado = carrito.map((p) =>
-      p.id_producto === id_producto
-        ? { ...p, cantidad: cantidadNueva, subtotal: p.precio * cantidadNueva }
-        : p
-    );
+    const actualizado = carrito.map((p) => {
+      if (p.id_producto === id_producto) {
+        const stockDisponible = p.stockDisponible; // 👈 ahora sí existe
+
+        if (cantidadNueva < 1) {
+          mostrarToast("La cantidad mínima permitida es 1.");
+          return { ...p, cantidad: 1, subtotal: p.precio };
+        }
+
+        if (cantidadNueva > stockDisponible) {
+          mostrarToast(
+            `No puedes añadir más. Stock máximo: ${stockDisponible} unidades.`
+          );
+          return {
+            ...p,
+            cantidad: stockDisponible,
+            subtotal: p.precio * stockDisponible,
+          };
+        }
+
+        return {
+          ...p,
+          cantidad: cantidadNueva,
+          subtotal: p.precio * cantidadNueva,
+        };
+      }
+      return p;
+    });
+
     setCarrito(actualizado);
     localStorage.setItem("carrito", JSON.stringify(actualizado));
   };
@@ -67,62 +92,85 @@ export default function Carrito({ setCantidadCarrito }) {
 
   return (
     <div className="carrito-contenedor">
-      <h1 className="carrito-titulo">Carrito de compras</h1>
-
-      <div className="carrito-lista">
-        {carrito.map((p) => (
-          <div key={p.id_producto} className="carrito-item">
-            <div className="cicla-info">
-              <div className="carrito-imagen">
-                <img
-                  src={p.imagen}
-                  alt={p.nombre}
-                  onError={(e) => (e.target.src = "/placeholder.png")}
-                />
-              </div>
-              <div className="contenedor-control-desc">
-                <div className="carrito-detalles">
-                  <h3>{p.nombre}</h3>
-                  <p>Subtotal: ${p.subtotal.toLocaleString("es-CO")}</p>
-                </div>
-
-                <div className="carrito-controles">
-                  <button
-                    onClick={() =>
-                      actualizarCantidad(p.id_producto, p.cantidad - 1)
-                    }
-                  >
-                    −
-                  </button>
-                  <span>{p.cantidad}</span>
-                  <button
-                    onClick={() =>
-                      actualizarCantidad(p.id_producto, p.cantidad + 1)
-                    }
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="contenedor-eliminar-precio">
-              <button
-                className="btn-eliminar"
-                onClick={() => eliminarProducto(p.id_producto)}
-              >
-                🗑️
-              </button>
-              <p id="precioUnitario">${p.precio.toLocaleString("es-CO")}</p>
-            </div>
-          </div>
-        ))}
+      <div className="carrito-titulo">
+        <h1>Carrito de compras</h1>
+        <p>
+          Tienes {carrito.reduce((acc, p) => acc + p.cantidad, 0)}{" "}
+          {carrito.reduce((acc, p) => acc + p.cantidad, 0) === 1
+            ? "item"
+            : "items"}
+        </p>
       </div>
+      <div className="ContCarrito">
+        <div className="carrito-lista">
+          {carrito.map((p) => (
+            <div key={p.id_producto} className="carrito-item">
+              <div className="cicla-info">
+                <div className="carrito-imagen">
+                  <img
+                    src={p.imagen}
+                    alt={p.nombre}
+                    onError={(e) => (e.target.src = "/placeholder.png")}
+                  />
+                </div>
+                <div className="contenedor-control-desc">
+                  <p>{p.marca}</p>
+                  <div className="carrito-detalles">
+                    <h3>{p.nombre}</h3>
+                    <p>Subtotal: ${p.subtotal.toLocaleString("es-CO")}</p>
+                  </div>
 
-      <div className="carrito-resumen">
-        <h2>Total: ${total.toLocaleString("es-CO")}</h2>
-        <button className="btn-pagar" onClick={procederPago}>
-          Proceder al pago
-        </button>
+                  <div className="carrito-controles">
+                    <button
+                      onClick={() =>
+                        actualizarCantidad(p.id_producto, p.cantidad - 1)
+                      }
+                    >
+                      <p>−</p>
+                    </button>
+                    <span>{p.cantidad}</span>
+                    <button
+                      onClick={() =>
+                        actualizarCantidad(p.id_producto, p.cantidad + 1)
+                      }
+                    >
+                      <p>+</p>
+                    </button>
+                  </div>
+                </div>
+                <div className="ContPrecio">
+                  <div className="contenedor-eliminar-precio">
+                    <button
+                      onClick={() => {
+                        eliminarProducto(p.id_producto);
+                        mostrarToast(`${p.nombre} eliminado del carrito.`);
+                      }}
+                    >
+                      <img src="../public/IconDelet.svg" alt="IconoEliminar" />
+                    </button>
+                  </div>
+                  <p id="precioUnitario">${p.precio.toLocaleString("es-CO")}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="carrito-resumen">
+          <div className="ContTitulo">
+            <h2>Resumen del pedido</h2>
+          </div>
+          <div className="ContTotal">
+            <h3>Total</h3>
+            <h2>${total.toLocaleString("es-CO")}</h2>
+          </div>
+          <button className="btn-pagar" onClick={procederPago}>
+            Pagar en PAYU ←
+          </button>
+          <button className="btn-Volver" onClick={() => navigate("/catalogo")}>
+            Continuar comprando
+          </button>
+        </div>
       </div>
     </div>
   );

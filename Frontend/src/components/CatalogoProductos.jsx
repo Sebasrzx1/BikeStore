@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
 import "../styles/Tienda.css";
+import { useToast } from "../context/ToastContext";
 
 export default function Catalogo({ setCantidadCarrito }) {
   const [productos, setProductos] = useState([]);
@@ -11,6 +12,7 @@ export default function Catalogo({ setCantidadCarrito }) {
   const [busqueda, setBusqueda] = useState("");
   const [precioMin, setPrecioMin] = useState(10000);
   const [precioMax, setPrecioMax] = useState(2000000);
+  const { mostrarToast } = useToast();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -203,12 +205,9 @@ export default function Catalogo({ setCantidadCarrito }) {
                       </p>
                     </div>
 
-                    {/* Botón agregar al carrito */}
                     <button
                       className="tienda-btn-add"
-                      onClick={() =>
-                        agregarUnidadAlCarrito(p, setCantidadCarrito)
-                      }
+                      onClick={() => agregarUnidadAlCarrito(p, setCantidadCarrito, mostrarToast)}
                     >
                       <img src="./public/IconCarritoBoton.svg" alt="" />
                       <p>Añadir al carrito</p>
