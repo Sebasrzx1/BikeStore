@@ -1,37 +1,42 @@
-export function agregarUnidadAlCarrito(producto, actualizarCantidad) {
-  const stockDisponible = producto.entradas - producto.salidas;
-  if (stockDisponible < 1) return;
-
-  const itemCarrito = {
-    id_producto: producto.id_producto,
-    nombre: producto.nombre_producto,
-    precio: producto.precio_unitario,
-    cantidad: 1,
-    subtotal: producto.precio_unitario,
-    imagen: producto.imagen
-      ? `http://localhost:3000/${producto.imagen}`
-      : "/placeholder.png",
-  };
-
+export function agregarUnidadAlCarrito(producto, setCantidadCarrito, mostrarToast, cantidad = 1) {
   const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-  const existente = carritoActual.find(
-    (p) => p.id_producto === producto.id_producto
-  );
+  const existente = carritoActual.find(p => p.id_producto === producto.id_producto);
+
+  const stockDisponible = producto.entradas - producto.salidas;
+  const cantidadYaEnCarrito = existente ? existente.cantidad : 0;
+  const cantidadTotalDeseada = cantidadYaEnCarrito + cantidad;
+
+  if (cantidadTotalDeseada > stockDisponible) {
+    const restante = Math.max(stockDisponible - cantidadYaEnCarrito, 0);
+    mostrarToast(
+      `No puedes añadir más. Stock máximo: ${stockDisponible} unidades. Ya tienes ${cantidadYaEnCarrito} en el carrito. Te quedan ${restante}.`
+    );
+    return;
+  }
 
   if (existente) {
-    existente.cantidad += 1;
+    existente.cantidad += cantidad;
     existente.subtotal = existente.precio * existente.cantidad;
+    existente.stockDisponible = stockDisponible;
   } else {
-    carritoActual.push(itemCarrito);
+    carritoActual.push({
+      id_producto: producto.id_producto,
+      nombre: producto.nombre_producto,
+      marca: producto.marca,
+      precio: producto.precio_unitario,
+      cantidad,
+      subtotal: producto.precio_unitario * cantidad,
+      imagen: producto.imagen
+        ? `http://localhost:3000/${producto.imagen}`
+        : "/placeholder.png",
+      stockDisponible,
+    });
   }
 
   localStorage.setItem("carrito", JSON.stringify(carritoActual));
 
-  // ✅ Actualiza el contador global si se pasó el callback
-  if (typeof actualizarCantidad === "function") {
-    const total = carritoActual.reduce((acc, item) => acc + item.cantidad, 0);
-    actualizarCantidad(total);
-  }
+  const totalCantidad = carritoActual.reduce((acc, p) => acc + p.cantidad, 0);
+  setCantidadCarrito(totalCantidad);
 
-  alert(`${producto.nombre_producto} añadido al carrito (1 unidad).`);
+  mostrarToast(`${producto.nombre_producto} añadido al carrito (${cantidad} unidad${cantidad > 1 ? "es" : ""}).`);
 }

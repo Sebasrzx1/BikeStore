@@ -4,12 +4,14 @@ import "../styles/Homepage.css";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
 import { useNavigate, useLocation } from "react-router-dom";
 import HeroSlider from "./HeroSlider";
+import { useToast } from "../context/ToastContext";
 
 const Homepage = ({ setCantidadCarrito }) => {
   const [productos, setProductos] = useState([]);
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const { mostrarToast } = useToast();
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -42,12 +44,10 @@ const Homepage = ({ setCantidadCarrito }) => {
 
   const categoriasPermitidasIds = [1, 2, 3];
 
-  // Filtrar y ordenar productos por popularidad
   const productosFiltrados = productos
     .filter((p) => categoriasPermitidasIds.includes(Number(p.id_categoria)))
     .sort((a, b) => (b.salidas || 0) - (a.salidas || 0));
 
-  // Agrupar y limitar a 4 productos por categoría
   const productosPorCategoria = {};
   categoriasPermitidasIds.forEach((id) => {
     productosPorCategoria[id] = productosFiltrados
@@ -184,11 +184,14 @@ const Homepage = ({ setCantidadCarrito }) => {
                             </p>
                           </div>
 
-                          {/* Botón agregar al carrito */}
                           <button
                             className="btn-add"
                             onClick={() =>
-                              agregarUnidadAlCarrito(p, setCantidadCarrito)
+                              agregarUnidadAlCarrito(
+                                p,
+                                setCantidadCarrito,
+                                mostrarToast
+                              )
                             }
                           >
                             <img src="./public/IconCarritoBoton.svg" alt="" />

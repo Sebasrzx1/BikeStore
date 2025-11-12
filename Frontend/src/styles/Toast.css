@@ -1,0 +1,39 @@
+.toast-notificacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    position: fixed;
+    padding: 10px;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    font-weight: 500;
+    color: #333;
+    animation: slideDownUp 3s ease forwards;
+    z-index: 9999;
+}
+
+@keyframes slideDownUp {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  10% {
+    top: 20px;
+    opacity: 1;
+  }
+  90% {
+    top: 20px;
+    opacity: 1;
+  }
+  100% {
+    top: -100px;
+    opacity: 0;
+  }
+}

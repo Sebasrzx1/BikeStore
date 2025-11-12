@@ -10,6 +10,7 @@ import Carrito from "./components/Carrito";
 import FooterBikestore from "./components/FooterBikestore";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import CuentaCliente from "./components/CuentaCliente";
+import { ToastProvider } from "./context/ToastContext";
 import { Navigate } from "react-router-dom";
 
 const Pago = () => (
@@ -35,7 +36,6 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
       {!hideNavbar && <Navbar cantidadCarrito={cantidadCarrito} />}
 
       <Routes>
-        {/* ✅ Ahora Homepage también recibe setCantidadCarrito */}
         <Route path="/" element={<Homepage setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
@@ -61,7 +61,6 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
 export default function App() {
   const [cantidadCarrito, setCantidadCarrito] = useState(0);
 
-  // ✅ Leer el carrito de localStorage al cargar la app
   useEffect(() => {
     const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
     const cantidadTotal = carritoGuardado.reduce((acc, item) => acc + item.cantidad, 0);
@@ -71,10 +70,12 @@ export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent
-          cantidadCarrito={cantidadCarrito}
-          setCantidadCarrito={setCantidadCarrito}
-        />
+        <ToastProvider>
+          <AppContent
+            cantidadCarrito={cantidadCarrito}
+            setCantidadCarrito={setCantidadCarrito}
+          />
+        </ToastProvider>
       </AuthProvider>
     </Router>
   );
