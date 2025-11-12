@@ -1,37 +1,42 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/login.css";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+
   const navigate = useNavigate();
   const { login, redirectPath, setRedirectPath } = useAuth();
-  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { email, contraseña };
+    setMensaje("Verificando...");
 
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ email, contraseña }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMensaje(`✅ ${data.message || "Inicio de sesión exitoso"}`);
-
-        login(data.usuario);
-
+        // ✅ Guardar token y usuario en localStorage
+        localStorage.setItem("token", data.token);
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
 
+        // ✅ Llamar al login del contexto pasando usuario y token
+        login(data.usuario, data.token);
+
+        setMensaje("✅ Inicio de sesión exitoso");
+
+        // ✅ Redirigir al destino o a la cuenta
         const destino = redirectPath || "/cuenta";
         navigate(destino);
         setRedirectPath("/");
@@ -39,7 +44,7 @@ export default function LoginForm() {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error en login:", error);
       setMensaje("❌ No se pudo conectar con el servidor");
     }
   };
@@ -83,19 +88,19 @@ export default function LoginForm() {
           <div className="LoginCampo">
             <label>Contraseña</label>
             <div className="ContCampo">
-            <img src="../public/Icon Lock.svg" alt="" />
-            <input
-              className="LoginInput"
-              type={mostrarContraseña ? "text" : "password"}
-              placeholder="*****"
-              value={contraseña}
-              onChange={(e) => setContraseña(e.target.value)}
-              required
-            />
-            <img
+              <img src="../public/Icon Lock.svg" alt="" />
+              <input
+                className="LoginInput"
+                type={mostrarContraseña ? "text" : "password"}
+                placeholder="*****"
+                value={contraseña}
+                onChange={(e) => setContraseña(e.target.value)}
+                required
+              />
+              <img
                 src={
                   mostrarContraseña
-                    ? "../public/IconEyeoff.svg" // 👈 Usa otro icono si quieres (por ejemplo, un ojo tachado)
+                    ? "../public/IconEyeoff.svg"
                     : "../public/IconEye.svg"
                 }
                 alt="Mostrar contraseña"
@@ -111,11 +116,13 @@ export default function LoginForm() {
             Iniciar sesión
           </button>
         </form>
+
         <div className="volver-inicio">
           <Link to="/" className="volver-btn">
             ← Volver al inicio
           </Link>
         </div>
+
         {mensaje && <p className="auth-message">{mensaje}</p>}
       </div>
     </div>
