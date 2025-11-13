@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/CuentaCliente.css";
 
 const CuentaCliente = () => {
-  const { user, logout, updateUser } = useAuth(); // ✅ dentro del componente
+  const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState({

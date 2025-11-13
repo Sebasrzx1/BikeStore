@@ -110,7 +110,9 @@ export default function LoginForm() {
             </div>
           </div>
 
-          <div className="LoginOlvidar">¿Olvidaste tu contraseña?</div>
+          <Link to="/forgot-password" className="LoginOlvidar">
+            ¿Olvidaste tu contraseña?
+          </Link>
 
           <button className="auth-button" type="submit">
             Iniciar sesión
