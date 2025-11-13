@@ -37,10 +37,12 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
 
   // 🔧 Ajuste importante:
   // Ocultamos el Navbar solo en login, register, forgot-password y verificar-codigo
-  const hideNavbar =
-    ["/login", "/register", "/forgot-password", "/verificar-codigo"].includes(
-      location.pathname
-    );
+  const hideNavbar = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/verificar-codigo",
+  ].includes(location.pathname);
 
   return (
     <>

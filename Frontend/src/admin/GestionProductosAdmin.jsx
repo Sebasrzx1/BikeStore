@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-const Productos = () => {
+const GestionProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
   const [formulario, setFormulario] = useState({
     id_producto: "",
@@ -254,3 +254,5 @@ const Productos = () => {
     </div>
   );
 };
+
+export default GestionProductosAdmin;
