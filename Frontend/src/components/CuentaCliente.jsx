@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/CuentaCliente.css";
-
+import DireccionEnvio from "./DireccionEnvio.jsx";
 const CuentaCliente = () => {
-  const { user, logout, updateUser } = useAuth();
+  const { user, logout, updateUser } = useAuth(); // contexto
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState({
@@ -20,51 +20,62 @@ const CuentaCliente = () => {
   const [nuevaContraseña, setNuevaContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
 
-  // 🔹 Cargar información actual del usuario desde el backend
-  useEffect(() => {
-    const obtenerDatos = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          setMensaje("❌ No estás autenticado");
-          navigate("/login");
-          return;
-        }
-
-        const res = await fetch("http://localhost:3000/api/usuarios/perfil/mis-datos", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!res.ok) {
-          // intenta leer mensaje del servidor si lo envía
-          const err = await res.json().catch(() => ({}));
-          throw new Error(err.message || "Error al obtener datos del usuario");
-        }
-
-        const data = await res.json();
-        // Aseguramos que el objeto tenga las propiedades que usamos
-        setUsuario({
-          nombre: data.nombre || "",
-          apellido: data.apellido || "",
-          telefono: data.telefono || "",
-          pais: data.pais || "",
-          email: data.email || "",
-        });
-      } catch (error) {
-        console.error("Error al obtener perfil:", error);
-        setMensaje("❌ No se pudo cargar la información del usuario");
+  // FUNCION: obtén datos del perfil (la puedes reutilizar)
+  const obtenerDatosPerfil = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setMensaje("❌ No estás autenticado");
+        navigate("/login");
+        return;
       }
-    };
 
-    obtenerDatos();
-  }, [navigate]);
+      const res = await fetch(
+        "http://localhost:3000/api/usuarios/perfil/mis-datos",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-  // 🔹 Manejar cambios en los inputs
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error al obtener datos del usuario");
+      }
+
+      const data = await res.json();
+
+      // Si la ruta devuelve { success: true, usuario: {...} } o solo el objeto,
+      // ajusta según tu respuesta real. Aquí soporte ambos casos:
+      const perfil = data.usuario ? data.usuario : data;
+
+      setUsuario({
+        nombre: perfil.nombre || "",
+        apellido: perfil.apellido || "",
+        telefono: perfil.telefono || "",
+        pais: perfil.pais || "",
+        email: perfil.email || perfil.email || "",
+      });
+
+      // si quieres también sincronizar con el contexto (opcional)
+      // updateUser({ nombre: perfil.nombre, apellido: perfil.apellido });
+    } catch (error) {
+      console.error("Error al obtener perfil:", error);
+      setMensaje("❌ No se pudo cargar la información del usuario");
+    }
+  };
+
+  // carga inicial
+  useEffect(() => {
+    obtenerDatosPerfil();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // solo al montar
+
+  // Manejar cambios en los inputs
   const handleChange = (e) => {
     setUsuario({ ...usuario, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Guardar cambios en el perfil
+  // Guardar cambios: enviamos solo campos no vacíos (evita sobrescribir con "")
   const handleGuardar = async (e) => {
     e.preventDefault();
     setMensaje("Guardando cambios...");
@@ -73,38 +84,59 @@ const CuentaCliente = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No autenticado");
 
-      const res = await fetch("http://localhost:3000/api/usuarios/perfil/actualizar", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          nombre: usuario.nombre,
-          apellido: usuario.apellido,
-          telefono: usuario.telefono,
-          pais: usuario.pais,
-          contraseñaActual,
-          nuevaContraseña,
-        }),
-      });
+      // Construimos payload solo con campos modificables/no vacíos
+      const payload = {};
+      if (usuario.nombre && usuario.nombre.trim() !== "")
+        payload.nombre = usuario.nombre.trim();
+      if (usuario.apellido && usuario.apellido.trim() !== "")
+        payload.apellido = usuario.apellido.trim();
+      if (
+        typeof usuario.telefono !== "undefined" &&
+        usuario.telefono !== null &&
+        usuario.telefono.toString().trim() !== ""
+      )
+        payload.telefono = usuario.telefono.toString().trim();
+      if (usuario.pais && usuario.pais.trim() !== "")
+        payload.pais = usuario.pais.trim();
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Error al actualizar perfil");
+      // Contraseña solo si se proporcionó
+      if (contraseñaActual && nuevaContraseña) {
+        payload.contraseñaActual = contraseñaActual;
+        payload.nuevaContraseña = nuevaContraseña;
       }
 
-      // Actualizamos UI y contexto con los nuevos datos
+      if (Object.keys(payload).length === 0) {
+        setMensaje("No hay cambios para guardar.");
+        return;
+      }
+
+      const res = await fetch(
+        "http://localhost:3000/api/usuarios/perfil/actualizar",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.message || "Error al actualizar perfil");
+
       setMensaje("✅ Perfil actualizado con éxito");
       setContraseñaActual("");
       setNuevaContraseña("");
 
-      // Actualizamos el contexto (y localStorage) para que otros componentes vean los cambios al instante
+      // refrescar datos del perfil para mantener UI consistente
+      await obtenerDatosPerfil();
+
+      // actualizar contexto para que el nombre arriba cambie inmediatamente
       updateUser({
-        nombre: usuario.nombre,
-        apellido: usuario.apellido,
-        // si quieres agregar más campos al contexto, agrégalos aquí
+        nombre: usuario.nombre || (user && user.nombre),
+        apellido: usuario.apellido || (user && user.apellido),
       });
     } catch (error) {
       console.error("Error al guardar perfil:", error);
@@ -197,6 +229,10 @@ const CuentaCliente = () => {
       <button onClick={handleLogout} className="btn-logout">
         Cerrar sesión
       </button>
+
+      {/* Ejemplo: aquí puedes colocar el componente DireccionEnvio fuera del form */}
+      {/* <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} /> */}
+      <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} />
     </div>
   );
 };

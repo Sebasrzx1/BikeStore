@@ -1,0 +1,56 @@
+.direccion-envio {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+}
+
+.direccion-envio h3 {
+  margin-bottom: 1rem;
+}
+
+.direccion-info p {
+  margin: 0.3rem 0;
+}
+
+.direccion-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.btn-agregar,
+.btn-editar,
+.btn-guardar,
+.btn-cancelar {
+  margin-top: 0.6rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-agregar {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-editar {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-guardar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.mensaje {
+  margin-top: 0.8rem;
+  font-weight: bold;
+}
