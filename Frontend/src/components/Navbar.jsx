@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
 
 const Navbar = ({ cantidadCarrito }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   const toggleMenu = () => setMenuAbierto(!menuAbierto);
@@ -18,22 +18,22 @@ const Navbar = ({ cantidadCarrito }) => {
       </div>
 
       <ul className={`nav-links ${menuAbierto ? "active" : ""}`}>
-        <li>
-          <Link to="/">Inicio</Link>
-        </li>
-        <li>
-          <Link to="/catalogo">Catálogo</Link>
-        </li>
-        <li>
-          <Link to="/">Sobre nosotros</Link>
-        </li>
+        <li><Link to="/">Inicio</Link></li>
+        <li><Link to="/catalogo">Catálogo</Link></li>
+        <li><Link to="/">Sobre nosotros</Link></li>
       </ul>
 
       <div className="Contcarrito-accesoregistro">
         {isAuthenticated ? (
-          <Link to="/cuenta" className="desingloginregister">
-            <img src="../public/IconPerfil.svg" alt="" />
-          </Link>
+          isAdmin ? (
+            <Link to="/admin" className="desingloginregister">
+              <img src="/IconAdmin.svg" alt="Admin" />
+            </Link>
+          ) : (
+            <Link to="/cuenta" className="desingloginregister">
+              <img src="/IconPerfil.svg" alt="Perfil" />
+            </Link>
+          )
         ) : (
           <Link to="/login" className="desingloginregisterdesc">
             <p>Acceso / Registro</p>

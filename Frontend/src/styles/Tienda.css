@@ -6,9 +6,11 @@
   gap: 32px;
   align-self: stretch;
   background: #FFF;
+
 }
 
 .tienda-contenido {
+  width: 100%;
   display: flex;
   height: auto;
   justify-content: center;
@@ -112,7 +114,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  width: 100%;
+  width: auto;
   height: auto;
 }
 
