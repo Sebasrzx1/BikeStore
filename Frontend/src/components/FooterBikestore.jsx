@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/FooterBikestore.css";
-
 const FooterBikestore = () => {
   return (
     <footer className="footer">

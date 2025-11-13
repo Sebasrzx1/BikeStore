@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/CuentaCliente.css";
 import DireccionEnvio from "./DireccionEnvio.jsx";
+import PanelCliente from "./PanelCliente.jsx";
+
 const CuentaCliente = () => {
   const { user, logout, updateUser } = useAuth(); // contexto
   const navigate = useNavigate();
@@ -53,8 +55,13 @@ const CuentaCliente = () => {
         apellido: perfil.apellido || "",
         telefono: perfil.telefono || "",
         pais: perfil.pais || "",
-        email: perfil.email || perfil.email || "",
+        email: perfil.email || "",
+        direccion: perfil.direccion || "",
+        ciudad: perfil.ciudad || "",
+        departamento: perfil.departamento || "",
+        codigo_postal: perfil.codigo_postal || "",
       });
+
 
       // si quieres también sincronizar con el contexto (opcional)
       // updateUser({ nombre: perfil.nombre, apellido: perfil.apellido });
@@ -150,89 +157,89 @@ const CuentaCliente = () => {
   };
 
   return (
+
     <div className="cuenta-cliente">
-      <h2>Mi Cuenta</h2>
 
-      {/* sección superior que muestra nombre y email del contexto */}
-      {user ? (
-        <>
-          <p>
-            <strong>Nombre:</strong> {user.nombre} {user.apellido}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
-        </>
-      ) : (
-        <p>No hay información del usuario</p>
-      )}
+      <div className="contenedor-cuenta-cliente">
+        <div className="contendor-componente-panelCliente">
+          <PanelCliente user={user} onLogout={handleLogout} />
+        </div>
 
-      {/* formulario para editar */}
-      <h3>Editar información personal</h3>
-      <form onSubmit={handleGuardar} className="cuenta-form">
-        <label>Nombre:</label>
-        <input
-          type="text"
-          name="nombre"
-          value={usuario.nombre || ""}
-          onChange={handleChange}
-          required
-        />
+        <div className="contenedor-datos-personales">
+          <div className="encabezado">
+            <h1>Ajustes de Cuenta</h1>
+            <p>Administra tus datos personles y direccion de envio</p>
+          </div>
 
-        <label>Apellido:</label>
-        <input
-          type="text"
-          name="apellido"
-          value={usuario.apellido || ""}
-          onChange={handleChange}
-          required
-        />
+          {/* formulario para editar */}
+          <div className="contenedor-formulario">
+            <h3>Editar información personal</h3>
+            <form onSubmit={handleGuardar} className="cuenta-form">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                name="nombre"
+                value={usuario.nombre || ""}
+                onChange={handleChange}
+                required
+              />
 
-        <label>Teléfono:</label>
-        <input
-          type="text"
-          name="telefono"
-          value={usuario.telefono || ""}
-          onChange={handleChange}
-        />
+              <label>Apellido:</label>
+              <input
+                type="text"
+                name="apellido"
+                value={usuario.apellido || ""}
+                onChange={handleChange}
+                required
+              />
 
-        <label>País:</label>
-        <input
-          type="text"
-          name="pais"
-          value={usuario.pais || ""}
-          onChange={handleChange}
-        />
+              <label>Teléfono:</label>
+              <input
+                type="text"
+                name="telefono"
+                value={usuario.telefono || ""}
+                onChange={handleChange}
+              />
 
-        <h4>Cambiar Contraseña</h4>
-        <label>Contraseña actual:</label>
-        <input
-          type="password"
-          value={contraseñaActual}
-          onChange={(e) => setContraseñaActual(e.target.value)}
-        />
+              <label>País:</label>
+              <input
+                type="text"
+                name="pais"
+                value={usuario.pais || ""}
+                onChange={handleChange}
+              />
 
-        <label>Nueva contraseña:</label>
-        <input
-          type="password"
-          value={nuevaContraseña}
-          onChange={(e) => setNuevaContraseña(e.target.value)}
-        />
+              <h4>Cambiar Contraseña</h4>
+              <label>Contraseña actual:</label>
+              <input
+                type="password"
+                value={contraseñaActual}
+                onChange={(e) => setContraseñaActual(e.target.value)}
+              />
 
-        <button type="submit" className="btn-guardar">
-          Guardar cambios
-        </button>
-      </form>
+              <label>Nueva contraseña:</label>
+              <input
+                type="password"
+                value={nuevaContraseña}
+                onChange={(e) => setNuevaContraseña(e.target.value)}
+              />
 
-      {mensaje && <p className="mensaje">{mensaje}</p>}
+              <button type="submit" className="btn-guardar">
+                Guardar cambios
+              </button>
+            </form>
+            {mensaje && <p className="mensaje">{mensaje}</p>}
+          </div>
 
-      <button onClick={handleLogout} className="btn-logout">
-        Cerrar sesión
-      </button>
+          {/* componente DireccionEnvio fuera del form */}
+          <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} />
 
-      {/* Ejemplo: aquí puedes colocar el componente DireccionEnvio fuera del form */}
-      {/* <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} /> */}
-      <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} />
+        </div>
+
+
+      </div>
+
+
     </div>
   );
 };

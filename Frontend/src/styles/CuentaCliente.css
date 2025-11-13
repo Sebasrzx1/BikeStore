@@ -1,50 +1,152 @@
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
 .cuenta-cliente {
-  max-width: 600px;
-  margin: 60px auto;
-  padding: 25px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
-.cuenta-cliente h2, .cuenta-cliente h3, .cuenta-cliente h4 {
-  color: #2b7a78;
+.contenedor-cuenta-cliente {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 50px;
+  padding: 10px;
+  flex-wrap: wrap; /* ✅ permite adaptarse */
 }
 
-.cuenta-form {
+.encabezado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.contendor-componente-panelCliente {
+  background-color: rgb(243, 243, 243);
+  padding: 20px;
+  padding-top: 60px;
+  border-radius: 15px;
+  flex: 1 1 250px; /* ✅ se adapta en ancho */
+  min-width: 250px;
+  max-width: 300px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.contenedor-datos-personales {
+  flex: 2 1 600px;
+  max-width: 800px;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+  width: 100%;
+}
+
+.contenedor-formulario {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px;
+  gap: 1rem;
+  border: 1px solid rgb(163, 163, 163);
+  border-radius: 20px;
+  box-shadow: 0 0 5px 2px rgba(193, 193, 193, 0.3);
+  background-color: white;
+}
+
+.contenedor-formulario form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
 }
 
-.cuenta-form input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.contenedor-formulario form input {
+  border-radius: 5px;
+  border: none;
+  height: 35px;
+  background-color: rgba(225, 225, 225, 0.388);
+  padding: 5px 10px;
 }
 
 .btn-guardar {
-  margin-top: 10px;
-  background: #2b7a78;
+  margin-top: 20px;
+  background-color: rgb(147, 7, 7);
+  padding: 10px;
+  border-radius: 20px;
+  margin-bottom: 20px;
   color: white;
   border: none;
-  padding: 10px;
-  border-radius: 6px;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.btn-logout {
-  margin-top: 20px;
-  background: #d9534f;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
+.btn-guardar:hover {
+  background-color: rgb(180, 15, 15);
 }
 
 .mensaje {
-  margin-top: 15px;
-  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  color: rgb(80, 80, 80);
+  font-size: 14px;
+}
+
+/* ✅ Responsividad */
+@media (max-width: 992px) {
+  .contenedor-cuenta-cliente {
+    gap: 30px;
+  }
+
+  .contenedor-datos-personales {
+    align-items: stretch;
+  }
+
+  .contenedor-formulario {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedor-cuenta-cliente {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .contendor-componente-panelCliente {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .contenedor-datos-personales {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cuenta-cliente {
+    padding: 10px;
+  }
+
+  .contenedor-formulario {
+    padding: 15px;
+  }
+
+  .contenedor-formulario input {
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .btn-guardar {
+    width: 100%;
+  }
 }

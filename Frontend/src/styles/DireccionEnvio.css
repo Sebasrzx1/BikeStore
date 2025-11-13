@@ -1,56 +1,94 @@
 .direccion-envio {
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 1px solid #ccc;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid rgb(198, 198, 198);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 5px 1px rgb(189, 189, 189);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  margin-top: 20px;
 }
 
 .direccion-envio h3 {
-  margin-bottom: 1rem;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-.direccion-info p {
-  margin: 0.3rem 0;
+.contenedor-sin-registro {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.direccion-info {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+}
+
+.direccion-envio button {
+  color: #fff;
+  background: rgb(147, 7, 7);
+  border-radius: 20px;
+  height: 35px;
+  width: 200px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.direccion-envio button:hover {
+  background: rgb(180, 15, 15);
 }
 
 .direccion-form {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 10px;
+  width: 100%;
 }
 
-.btn-agregar,
-.btn-editar,
-.btn-guardar,
-.btn-cancelar {
-  margin-top: 0.6rem;
-  padding: 0.5rem 1rem;
+.direccion-form input {
   border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgba(225, 225, 225, 0.388);
+  padding: 8px;
+  height: 35px;
 }
 
-.btn-agregar {
-  background-color: #007bff;
-  color: white;
+/* ✅ Responsividad */
+@media (max-width: 768px) {
+  .direccion-envio {
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .direccion-envio button {
+    width: 100%;
+  }
+
+  .direccion-info p {
+    font-size: 14px;
+  }
 }
 
-.btn-editar {
-  background-color: #ffc107;
-  color: black;
-}
+@media (max-width: 480px) {
+  .direccion-envio {
+    padding: 10px;
+    border-radius: 15px;
+  }
 
-.btn-guardar {
-  background-color: #28a745;
-  color: white;
-}
+  .direccion-form input {
+    height: 30px;
+    font-size: 14px;
+  }
 
-.btn-cancelar {
-  background-color: #dc3545;
-  color: white;
-}
-
-.mensaje {
-  margin-top: 0.8rem;
-  font-weight: bold;
+  .direccion-envio h3 {
+    font-size: 18px;
+  }
 }
