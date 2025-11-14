@@ -1,391 +1,271 @@
-import React, { useEffect, useState } from "react";
+// src/admin/GestionProductos.jsx
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API = "http://localhost:3000/api";
-
-export default function GestionProductosAdmin() {
+const GestionProductos = () => {
   const [productos, setProductos] = useState([]);
-  const [busqueda, setBusqueda] = useState("");
-
-  const [formulario, setFormulario] = useState({
-    id_producto: "",
-    nombre_producto: "",
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [productoActual, setProductoActual] = useState({
+    nombre: "",
     marca: "",
-    precio_unitario: "",
+    categoria: "",
+    precio: "",
+    stock: "",
     descripcion: "",
+    imagen: null,
   });
 
-  const [imagen, setImagen] = useState(null);
+  // ==========================
+  // CARGAR PRODUCTOS
+  // ==========================
+  const obtenerProductos = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/productos");
+      setProductos(res.data);
+    } catch (err) {
+      console.error("Error cargando productos:", err);
+    }
+  };
 
-  // =============================
-  // Cargar productos al iniciar
-  // =============================
   useEffect(() => {
     obtenerProductos();
   }, []);
 
-  const obtenerProductos = async () => {
-    try {
-      const res = await axios.get(`${API}/productos`);
-      setProductos(res.data);
-    } catch (error) {
-      console.error("Error al obtener productos", error);
-    }
-  };
-
-  // =============================
-  // Manejar formulario
-  // =============================
-  const handleChange = (e) => {
-    setFormulario({ ...formulario, [e.target.name]: e.target.value });
-  };
-
-  // =============================
-  // Cargar producto en inputs (Modo edición)
-  // =============================
-  const cargarProducto = (p) => {
-    setFormulario({
-      id_producto: p.id_producto,
-      nombre_producto: p.nombre_producto,
-      marca: p.marca,
-      precio_unitario: p.precio_unitario,
-      descripcion: p.descripcion,
-    });
-  };
-
-// =======================
-// CREAR PRODUCTO CON IMAGEN
-// =======================
-const crearProducto = async (e) => {
-  e.preventDefault();
-
-  if (!imagen) {
-    return alert("Debes seleccionar una imagen para el producto");
-  }
-
-  const formData = new FormData();
-  formData.append("nombre_producto", formulario.nombre_producto);
-  formData.append("marca", formulario.marca);
-  formData.append("precio_unitario", formulario.precio_unitario);
-  formData.append("descripcion", formulario.descripcion);
-  formData.append("imagen", imagen); // 👈 AÑADIMOS LA IMAGEN
-
-  try {
-    await axios.post(`${API}/productos`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    alert("✅ Producto creado con imagen");
-
-    limpiarFormulario();
-    obtenerProductos();
-  } catch (error) {
-    console.error(error);
-    alert("❌ Error al crear producto");
-  }
-};
-
-  // =============================
-  // Editar producto
-  // =============================
-  const editarProducto = async (e) => {
-    e.preventDefault();
-
-    try {
-      await axios.put(`${API}/productos/${formulario.id_producto}`, formulario);
-      alert("✏️ Producto actualizado");
-      obtenerProductos();
-    } catch (error) {
-      console.error(error);
-      alert("❌ Error al editar");
-    }
-  };
-
-  // =============================
-  // Subir imagen
-  // =============================
-  const subirImagen = async (e) => {
-    e.preventDefault();
-
-    if (!imagen) return alert("Debes seleccionar una imagen");
-    if (!formulario.id_producto)
-      return alert("Debes seleccionar un producto primero");
-
-    const formData = new FormData();
-    formData.append("imagen", imagen);
-    formData.append("id_producto", formulario.id_producto);
-
-    try {
-      const res = await axios.post(`${API}/imagenes/subir`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      alert("📸 Imagen subida correctamente");
-      obtenerProductos();
-    } catch (error) {
-      console.error(error);
-      alert("❌ Error al subir imagen");
-    }
-  };
-
-  // =============================
-  // Eliminar producto
-  // =============================
-  const eliminarProducto = async (id) => {
-    if (!window.confirm("¿Seguro que deseas eliminar este producto?")) return;
-
-    try {
-      await axios.delete(`${API}/productos/${id}`);
-      alert("🗑 Producto eliminado");
-      obtenerProductos();
-    } catch (error) {
-      console.error(error);
-      alert("❌ No se pudo eliminar");
-    }
-  };
-
-  // =============================
-  // Limpiar formulario
-  // =============================
-  const limpiarFormulario = () => {
-    setFormulario({
-      id_producto: "",
-      nombre_producto: "",
+  // ==========================
+  // ABRIR MODAL (CREAR)
+  // ==========================
+  const abrirModalCrear = () => {
+    setModoEdicion(false);
+    setProductoActual({
+      nombre: "",
       marca: "",
-      precio_unitario: "",
+      categoria: "",
+      precio: "",
+      stock: "",
       descripcion: "",
+      imagen: null,
     });
-    setImagen(null);
+    setModalAbierto(true);
   };
 
-  // =============================
-  // Filtrar productos por búsqueda
-  // =============================
-  const productosFiltrados = productos.filter((p) =>
-    p.nombre_producto.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  // ==========================
+  // ABRIR MODAL (EDITAR)
+  // ==========================
+  const abrirModalEditar = (producto) => {
+    setModoEdicion(true);
+    setProductoActual({
+      id: producto.id,
+      nombre: producto.nombre,
+      marca: producto.marca,
+      categoria: producto.categoria,
+      precio: producto.precio,
+      stock: producto.stock,
+      descripcion: producto.descripcion,
+      imagen: null,
+    });
+    setModalAbierto(true);
+  };
+
+  // ==========================
+  // CAMBIOS EN INPUTS
+  // ==========================
+  const handleChange = (e) => {
+    setProductoActual({
+      ...productoActual,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ==========================
+  // CARGAR IMAGEN
+  // ==========================
+  const handleImagen = (e) => {
+    setProductoActual({
+      ...productoActual,
+      imagen: e.target.files[0],
+    });
+  };
+
+  // ==========================
+  // GUARDAR PRODUCTO (CREAR/EDITAR)
+  // ==========================
+  const guardarProducto = async () => {
+    const formData = new FormData();
+    formData.append("nombre", productoActual.nombre);
+    formData.append("marca", productoActual.marca);
+    formData.append("categoria", productoActual.categoria);
+    formData.append("precio", productoActual.precio);
+    formData.append("stock", productoActual.stock);
+    formData.append("descripcion", productoActual.descripcion);
+
+    if (productoActual.imagen) {
+      formData.append("imagen", productoActual.imagen);
+    }
+
+    try {
+      if (modoEdicion) {
+        await axios.put(
+          `http://localhost:3000/api/productos/${productoActual.id}`,
+          formData
+        );
+      } else {
+        await axios.post("http://localhost:3000/api/productos", formData);
+      }
+
+      obtenerProductos();
+      setModalAbierto(false);
+    } catch (err) {
+      console.error("Error guardando producto:", err);
+    }
+  };
+
+  // ==========================
+  // ELIMINAR PRODUCTO
+  // ==========================
+  const eliminarProducto = async (id) => {
+    if (!window.confirm("¿Seguro que desea eliminar este producto?")) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/api/productos/${id}`);
+      obtenerProductos();
+    } catch (err) {
+      console.error("Error eliminando producto:", err);
+    }
+  };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>🛠 Gestión de Productos</h1>
-
-      {/* =============================
-           BUSCADOR
-      ============================= */}
-      <input
-        type="text"
-        placeholder="🔍 Buscar producto..."
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        style={{
-          padding: "8px",
-          width: "300px",
-          marginBottom: "20px",
-        }}
-      />
-
-      {/* =============================
-           LISTA DE PRODUCTOS
-      ============================= */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          marginBottom: "3rem",
-        }}
-      >
-        {productosFiltrados.map((p) => (
-          <div
-            key={p.id_producto}
-            style={{
-              border: "1px solid #ccc",
-              padding: "1rem",
-              width: "250px",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{p.nombre_producto}</h3>
-            <p>
-              <strong>Marca:</strong> {p.marca}
-            </p>
-            <p>
-              <strong>Precio:</strong> ${p.precio_unitario}
-            </p>
-
-            {p.imagen && (
-              <img
-                src={`http://localhost:3000${p.imagen}`}
-                alt="producto"
-                style={{ width: "100%", borderRadius: "4px" }}
-              />
-            )}
-
-            <button
-              onClick={() => cargarProducto(p)}
-              style={{
-                width: "100%",
-                padding: "8px",
-                marginTop: "8px",
-                background: "#3498db",
-                color: "white",
-                border: "none",
-              }}
-            >
-              Editar
-            </button>
-
-            <button
-              onClick={() => eliminarProducto(p.id_producto)}
-              style={{
-                width: "100%",
-                padding: "8px",
-                marginTop: "8px",
-                background: "#e74c3c",
-                color: "white",
-                border: "none",
-              }}
-            >
-              Eliminar
-            </button>
-          </div>
-        ))}
+    <div className="gestion-container">
+      {/* Botón agregar */}
+      <div className="header-actions">
+        <button className="btn-agregar" onClick={abrirModalCrear}>
+          + Agregar Producto
+        </button>
       </div>
 
-      {/* =============================
-           FORMULARIO EDITAR
-      ============================= */}
-      <h2>✏️ Editar Producto</h2>
+      {/* Lista de productos */}
+      <table className="tabla-productos">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
 
-      <form
-        onSubmit={editarProducto}
-        style={{
-          width: "400px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <input
-          type="hidden"
-          name="id_producto"
-          value={formulario.id_producto}
-        />
+        <tbody>
+          {productos.map((p) => (
+            <tr key={p.id_producto}>
+              <td>{p.nombre_producto}</td>
+              <td>{p.marca}</td>
+              <td>{p.id_categoria}</td>
+              <td>${p.precio_unitario}</td>
+              <td>{p.stock}</td>
 
-        <label>Nombre:</label>
-        <input
-          name="nombre_producto"
-          value={formulario.nombre_producto}
-          onChange={handleChange}
-          required
-        />
+              <td>
+                <img
+                  src={`http://localhost:3000/${p.imagen}`}
+                  alt={p.nombre_producto}
+                  width="50"
+                  height="50"
+                  style={{ objectFit: "cover", borderRadius: "6px" }}
+                />
+              </td>
 
-        <label>Marca:</label>
-        <input
-          name="marca"
-          value={formulario.marca}
-          onChange={handleChange}
-          required
-        />
+              <td>
+                <button
+                  className="btn-editar"
+                  onClick={() => abrirModalEditar(p)}
+                >
+                  Editar
+                </button>
+                <button
+                  className="btn-eliminar"
+                  onClick={() => eliminarProducto(p.id_producto)}
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-        <label>Precio:</label>
-        <input
-          type="number"
-          name="precio_unitario"
-          value={formulario.precio_unitario}
-          onChange={handleChange}
-          required
-        />
+      {/* ==========================
+          MODAL CREAR / EDITAR
+      ========================== */}
+      {modalAbierto && (
+        <div className="modal-fondo">
+          <div className="modal">
+            <h2>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h2>
 
-        <label>Descripción:</label>
-        <textarea
-          name="descripcion"
-          value={formulario.descripcion}
-          onChange={handleChange}
-          rows={3}
-        ></textarea>
+            <div className="formulario">
+              <input
+                type="text"
+                name="nombre"
+                value={productoActual.nombre}
+                onChange={handleChange}
+                placeholder="Nombre del producto"
+              />
 
-        <button
-          type="submit"
-          style={{ padding: "10px", background: "#27ae60", color: "white" }}
-        >
-          Guardar Cambios
-        </button>
-      </form>
+              <input
+                type="text"
+                name="marca"
+                value={productoActual.marca}
+                onChange={handleChange}
+                placeholder="Marca"
+              />
 
-      {/* =============================
-           SUBIR IMAGEN
-      ============================= */}
-      <h2 style={{ marginTop: "2rem" }}>📸 Subir Imagen</h2>
+              <input
+                type="text"
+                name="categoria"
+                value={productoActual.categoria}
+                onChange={handleChange}
+                placeholder="Categoría"
+              />
 
-      <form
-        onSubmit={subirImagen}
-        style={{ width: "400px", display: "flex", flexDirection: "column" }}
-      >
-        <input type="file" onChange={(e) => setImagen(e.target.files[0])} />
+              <input
+                type="number"
+                name="precio"
+                value={productoActual.precio}
+                onChange={handleChange}
+                placeholder="Precio"
+              />
 
-        <button
-          type="submit"
-          style={{ padding: "10px", background: "#e67e22", color: "white" }}
-        >
-          Subir Imagen
-        </button>
-      </form>
+              <input
+                type="number"
+                name="stock"
+                value={productoActual.stock}
+                onChange={handleChange}
+                placeholder="Stock disponible"
+              />
 
-      {/* =============================
-           CREAR PRODUCTO
-      ============================= */}
-      <h2 style={{ marginTop: "3rem" }}>➕ Crear Producto</h2>
+              <textarea
+                name="descripcion"
+                value={productoActual.descripcion}
+                onChange={handleChange}
+                placeholder="Descripción"
+              />
 
-      <form
-        onSubmit={crearProducto}
-        style={{ width: "400px", display: "flex", flexDirection: "column" }}
-      >
-        <label>Nombre:</label>
-        <input
-          name="nombre_producto"
-          value={formulario.nombre_producto}
-          onChange={handleChange}
-          required
-        />
+              <label>Imagen del producto:</label>
+              <input type="file" onChange={handleImagen} />
 
-        <label>Marca:</label>
-        <input
-          name="marca"
-          value={formulario.marca}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Precio:</label>
-        <input
-          name="precio_unitario"
-          type="number"
-          value={formulario.precio_unitario}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Descripción:</label>
-        <textarea
-          name="descripcion"
-          rows={3}
-          value={formulario.descripcion}
-          onChange={handleChange}
-        ></textarea>
-
-        <button
-          type="submit"
-          style={{
-            padding: "10px",
-            background: "#8e44ad",
-            color: "white",
-            marginTop: "10px",
-          }}
-        >
-          Crear Producto
-        </button>
-      </form>
+              <div className="modal-acciones">
+                <button onClick={() => setModalAbierto(false)}>Cancelar</button>
+                <button onClick={guardarProducto}>
+                  {modoEdicion ? "Guardar Cambios" : "Crear Producto"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default GestionProductos;
