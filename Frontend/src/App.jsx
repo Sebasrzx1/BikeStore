@@ -39,8 +39,8 @@ function RutaPrivada({ children }) {
 
 // 🔒 Ruta privada solo para admin
 function RutaAdmin({ children }) {
-  const { user } = useAuth();
-  return user?.rol === "admin" ? children : <Navigate to="/" replace />;
+  const { isAdmin } = useAuth();
+  return isAdmin ? children : <Navigate to="/" replace />;
 }
 
 function AppContent({ cantidadCarrito, setCantidadCarrito }) {

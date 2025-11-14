@@ -12,12 +12,12 @@
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
 }
-.Contcarrito-accesoregistro{
+.Contcarrito-accesoregistro {
   display: flex;
   align-items: center;
   gap: 29px;
 }
-.nav-logo{
+.nav-logo {
   width: 152px;
   height: 53px;
 }
@@ -52,6 +52,18 @@
   align-items: center;
   gap: 10px;
 }
+.desingloginregisteradmin {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 33554400px;
+  background: #000;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
 .desingloginregisterdesc p {
   color: #000;
   font-family: Poppins;
@@ -62,7 +74,7 @@
   text-decoration: none;
 }
 
-.desingloginregisterdesc{
+.desingloginregisterdesc {
   text-decoration: none;
   display: flex;
   width: 150px;
@@ -81,15 +93,15 @@
   text-decoration: none;
   color: #000;
 }
-.desingloginregisterdesc:hover{
+.desingloginregisterdesc:hover {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
   border-radius: 11px;
-  border: 2px solid #8B0000;
-  background: #9F0000;
+  border: 2px solid #8b0000;
+  background: #9f0000;
   transform: scale(1.05);
 }
 
@@ -121,23 +133,21 @@
   transition: all 0.3s ease;
 }
 
-
 .carrito-icono {
   position: relative;
   display: inline-block;
 }
 
-.carrito-icono img{
+.carrito-icono img {
   display: flex;
   align-items: center;
 }
-
 
 .carrito-contador {
   position: absolute;
   top: -12px;
   right: -12px;
-  background-color: #8B0000;
+  background-color: #8b0000;
   color: white;
   font-size: 12px;
   font-weight: bold;
@@ -147,11 +157,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
-
-
 
 .icono-carrito {
   width: 28px;
@@ -164,12 +172,11 @@
   transform: scale(1.05);
 }
 
-
 .carrito-badge {
   position: absolute;
-  top: -6px;      
-  right: -8px; 
-  background-color: #8B0000; 
+  top: -6px;
+  right: -8px;
+  background-color: #8b0000;
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -181,7 +188,6 @@
   justify-content: center;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 }
-
 
 /* --- Responsive --- */
 @media (max-width: 1024px) {

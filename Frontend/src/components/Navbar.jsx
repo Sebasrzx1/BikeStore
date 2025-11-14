@@ -18,16 +18,24 @@ const Navbar = ({ cantidadCarrito }) => {
       </div>
 
       <ul className={`nav-links ${menuAbierto ? "active" : ""}`}>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/catalogo">Catálogo</Link></li>
-        <li><Link to="/">Sobre nosotros</Link></li>
+        <li>
+          <Link to="/">Inicio</Link>
+        </li>
+        <li>
+          <Link to="/catalogo">Catálogo</Link>
+        </li>
+        <li>
+          <Link to="/">Sobre nosotros</Link>
+        </li>
       </ul>
 
       <div className="Contcarrito-accesoregistro">
         {isAuthenticated ? (
           isAdmin ? (
-            <Link to="/admin" className="desingloginregister">
-              <img src="/IconAdmin.svg" alt="Admin" />
+            <Link to="/admin">
+              <div className="desingloginregisteradmin">
+                <img src="/IconAdmin.svg" alt="Admin" />
+              </div>
             </Link>
           ) : (
             <Link to="/cuenta" className="desingloginregister">

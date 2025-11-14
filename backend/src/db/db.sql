@@ -65,7 +65,7 @@ CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos(id_product
 # INSERT INTO TABLA USUARIOS
 INSERT INTO usuarios (nombre, apellido, rol, email, contraseña, telefono, direccion, ciudad, departamento, codigo_postal, pais)
 VALUES
-('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', 'admin123', 3004567890, 'Calle 45 #23-10', 'Medellín', 'Antioquia', 050021, 'Colombia'),
+('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', '$2b$10$JzH1KI1vB.7OqfldSq/l2O4aWaqnR/NbCz1wOEBMib.obQb0iV9AK', 3004567890, 'Calle 45 #23-10', 'Medellín', 'Antioquia', 050021, 'Colombia'),
 ('María', 'Gómez', 'Cliente', 'maria@gmail.com', 'cliente123', 3105671234, 'Carrera 12 #45-56', 'Bogotá', 'Cundinamarca', 110111, 'Colombia'),
 ('Carlos', 'Lopez', 'Cliente', 'carlos@hotmail.com', 'cliente456', 3118904567, 'Av. 80 #45-23', 'Cali', 'Valle del Cauca', 760001, 'Colombia'),
 ('Ana', 'Martínez', 'Cliente', 'ana@gmail.com', 'cliente789', 3125670987, 'Calle 9 #10-22', 'Medellín', 'Antioquia', 050022, 'Colombia');
@@ -97,7 +97,6 @@ VALUES
 (3, 'Guantes de ciclismo', 'Giro', 85000, 'Lycra', '0.2kg', 'Guantes con agarre antideslizante.', 'uploads/productos/Accesorio1.webp', 50, 15),
 (3, 'Luz delantera LED', 'Bontrager', 60000, 'Plástico', '0.1kg', 'Luz LED recargable por USB.', 'uploads/productos/Accesorio4.webp', 35, 5),
 (3, 'Gafas de ciclismo UV400', 'Oakley', 210000, 'Policarbonato', '0.1kg', 'Gafas con protección solar y ventilación.', 'uploads/productos/Accesorio3.webp', 30, 8);
-
 
 # INSERT INTO TABLA PEDIDOS
 INSERT INTO pedidos (id_usuario, estado)
