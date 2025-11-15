@@ -1,0 +1,45 @@
+.contenedor-general {
+    padding: 20px;
+    height: 50rem;
+}
+
+.contenedor-panel-y-pedidos {
+    display: flex;
+    gap: 10rem;
+    height: 100%;
+}
+
+.contenedorPanel {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    align-items: center;
+    padding-top: 60px;
+    border-radius: 20px;
+    background: rgb(240, 240, 240);
+    box-shadow: 0 0 5px 1px rgb(205, 205, 205);
+    height: 100%;
+}
+
+.contenedor-pedidos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
+}
+
+.filtros {
+    display: flex;
+    gap: 10px;    
+}
+
+.filtros button {
+    color: black;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.btn-detalles{
+    color: black;
+}

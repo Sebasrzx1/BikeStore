@@ -19,6 +19,8 @@ import CuentaCliente from "./components/CuentaCliente";
 import { ToastProvider } from "./context/ToastContext";
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyCode from "./components/VerifyCode";
+import MisPedidos from "./components/MisPedidos.jsx";
+import DetallePedido from "./components/DetallePedido.jsx";
 
 // 👉 Importa tus nuevos componentes
 import PanelAdministrador from "./admin/PanelAdministrador";
@@ -66,10 +68,7 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
         />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
-        <Route
-          path="/catalogo"
-          element={<Catalogo setCantidadCarrito={setCantidadCarrito} />}
-        />
+        <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verificar-codigo" element={<VerifyCode />} />
         <Route
@@ -110,6 +109,7 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
           }
         />
       </Routes>
+
 
       {!hideNavbar && <FooterBikestore />}
     </>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import '../styles/DireccionEnvio.css'
+
 
 const DireccionEnvio = ({ usuario, onActualizar }) => {
   const [direccionData, setDireccionData] = useState({
@@ -112,13 +114,13 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
               </button>
             </div>
           ) : (
-            <div>
+            <div className="contenedor-sin-registro">
               <p>No tienes una dirección registrada.</p>
               <button
                 className="btn-agregar-direccion"
                 onClick={() => setMostrarFormulario(true)}
               >
-                ➕ Agregar dirección
+                Agregar dirección
               </button>
             </div>
           )}
