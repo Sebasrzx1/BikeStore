@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 import PanelCliente from "./PanelCliente.jsx";
 
 const DetallePedido = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
+
     const { id } = useParams();
 
     const [pedido, setPedido] = useState(null);
@@ -46,7 +54,7 @@ const DetallePedido = () => {
 
             <div className="contenedor-panel-y-pedidos">
                 <div className="contenedorPanel">
-                    <PanelCliente user={user} />
+                    <PanelCliente user={user} onLogout={handleLogout} />
                 </div>
 
                 <div className="contenedor-detalle">

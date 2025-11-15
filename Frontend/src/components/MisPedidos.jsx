@@ -5,7 +5,13 @@ import "../styles/MisPedidos.css";
 import { useNavigate } from "react-router-dom";
 
 const MisPedidos = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
+
     const [pedidos, setPedidos] = useState([]);
     const [filtro, setFiltro] = useState("todos");
     const navigate = useNavigate()
@@ -44,7 +50,7 @@ const MisPedidos = () => {
             <div className="contenedor-panel-y-pedidos">
                 {/* Panel a la izquierda */}
                 <div className="contenedorPanel">
-                    <PanelCliente user={user} />
+                    <PanelCliente user={user} onLogout={handleLogout} />
                 </div>
 
                 {/* Contenido de pedidos */}

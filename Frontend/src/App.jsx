@@ -21,6 +21,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import VerifyCode from "./components/VerifyCode";
 import MisPedidos from "./components/MisPedidos.jsx";
 import DetallePedido from "./components/DetallePedido.jsx";
+import PanelCliente from "./components/PanelCliente.jsx";
 
 // 👉 Importa tus nuevos componentes
 import PanelAdministrador from "./admin/PanelAdministrador";
@@ -75,39 +76,18 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
           path="/producto/:id"
           element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />}
         />
-        <Route
-          path="/carrito"
-          element={<Carrito setCantidadCarrito={setCantidadCarrito} />}
+        <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito} />}
         />
         <Route path="/pago" element={<Pago />} />
 
         {/* Rutas privadas cliente */}
-        <Route
-          path="/cuenta"
-          element={
-            <RutaPrivada>
-              <CuentaCliente />
-            </RutaPrivada>
-          }
-        />
+        <Route path="/cuenta" element={<RutaPrivada>  <CuentaCliente /> </RutaPrivada>} />
+        <Route path="/mis-pedidos" element={<RutaPrivada><MisPedidos /></RutaPrivada>} />
+        <Route path="/mis-pedidos/:id" element={<RutaPrivada><DetallePedido /></RutaPrivada>} />
 
         {/* Rutas privadas admin */}
-        <Route
-          path="/admin"
-          element={
-            <RutaAdmin>
-              <PanelAdministrador />
-            </RutaAdmin>
-          }
-        />
-        <Route
-          path="/admin/gestion-productos"
-          element={
-            <RutaAdmin>
-              <GestionProductos />
-            </RutaAdmin>
-          }
-        />
+        <Route path="/admin" element={<RutaAdmin> <PanelAdministrador /> </RutaAdmin>} />
+        <Route path="/admin/gestion-productos" element={<RutaAdmin> <GestionProductos /> </RutaAdmin>} />
       </Routes>
 
 
