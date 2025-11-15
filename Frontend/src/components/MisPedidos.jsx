@@ -6,15 +6,16 @@ import { useNavigate } from "react-router-dom";
 
 const MisPedidos = () => {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const [pedidos, setPedidos] = useState([]);
+    const [filtro, setFiltro] = useState("todos");
 
     const handleLogout = () => {
         logout();
         navigate("/login");
     };
 
-    const [pedidos, setPedidos] = useState([]);
-    const [filtro, setFiltro] = useState("todos");
-    const navigate = useNavigate()
     const obtenerPedidos = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -38,26 +39,32 @@ const MisPedidos = () => {
         obtenerPedidos();
     }, []);
 
-    // Filtrar pedidos según estado
     const pedidosFiltrados =
         filtro === "todos"
             ? pedidos
             : pedidos.filter((p) => p.estado === filtro);
 
+    const formatearFecha = (isoString) => {
+        const fecha = new Date(isoString);
+        return fecha.toLocaleDateString("es-CO", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric"
+        });
+    };
+
     return (
         <div className="contenedor-general">
 
             <div className="contenedor-panel-y-pedidos">
-                {/* Panel a la izquierda */}
+
                 <div className="contenedorPanel">
                     <PanelCliente user={user} onLogout={handleLogout} />
                 </div>
 
-                {/* Contenido de pedidos */}
                 <div className="contenedor-pedidos">
                     <h1>Mis pedidos</h1>
 
-                    {/* Barra de filtros */}
                     <div className="filtros">
                         <button onClick={() => setFiltro("todos")}>Todos</button>
                         <button onClick={() => setFiltro("En alistamiento")}>En alistamiento</button>
@@ -71,25 +78,58 @@ const MisPedidos = () => {
                         ) : (
                             pedidosFiltrados.map((pedido) => (
                                 <div key={pedido.id_pedido} className="pedido-card">
-                                    <h3>Pedido #{pedido.id_pedido}</h3>
-                                    <p><strong>Estado:</strong> {pedido.estado}</p>
-                                    <p><strong>Fecha:</strong> {pedido.fecha}</p>
-                                    <p><strong>Total:</strong> ${pedido.total}</p>
-                                    <button
-                                        className="btn-detalles" onClick={() => navigate(`/mis-pedidos/${pedido.id_pedido}`)}>
-                                        Ver detalles
-                                    </button>
 
+                                    {/* SLIDE DE IMÁGENES */}
+                                    <div className="slider-container">
+                                        {pedido.items && pedido.items.length > 0 ? (
+                                            pedido.items.map((item, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={`http://localhost:3000/uploads/productos/${item.imagen_url}`}
+                                                    className="slide-img"
+                                                    alt={item.nombre_producto}
+                                                />
+                                            ))
+                                        ) : (
+                                            <img
+                                                src="/sin-imagen.png"
+                                                className="slide-img"
+                                                alt="Sin imagen"
+                                            />
+                                        )}
+                                    </div>
+
+                                    {/* INFO DEL PEDIDO */}
+                                    <div className="pedido-info">
+                                        <div className="No_pedido_fecha">
+                                            <h3>PED - {pedido.id_pedido}</h3>
+                                            <p>{user.nombre}</p>
+                                            <p>{formatearFecha(pedido.fecha)}</p>
+
+                                        </div>
+                                        <div className="Estado_total_verDetalle">
+
+                                            <p id="totalPedido">${pedido.total}</p>
+
+                                            <p id="estado">{pedido.estado}</p>
+
+                                            <button
+                                                className="btn-detalles"
+                                                onClick={() => navigate(`/mis-pedidos/${pedido.id_pedido}`)}>
+                                                Ver detalles
+                                            </button>
+                                        </div>
+
+
+
+                                    </div>
                                 </div>
                             ))
                         )}
                     </div>
-
                 </div>
 
             </div>
-
-
 
         </div>
     );

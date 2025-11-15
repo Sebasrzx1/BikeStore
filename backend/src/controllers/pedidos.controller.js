@@ -28,6 +28,7 @@ class PedidosController {
             dp.cantidad,
             pr.nombre_producto,
             pr.precio_unitario,
+            pr.imagen AS imagen_url,
             (dp.cantidad * pr.precio_unitario) AS total_item
           FROM detalle_pedido dp
           INNER JOIN productos pr ON dp.id_producto = pr.id_producto

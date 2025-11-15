@@ -52,7 +52,7 @@
   width: 100%;
   padding: 30px;
   gap: 1rem;
-  border: 1px solid rgb(163, 163, 163);
+  border: 1px solid rgba(163, 163, 163, 0.479);
   border-radius: 20px;
   box-shadow: 0 0 5px 2px rgba(193, 193, 193, 0.3);
   background-color: white;

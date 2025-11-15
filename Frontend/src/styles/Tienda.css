@@ -6,7 +6,6 @@
   gap: 32px;
   align-self: stretch;
   background: #FFF;
-
 }
 
 .tienda-contenido {
@@ -18,6 +17,7 @@
   gap: 32px;
   align-self: stretch;
 }
+
 /* === SIDEBAR DE FILTROS === */
 .tienda-filtros {
   position: sticky;
@@ -112,26 +112,25 @@
 /* === PRODUCTOS === */
 .tienda-productos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
-  width: auto;
+  width: 100%;
   height: auto;
 }
 
 .tienda-card {
-  gap: 24px ;
+  gap: 24px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 505px;
+  max-width: 505px;
+  width: 100%;
   height: auto;
-  max-width: 100%;
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
 }
 
 .ContTienda {
@@ -142,6 +141,7 @@
   gap: 8px;
   align-self: stretch;
 }
+
 .ContTienda h1 {
   color: #000;
   font-family: Poppins;
@@ -149,8 +149,8 @@
   font-style: normal;
   font-weight: 600;
   line-height: 40px;
-
 }
+
 .ContTienda p {
   width: 239px;
   color: #717182;
@@ -166,14 +166,14 @@
 }
 
 .tienda-card-img {
-  width: 500px;
+  width: 100%;
   height: 380px;
-  object-fit: cover;
   border-bottom: 1px solid #eee;
 }
+
 .tienda-card-img img {
-  width: 500px;
-  height: 380px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-bottom: 1px solid #eee;
 }
@@ -193,6 +193,7 @@
   align-items: flex-start;
   align-self: stretch;  
 }
+
 .tienda-marca h4 {
   color: #717182;
   font-family: Poppins;
@@ -208,6 +209,7 @@
   align-items: flex-start;
   align-self: stretch;
 }
+
 .tienda-nombre h3 {
   color: #000;
   font-family: Poppins;
@@ -225,6 +227,7 @@
   gap: 12px;
   align-self: stretch;
 }
+
 .tienda-card-info {
   display: flex;
   height: 32px;
@@ -233,6 +236,7 @@
   flex-shrink: 0;
   align-self: stretch;
 }
+
 .tienda-precio {
   color: #b30000;
   font-weight: bold;
@@ -253,13 +257,14 @@
   border-radius: 33554400px;
   background: #8B0000;
 }
-.tienda-btn-add p{
-color: #FFF;
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 20px;
+
+.tienda-btn-add p {
+  color: #FFF;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .tienda-btn-add:hover {
@@ -273,9 +278,24 @@ line-height: 20px;
   margin-top: 2rem;
 }
 
+/* === FIX ESPECIAL PARA PANTALLAS 1366x768 === */
+@media (max-width: 1366px) {
+  .tienda-productos {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .tienda-card {
+    max-width: 450px;
+  }
+
+  .tienda-card-img {
+    height: 320px;
+  }
+}
+
 /* === RESPONSIVE === */
 
-/* 🔹 Tablets (pantallas medianas): 2 columnas */
+/* Tablets (2 columnas) */
 @media (max-width: 1200px) {
   .tienda-productos {
     grid-template-columns: repeat(2, 1fr);
@@ -283,11 +303,11 @@ line-height: 20px;
   }
 
   .tienda-card {
-    width: 320px;
+    max-width: 360px;
   }
 }
 
-/* 🔹 Móviles grandes (pantallas pequeñas): 1 columna centrada */
+/* Móviles grandes (1 columna) */
 @media (max-width: 768px) {
   .tienda-page {
     flex-direction: column;
@@ -314,7 +334,7 @@ line-height: 20px;
   }
 }
 
-/* 🔹 Celulares pequeños */
+/* Celulares pequeños */
 @media (max-width: 480px) {
   .tienda-card {
     width: 90%;
