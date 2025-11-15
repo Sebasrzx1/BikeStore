@@ -19,6 +19,8 @@ import CuentaCliente from "./components/CuentaCliente";
 import { ToastProvider } from "./context/ToastContext";
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyCode from "./components/VerifyCode";
+import MisPedidos from "./components/MisPedidos.jsx";
+import DetallePedido from "./components/DetallePedido.jsx";
 
 const Pago = () => (
   <div style={{ padding: "100px", textAlign: "center" }}>
@@ -53,31 +55,22 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
         />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
-        <Route
-          path="/catalogo"
-          element={<Catalogo setCantidadCarrito={setCantidadCarrito} />}
-        />
+        <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verificar-codigo" element={<VerifyCode />} />
 
-        <Route
-          path="/cuenta"
-          element={
-            <RutaPrivada>
-              <CuentaCliente />
-            </RutaPrivada>
-          }
-        />
-        <Route
-          path="/producto/:id"
-          element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />}
-        />
+        <Route path="/cuenta" element={<RutaPrivada><CuentaCliente /></RutaPrivada>} />
+        <Route path="/producto/:id" element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />} />
         <Route
           path="/carrito"
           element={<Carrito setCantidadCarrito={setCantidadCarrito} />}
         />
         <Route path="/pago" element={<Pago />} />
+        <Route path="/mis-pedidos" element={<MisPedidos />} />
+        <Route path="/mis-pedidos/:id" element={<DetallePedido />} />
+
       </Routes>
+
 
       {!hideNavbar && <FooterBikestore />}
     </>

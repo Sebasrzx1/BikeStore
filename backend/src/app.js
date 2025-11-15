@@ -21,6 +21,7 @@ app.use('/api/usuarios', require('./routes/usuarios.routes')); // Perfil y CRUD 
 app.use('/api/imagenes', require('./routes/imagenes.routes'));
 app.use('/api/productos', require('./routes/productos.routes'));
 app.use('/api/categorias', require('./routes/categorias.routes'));
+app.use('/api/pedidos', require('./routes/pedidos.routes'));
 
 // 🟢 Ruta base de prueba
 app.get('/', (req, res) => {

@@ -6,7 +6,7 @@
 .cuenta-cliente {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   padding: 20px;
 }
 
@@ -15,7 +15,6 @@
   width: 100%;
   max-width: 1200px;
   gap: 50px;
-  padding: 10px;
   flex-wrap: wrap; /* ✅ permite adaptarse */
 }
 
@@ -33,8 +32,6 @@
   padding-top: 60px;
   border-radius: 15px;
   flex: 1 1 250px; /* ✅ se adapta en ancho */
-  min-width: 250px;
-  max-width: 300px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 

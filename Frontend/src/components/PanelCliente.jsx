@@ -1,8 +1,10 @@
 // src/components/CuentaHeader.jsx
 import React from "react";
 import "../styles/PanelCliente.css";
+import { useNavigate } from "react-router-dom";
 
 const PanelCliente = ({ user, onLogout }) => {
+    const navigate = useNavigate()
     if (!user) {
         return <p>No hay informacion del usuario</p>
     }
@@ -11,6 +13,7 @@ const PanelCliente = ({ user, onLogout }) => {
         <div className="contenedor-panel">
             {user ? (
                 <>
+
                     <div className="name-correo">
                         <div className="icon-perfil-panel">
                             <img src="./public/PerfilPanel.png" alt="" />
@@ -32,8 +35,8 @@ const PanelCliente = ({ user, onLogout }) => {
             )}
 
             <div className="options">
-                <button>Mis pedidos</button>
-                <button>Ajuste de cuenta</button>
+                <button onClick={() => navigate("/mis-pedidos")}>Mis pedidos</button>
+                <button id="btn-ajuste-cuenta" onClick={() => navigate("/cuenta")}>Ajuste de cuenta</button>
                 <button onClick={onLogout} className="btn-logout">
                     Cerrar sesión
                 </button>
