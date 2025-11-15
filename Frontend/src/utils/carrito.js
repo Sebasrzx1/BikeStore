@@ -1,6 +1,13 @@
-export function agregarUnidadAlCarrito(producto, setCantidadCarrito, mostrarToast, cantidad = 1) {
+export function agregarUnidadAlCarrito(
+  producto,
+  setCantidadCarrito,
+  mostrarToast,
+  cantidad = 1
+) {
   const carritoActual = JSON.parse(localStorage.getItem("carrito")) || [];
-  const existente = carritoActual.find(p => p.id_producto === producto.id_producto);
+  const existente = carritoActual.find(
+    (p) => p.id_producto === producto.id_producto
+  );
 
   const stockDisponible = producto.entradas - producto.salidas;
   const cantidadYaEnCarrito = existente ? existente.cantidad : 0;
@@ -27,8 +34,9 @@ export function agregarUnidadAlCarrito(producto, setCantidadCarrito, mostrarToas
       cantidad,
       subtotal: producto.precio_unitario * cantidad,
       imagen: producto.imagen
-        ? `http://localhost:3000/${producto.imagen}`
+        ? `http://localhost:3000/uploads/productos/${producto.imagen}`
         : "/placeholder.png",
+
       stockDisponible,
     });
   }
@@ -38,5 +46,9 @@ export function agregarUnidadAlCarrito(producto, setCantidadCarrito, mostrarToas
   const totalCantidad = carritoActual.reduce((acc, p) => acc + p.cantidad, 0);
   setCantidadCarrito(totalCantidad);
 
-  mostrarToast(`${producto.nombre_producto} añadido al carrito (${cantidad} unidad${cantidad > 1 ? "es" : ""}).`);
+  mostrarToast(
+    `${producto.nombre_producto} añadido al carrito (${cantidad} unidad${
+      cantidad > 1 ? "es" : ""
+    }).`
+  );
 }

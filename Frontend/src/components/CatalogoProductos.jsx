@@ -181,7 +181,7 @@ export default function Catalogo({ setCantidadCarrito }) {
                   <img
                     src={
                       p.imagen
-                        ? `http://localhost:3000/${p.imagen}`
+                        ? `http://localhost:3000/uploads/productos/${p.imagen}`
                         : "/placeholder.png"
                     }
                     alt={p.nombre_producto}

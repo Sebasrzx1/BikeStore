@@ -31,11 +31,20 @@ const upload = multer({ storage });
 router.get("/", async (req, res) => {
   try {
     const productos = await crud.obtenerTodos(tabla);
-    res.json(productos);
+
+    const productosConRuta = productos.map((p) => ({
+      ...p,
+      imagen_url: p.imagen
+        ? `http://localhost:3000/uploads/productos/${p.imagen}`
+        : null,
+    }));
+
+    res.json(productosConRuta);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Obtener un producto por ID con categoría
 router.get("/:id", async (req, res) => {
