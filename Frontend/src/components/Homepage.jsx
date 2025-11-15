@@ -166,7 +166,7 @@ const Homepage = ({ setCantidadCarrito }) => {
                         onClick={() => navigate(`/producto/${p.id_producto}`)}
                       >
                         <img
-                          src={`http://localhost:3000/${p.imagen}`}
+                          src={`http://localhost:3000/uploads/productos/${p.imagen}`}
                           alt={p.nombre_producto}
                         />
                       </button>
