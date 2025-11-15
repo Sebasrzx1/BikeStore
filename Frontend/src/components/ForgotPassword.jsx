@@ -1,9 +1,9 @@
-// src/components/ForgotPassword.jsx
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/login.css";
 
-const ForgotPassword = () => {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
@@ -11,55 +11,93 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMensaje("");
+    setMensaje("Enviando código...");
     setError("");
 
     try {
-      // Enviar correo al backend
-      const res = await axios.post("http://localhost:3000/api/usuarios/recuperar", {
-        email,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/api/usuarios/recuperar",
+        { email }
+      );
 
       if (res.data.success) {
-        // Guardamos el correo temporalmente en localStorage para la siguiente vista
         localStorage.setItem("emailRecuperacion", email);
+        setMensaje(
+          "✅ Se envió un código de verificación a tu correo (simulado)"
+        );
+        console.log("Código generado (para pruebas):", res.data.codigo);
 
-        setMensaje("✅ Se envió un código de verificación a tu correo (simulado)");
-        console.log("Código generado (para pruebas):", res.data.codigo); // Muestra el código en consola
-
-        // Redirige tras unos segundos a la verificación
         setTimeout(() => navigate("/verificar-codigo"), 2000);
+      } else {
+        setError(res.data.message || "❌ No se pudo enviar el código");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "❌ Error al procesar la solicitud");
+      setError(
+        err.response?.data?.message || "❌ Error al procesar la solicitud"
+      );
     }
   };
 
   return (
-    <div className="forgot-container" style={{ maxWidth: "400px", margin: "50px auto" }}>
-      <h2>Recuperar Contraseña</h2>
-      <p>Ingresa tu correo electrónico para recibir un código de recuperación.</p>
+    <div className="LoginSection">
+      <div className="contenedorlogin">
+        <div className="EncabezadoLogin">
+          <img src="/Logo.png" alt="BikeStore" className="loginLogo" />
+          <h2 className="TituloLogin">Recuperar Contraseña</h2>
+          <p className="ParrafoLogin">
+            Ingresa tu correo electrónico para recibir un código de
+            recuperación.
+          </p>
+        </div>
 
-      <form onSubmit={handleSubmit}>
-        <label>Correo electrónico:</label>
-        <input
-          type="email"
-          className="form-control mb-3"
-          placeholder="tu@correo.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form
+          className="CardLogin"
+          onSubmit={handleSubmit}
+          style={{ transition: "all 0.3s ease" }}
+        >
+          <div className="LoginCampo">
+            <label>Correo electrónico</label>
+            <div className="ContCampo">
+              <img src="../public/IconEmail.svg" alt="" />
+              <input
+                className="LoginInput"
+                type="email"
+                placeholder="tu@correo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+          </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Enviar código
-        </button>
-      </form>
+          <button className="auth-button" type="submit">
+            Enviar código
+          </button>
+        </form>
 
-      {mensaje && <div className="alert alert-success mt-3">{mensaje}</div>}
-      {error && <div className="alert alert-danger mt-3">{error}</div>}
+        <div className="volver-inicio">
+          <Link to="/login" className="volver-btn">
+            ← Volver al inicio de sesión
+          </Link>
+        </div>
+
+        {mensaje && (
+          <p
+            className="auth-message"
+            style={{ color: "#007600", marginTop: "10px", textAlign: "center" }}
+          >
+            {mensaje}
+          </p>
+        )}
+        {error && (
+          <p
+            className="auth-message"
+            style={{ color: "red", marginTop: "10px", textAlign: "center" }}
+          >
+            {error}
+          </p>
+        )}
+      </div>
     </div>
   );
-};
-
-export default ForgotPassword;
+}

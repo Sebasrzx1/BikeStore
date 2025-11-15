@@ -14,13 +14,17 @@ import Catalogo from "./components/CatalogoProductos";
 import DetalleProducto from "./components/DetalleProducto";
 import Carrito from "./components/Carrito";
 import FooterBikestore from "./components/FooterBikestore";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import { AuthProvider, useAuth } from "./context/AuthContext.jsx";
 import CuentaCliente from "./components/CuentaCliente";
 import { ToastProvider } from "./context/ToastContext";
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyCode from "./components/VerifyCode";
 import MisPedidos from "./components/MisPedidos.jsx";
 import DetallePedido from "./components/DetallePedido.jsx";
+
+// 👉 Importa tus nuevos componentes
+import PanelAdministrador from "./admin/PanelAdministrador";
+import GestionProductos from "./admin/GestionProductosAdmin";
 
 const Pago = () => (
   <div style={{ padding: "100px", textAlign: "center" }}>
@@ -29,26 +33,35 @@ const Pago = () => (
   </div>
 );
 
+// 🔒 Ruta privada genérica
 function RutaPrivada({ children }) {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/login" replace />;
 }
 
+// 🔒 Ruta privada solo para admin
+function RutaAdmin({ children }) {
+  const { isAdmin } = useAuth();
+  return isAdmin ? children : <Navigate to="/" replace />;
+}
+
 function AppContent({ cantidadCarrito, setCantidadCarrito }) {
   const location = useLocation();
 
-  // 🔧 Ajuste importante:
-  // Ocultamos el Navbar solo en login, register, forgot-password y verificar-codigo
-  const hideNavbar =
-    ["/login", "/register", "/forgot-password", "/verificar-codigo"].includes(
-      location.pathname
-    );
+  // Ocultamos el Navbar en estas páginas
+  const hideNavbar = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/verificar-codigo",
+  ].includes(location.pathname);
 
   return (
     <>
       {!hideNavbar && <Navbar cantidadCarrito={cantidadCarrito} />}
 
       <Routes>
+        {/* Rutas públicas */}
         <Route
           path="/"
           element={<Homepage setCantidadCarrito={setCantidadCarrito} />}
@@ -58,17 +71,43 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
         <Route path="/catalogo" element={<Catalogo setCantidadCarrito={setCantidadCarrito} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verificar-codigo" element={<VerifyCode />} />
-
-        <Route path="/cuenta" element={<RutaPrivada><CuentaCliente /></RutaPrivada>} />
-        <Route path="/producto/:id" element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />} />
+        <Route
+          path="/producto/:id"
+          element={<DetalleProducto setCantidadCarrito={setCantidadCarrito} />}
+        />
         <Route
           path="/carrito"
           element={<Carrito setCantidadCarrito={setCantidadCarrito} />}
         />
         <Route path="/pago" element={<Pago />} />
-        <Route path="/mis-pedidos" element={<MisPedidos />} />
-        <Route path="/mis-pedidos/:id" element={<DetallePedido />} />
 
+        {/* Rutas privadas cliente */}
+        <Route
+          path="/cuenta"
+          element={
+            <RutaPrivada>
+              <CuentaCliente />
+            </RutaPrivada>
+          }
+        />
+
+        {/* Rutas privadas admin */}
+        <Route
+          path="/admin"
+          element={
+            <RutaAdmin>
+              <PanelAdministrador />
+            </RutaAdmin>
+          }
+        />
+        <Route
+          path="/admin/gestion-productos"
+          element={
+            <RutaAdmin>
+              <GestionProductos />
+            </RutaAdmin>
+          }
+        />
       </Routes>
 
 

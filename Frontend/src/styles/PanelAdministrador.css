@@ -1,0 +1,47 @@
+.panel-admin {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.panel-user button{
+  color: black;
+}
+
+.panel-main h2 {
+  margin-top: 2rem;
+}
+.panel-metricas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.panel-box {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+.panel-alertas ul {
+  list-style: none;
+  padding: 0;
+}
+.panel-alertas li {
+  color: red;
+  font-weight: bold;
+}
+.panel-botones {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+.panel-botones button {
+    color: black;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}

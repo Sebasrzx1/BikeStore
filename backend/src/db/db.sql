@@ -65,7 +65,7 @@ CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos(id_product
 # INSERT INTO TABLA USUARIOS
 INSERT INTO usuarios (nombre, apellido, rol, email, contraseña, telefono, direccion, ciudad, departamento, codigo_postal, pais)
 VALUES
-('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', 'admin123', 3004567890, 'Calle 45 #23-10', 'Medellín', 'Antioquia', 050021, 'Colombia'),
+('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', '$2b$10$JzH1KI1vB.7OqfldSq/l2O4aWaqnR/NbCz1wOEBMib.obQb0iV9AK', 3004567890, 'Calle 45 #23-10', 'Medellín', 'Antioquia', 050021, 'Colombia'),
 ('María', 'Gómez', 'Cliente', 'maria@gmail.com', 'cliente123', 3105671234, 'Carrera 12 #45-56', 'Bogotá', 'Cundinamarca', 110111, 'Colombia'),
 ('Carlos', 'Lopez', 'Cliente', 'carlos@hotmail.com', 'cliente456', 3118904567, 'Av. 80 #45-23', 'Cali', 'Valle del Cauca', 760001, 'Colombia'),
 ('Ana', 'Martínez', 'Cliente', 'ana@gmail.com', 'cliente789', 3125670987, 'Calle 9 #10-22', 'Medellín', 'Antioquia', 050022, 'Colombia');
@@ -81,22 +81,22 @@ VALUES
 INSERT INTO productos (id_categoria, nombre_producto, marca, precio_unitario, material, peso, descripcion, imagen, entradas, salidas)
 VALUES
 -- Bicicletas
-(1, 'Bicicleta MTB Aro 29', 'Trek', 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'uploads/productos/Bicicleta1.png', 15, 3),
-(1, 'Bicicleta Urbana', 'Giant', 1800000, 'Acero', '12kg', 'Bicicleta urbana cómoda para ciudad.', 'uploads/productos/Bicicleta2.png', 10, 2),
-(1, 'Bicicleta Infantil', 'Scott', 950000, 'Aluminio', '8kg', 'Ideal para niños entre 6 y 9 años.', 'uploads/productos/Bicicleta3.png', 8, 1),
-(1, 'Bicicleta de Ruta Carbono', 'Specialized', 5200000, 'Fibra de carbono', '7.8kg', 'Bicicleta de ruta profesional ultraliviana.', 'uploads/productos/Bicicicleta4.png', 6, 1),
+(1, 'Bicicleta MTB Aro 29', 'Trek', 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'Bicicleta1.png', 15, 3),
+(1, 'Bicicleta Urbana', 'Giant', 1800000, 'Acero', '12kg', 'Bicicleta urbana cómoda para ciudad.', 'Bicicleta2.png', 10, 2),
+(1, 'Bicicleta Infantil', 'Scott', 950000, 'Aluminio', '8kg', 'Ideal para niños entre 6 y 9 años.', 'Bicicleta3.png', 8, 1),
+(1, 'Bicicleta de Ruta Carbono', 'Specialized', 5200000, 'Fibra de carbono', '7.8kg', 'Bicicleta de ruta profesional ultraliviana.', 'Bicicicleta4.png', 6, 1),
 
 -- Repuestos
-(2, 'Llantas MTB 29"', 'Michelin', 250000, 'Caucho', '2kg', 'Llantas con agarre para terrenos difíciles.', 'uploads/productos/Repuesto2.webp', 25, 5),
-(2, 'Cadena Shimano 9v', 'Shimano', 120000, 'Acero', '0.5kg', 'Cadena compatible con bicicletas de 9 velocidades.', 'uploads/productos/Repuesto1.jpg', 30, 7),
-(2, 'Disco de freno hidráulico', 'SRAM', 180000, 'Acero inoxidable', '0.7kg', 'Disco de freno de alto rendimiento.', 'uploads/productos/Repuesto3.webp', 20, 4),
-(2, 'Sillín ergonómico', 'Prologo', 160000, 'Cuero sintético', '0.5kg', 'Sillín diseñado para máximo confort.', 'uploads/productos/Repuesto4.avif', 18, 2),
+(2, 'Llantas MTB 29"', 'Michelin', 250000, 'Caucho', '2kg', 'Llantas con agarre para terrenos difíciles.', 'Repuesto2.webp', 25, 5),
+(2, 'Cadena Shimano 9v', 'Shimano', 120000, 'Acero', '0.5kg', 'Cadena compatible con bicicletas de 9 velocidades.', 'Repuesto1.jpg', 30, 7),
+(2, 'Disco de freno hidráulico', 'SRAM', 180000, 'Acero inoxidable', '0.7kg', 'Disco de freno de alto rendimiento.', 'Repuesto3.webp', 20, 4),
+(2, 'Sillín ergonómico', 'Prologo', 160000, 'Cuero sintético', '0.5kg', 'Sillín diseñado para máximo confort.', 'Repuesto4.avif', 18, 2),
 
 -- Accesorios
-(3, 'Casco de ciclismo', 'Specialized', 250000, 'Policarbonato', '0.3kg', 'Casco ventilado con diseño aerodinámico.', 'uploads/productos/Accesorio2.avif', 40, 10),
-(3, 'Guantes de ciclismo', 'Giro', 85000, 'Lycra', '0.2kg', 'Guantes con agarre antideslizante.', 'uploads/productos/Accesorio1.webp', 50, 15),
-(3, 'Luz delantera LED', 'Bontrager', 60000, 'Plástico', '0.1kg', 'Luz LED recargable por USB.', 'uploads/productos/Accesorio4.webp', 35, 5),
-(3, 'Gafas de ciclismo UV400', 'Oakley', 210000, 'Policarbonato', '0.1kg', 'Gafas con protección solar y ventilación.', 'uploads/productos/Accesorio3.webp', 30, 8);
+(3, 'Casco de ciclismo', 'Specialized', 250000, 'Policarbonato', '0.3kg', 'Casco ventilado con diseño aerodinámico.', 'Accesorio2.avif', 40, 10),
+(3, 'Guantes de ciclismo', 'Giro', 85000, 'Lycra', '0.2kg', 'Guantes con agarre antideslizante.', 'Accesorio1.webp', 50, 15),
+(3, 'Luz delantera LED', 'Bontrager', 60000, 'Plástico', '0.1kg', 'Luz LED recargable por USB.', 'Accesorio4.webp', 35, 5),
+(3, 'Gafas de ciclismo UV400', 'Oakley', 210000, 'Policarbonato', '0.1kg', 'Gafas con protección solar y ventilación.', 'Accesorio3.webp', 30, 8);
 
 
 # INSERT INTO TABLA PEDIDOS

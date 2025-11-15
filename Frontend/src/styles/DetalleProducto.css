@@ -47,6 +47,7 @@
 /* Imagen principal */
 .detalle-imagen {
   display: flex;
+  width: 700px;
   height: 600px;
   flex-direction: column;
   justify-content: center;
@@ -58,8 +59,8 @@
 }
 
 .detalle-imagen img {
-  width: 739px;
-  height: 684px;
+  width: auto;
+  height: 500px;
   object-fit: contain;
 }
 

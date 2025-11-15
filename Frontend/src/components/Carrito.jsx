@@ -108,7 +108,13 @@ export default function Carrito({ setCantidadCarrito }) {
               <div className="cicla-info">
                 <div className="carrito-imagen">
                   <img
-                    src={p.imagen}
+                    src={
+                      p.imagen?.startsWith("http")
+                        ? p.imagen
+                        : p.imagen
+                        ? `http://localhost:3000/uploads/productos/${p.imagen}`
+                        : "/placeholder.png"
+                    }
                     alt={p.nombre}
                     onError={(e) => (e.target.src = "/placeholder.png")}
                   />
