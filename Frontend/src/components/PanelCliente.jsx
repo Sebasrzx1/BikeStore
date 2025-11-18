@@ -19,7 +19,7 @@ const PanelCliente = ({ user, onLogout }) => {
                             <img src="/PerfilPanel.png" alt="Icono-perfil" />
                         </div>
 
-                        <p>!Hola! bienvenido {user.nombre}</p>
+                        <p>!Hola! bienvenido</p>
 
                         <h1>
                             {user.nombre} {user.apellido}
@@ -35,7 +35,12 @@ const PanelCliente = ({ user, onLogout }) => {
             )}
 
             <div className="options">
-                <button onClick={() => navigate("/mis-pedidos")}>Mis pedidos</button>
+                <button onClick={() => navigate("/mis-pedidos")}>
+                    <div className="ContOpciones">
+                        <img src="./public/IconAccesoriblack.svg" alt="IconoRepuestos" />
+                    Mis pedidos
+                    </div>
+                    </button>
                 <button id="btn-ajuste-cuenta" onClick={() => navigate("/cuenta")}>Ajuste de cuenta</button>
                 <button onClick={onLogout} className="btn-logout">
                     Cerrar sesión
