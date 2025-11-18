@@ -1,17 +1,22 @@
 .contenedor-panel{
     display: flex;
+    width: 315px;
+    height: auto;
+    padding: 24px;
+    gap: 10px;
     flex-direction: column;
-    width: 320px;
     align-items: center;
-    gap: 40px;
-    padding: 10px;
-    border: 1px solid rgb(202, 202, 202);
-    border-radius: 20px;
-    background: white;
-    box-shadow: 0 0 5px 1px rgb(205, 205, 205);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
 }
+
 .icon-perfil-panel img{
-    width: 200px;
+    display: flex;
+    width: 96px;
+    height: 96px;
+    justify-content: center;
+    align-items: center;
 }
 
 .name-correo{
@@ -19,20 +24,45 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-bottom: 1px solid rgb(190, 190, 190);
-    padding-bottom: 50px;
-    font-size: 12px;
+    gap: 9px;
+}
+.name-correo p {
+    color: #877b7b;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.ContOpciones {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.name-correo h1 {
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
 }
 .options{
+    border-top: 1px solid #c5c5c5;
+    padding-top: 20px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
 
 }
 
 .options button{
-    border: 1px solid rgba(158, 158, 158, 0.562);
+    width: 100%;
     font-family: 'Poppins';
     font-size: 12px;
     border-radius: 8px;

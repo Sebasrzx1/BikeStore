@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import "../styles/PanelAdministrador.css";
+import AdminNavbar from "../components/AdminNavbar"
 
 const PanelAdministrador = () => {
+  
+  
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -45,6 +48,7 @@ const PanelAdministrador = () => {
 
   return (
     <div className="panel-admin">
+      <AdminNavbar />
       <header className="panel-header">
         <h1>⚙️ Panel de Administración</h1>
 
@@ -87,9 +91,12 @@ const PanelAdministrador = () => {
             </ul>
           )}
         </section>
+        
 
       </main>
+      
     </div>
+    
   );
 };
 
