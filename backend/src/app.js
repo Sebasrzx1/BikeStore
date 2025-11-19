@@ -23,6 +23,11 @@ app.use('/api/productos', require('./routes/productos.routes'));
 app.use('/api/categorias', require('./routes/categorias.routes'));
 app.use('/api/pedidos', require('./routes/pedidos.routes'));
 
+app.use('/api/payu/confirmation', require('./routes/payuConfirmation.routes'));
+app.use('/api/payu', require('./routes/payu.routes'));
+
+
+
 // 🟢 Ruta base de prueba
 app.get('/', (req, res) => {
   res.send('✅ API de BikeStore funcionando correctamente');
