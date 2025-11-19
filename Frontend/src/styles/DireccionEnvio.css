@@ -26,9 +26,11 @@
 }
 
 .direccion-info {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  text-align: left;
   padding: 10px;
+  align-items: center;
 }
 
 .direccion-envio button {
@@ -40,6 +42,7 @@
   border: none;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-top: 10px;
 }
 
 .direccion-envio button:hover {

@@ -243,6 +243,12 @@
   font-size: 1.2rem;
 }
 
+.rango-precios input{
+  border-radius: 10px;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+
 .tienda-stock {
   font-size: 0.9rem;
   color: #444;

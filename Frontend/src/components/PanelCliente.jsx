@@ -19,7 +19,7 @@ const PanelCliente = ({ user, onLogout }) => {
                             <img src="/PerfilPanel.png" alt="Icono-perfil" />
                         </div>
 
-                        <p>!Hola! bienvenido</p>
+                        <p>!Hola! Bienvenido(a)</p>
 
                         <h1>
                             {user.nombre} {user.apellido}
