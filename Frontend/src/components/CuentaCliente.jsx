@@ -158,12 +158,12 @@ const CuentaCliente = () => {
   return (
 
     <div className="cuenta-cliente">
-
+      
       <div className="contenedor-cuenta-cliente">
         <div className="contendor-componente-panelCliente">
           <PanelCliente user={user} onLogout={handleLogout} />
         </div>
-
+        <div className="contajustes">
         <div className="contenedor-datos-personales">
           <div className="encabezado">
             <h1>Ajustes de Cuenta</h1>
@@ -234,7 +234,7 @@ const CuentaCliente = () => {
           <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} />
 
         </div>
-
+      </div>
 
       </div>
 
