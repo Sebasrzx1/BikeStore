@@ -14,6 +14,8 @@ export default function Catalogo({ setCantidadCarrito }) {
   const [precioMax, setPrecioMax] = useState(2000000);
   const { mostrarToast } = useToast();
 
+  const [filtrosOpen, setFiltrosOpen] = useState(false); // ⬅ NUEVO
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -66,7 +68,7 @@ export default function Catalogo({ setCantidadCarrito }) {
     );
   };
 
-  // Filtrar productos por búsqueda, categorías y rango de precios
+  // Filtrar productos
   const productosFiltrados = productos.filter((prod) => {
     const coincideBusqueda = prod.nombre_producto
       ?.toLowerCase()
@@ -88,14 +90,23 @@ export default function Catalogo({ setCantidadCarrito }) {
         </p>
       </div>
 
+      {/* BOTÓN PARA MÓVILES */}
+      <button
+        className="tienda-filtros-toggle"
+        onClick={() => setFiltrosOpen(!filtrosOpen)}
+      >
+        {filtrosOpen ? "Ocultar filtros ▲" : "Mostrar filtros ▼"}
+      </button>
+
       <div className="tienda-contenido">
-        <aside className="tienda-filtros">
+        {/* SIDEBAR FILTROS */}
+        <aside className={`tienda-filtros ${filtrosOpen ? "open" : ""}`}>
           <div className="tienda-filtros-contenido">
             <h2 className="tienda-filtros-titulo">Filtros</h2>
 
             {/* Búsqueda */}
             <div className="tienda-busqueda">
-              <label>Buscar producto:</label>
+              <label>Buscar producto: </label>
               <input
                 type="text"
                 value={busqueda}
@@ -117,7 +128,7 @@ export default function Catalogo({ setCantidadCarrito }) {
                         cat.id_categoria
                       )}
                       onChange={() => toggleCategoria(cat.id_categoria)}
-                    />
+                    /> 
                     <label htmlFor={`cat-${cat.id_categoria}`}>
                       {cat.nombre_categoria}
                     </label>
@@ -129,7 +140,7 @@ export default function Catalogo({ setCantidadCarrito }) {
             {/* Rango de precios */}
             <div className="tienda-precios">
               <p>
-                Mostrando productos entre ${precioMin.toLocaleString("es-CO")} y
+                Mostrando productos entre ${precioMin.toLocaleString("es-CO")} y{" "}
                 ${precioMax.toLocaleString("es-CO")}
               </p>
               <h3>Rango de precios</h3>
@@ -169,7 +180,7 @@ export default function Catalogo({ setCantidadCarrito }) {
           </div>
         </aside>
 
-        {/* Productos */}
+        {/* PRODUCTOS */}
         <section className="tienda-productos">
           {productosFiltrados.length > 0 ? (
             productosFiltrados.map((p) => (
@@ -207,7 +218,13 @@ export default function Catalogo({ setCantidadCarrito }) {
 
                     <button
                       className="tienda-btn-add"
-                      onClick={() => agregarUnidadAlCarrito(p, setCantidadCarrito, mostrarToast)}
+                      onClick={() =>
+                        agregarUnidadAlCarrito(
+                          p,
+                          setCantidadCarrito,
+                          mostrarToast
+                        )
+                      }
                     >
                       <img src="./public/IconCarritoBoton.svg" alt="" />
                       <p>Añadir al carrito</p>
