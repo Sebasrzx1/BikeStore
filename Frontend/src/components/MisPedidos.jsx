@@ -69,7 +69,7 @@ const MisPedidos = () => {
                         <button onClick={() => setFiltro("todos")}>Todos</button>
                         <button onClick={() => setFiltro("En alistamiento")}>En alistamiento</button>
                         <button onClick={() => setFiltro("En envío")}>En envío</button>
-                        <button onClick={() => setFiltro("Entregado")}>Entregados</button>
+                        <button onClick={() => setFiltro("Entregados")}>Entregados</button>
                     </div>
 
                     <div className="lista-pedidos">

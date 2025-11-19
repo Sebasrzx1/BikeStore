@@ -26,6 +26,7 @@
     flex-direction: column;
     align-items: center;
     width: 700px;
+    gap: 20px;
 }
 
 .filtros {
@@ -35,12 +36,18 @@
 
 .filtros button {
     color: black;
-    border: 1px solid;
+    border: 1px solid rgb(125, 125, 125);
     padding: 5px;
     border-radius: 10px;
+    font-size: 15px;
+}
+.filtros button:hover {
+    color: rgb(255, 255, 255);
+    background: rgb(130, 2, 2);
+    transition: 0.5s;
 }
 
-/* ======= CARD DE PEDIDO ======= */
+/* CARD DE PEDIDO */
 
 .pedido-card {
     width: 700px;
@@ -91,6 +98,11 @@
     border: 1px solid #ccc;
     font-size: 12px;
     width: max-content;
+}
+.btn-detalles:hover {
+    background: rgba(197, 10, 10, 0.882);
+    cursor: pointer;
+    border: 1px solid #ccc;
 }
 
 .No_pedido_fecha{

@@ -24,12 +24,12 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
     }
   }, [usuario]);
 
-  // ✅ Manejador de cambios
+  // Manejador de cambios
   const handleChange = (e) => {
     setDireccionData({ ...direccionData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Guardar dirección
+  // Guardar dirección
   const handleGuardarDireccion = async (e) => {
     e.preventDefault();
     setMensaje("Guardando dirección...");
@@ -112,7 +112,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
                 className="btn-editar-direccion"
                 onClick={() => setMostrarFormulario(true)}
               >
-                ✏️ Editar dirección
+                 Editar dirección
               </button>
             </div>
           ) : (

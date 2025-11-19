@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import PanelCliente from "./PanelCliente.jsx";
+import '../styles/DetallePedido.css'
 
 const DetallePedido = () => {
     const { user, logout } = useAuth();
@@ -58,28 +59,54 @@ const DetallePedido = () => {
                 </div>
 
                 <div className="contenedor-detalle">
-                    <h1>Pedido #{pedido.id_pedido}</h1>
-                    <p><strong>Estado:</strong> {pedido.estado}</p>
-                    <p><strong>Fecha:</strong> {pedido.fecha}</p>
-                    <p><strong>Total:</strong> ${pedido.total ?? "N/A"}</p>
+                    <div className="pedido">
+                        <h1>PED - {pedido.id_pedido}</h1>
+                        <p><strong>Estado:</strong> {pedido.estado}</p>
+                        <p><strong>Fecha:</strong> {pedido.fecha}</p>
+                        <p><strong>Total:</strong> ${pedido.total ?? "N/A"}</p>
 
-                    <h2>Productos del pedido</h2>
-
-                    <div className="items-pedido">
-                        {items.length === 0 ? (
-                            <p>Este pedido no tiene productos.</p>
-                        ) : (
-                            items.map(item => (
-                                <div key={item.id_detalle} className="item-card">
-                                    <p><strong>{item.nombre_producto}</strong></p>
-                                    <p>Cantidad: {item.cantidad}</p>
-                                    <p>Precio unitario: ${item.precio_unitario}</p>
-                                    <p>Subtotal: ${item.total_item}</p>
-                                </div>
-                            ))
-                        )}
                     </div>
 
+
+                    <div className="contenedor-imgProductosName">
+                        <h2>Productos del pedido</h2>
+
+                        <div className="imagenes_pedido">
+                            {pedido.items && pedido.items.length > 0 ? (
+                                pedido.items.map((item, index) => (
+                                    <img
+                                        key={index}
+                                        src={`http://localhost:3000/uploads/productos/${item.imagen_url}`}
+                                        className="slide-img"
+                                        alt={item.nombre_producto}
+                                    />
+                                ))
+                            ) : (
+                                <img
+                                    src="/sin-imagen.png"
+                                    className="slide-img"
+                                    alt="Sin imagen"
+                                />
+                            )}
+                        </div>
+
+                        <div className="items-pedido">
+                            {items.length === 0 ? (
+                                <p>Este pedido no tiene productos.</p>
+                            ) : (
+                                items.map(item => (
+                                    <div key={item.id_detalle} className="item-card">
+                                        <p><strong> - {item.nombre_producto}</strong></p>
+                                        <p>Cantidad: {item.cantidad}</p>
+                                        <p>Precio unitario: ${item.precio_unitario}</p>
+                                        <p>Subtotal: ${item.total_item}</p>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+
+                    <button id="btn-volver">Volver</button>
                 </div>
             </div>
 

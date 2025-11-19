@@ -31,12 +31,12 @@ export default function LoginForm() {
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
 
-        // ✅ Llamar al login del contexto pasando usuario y token
+        // Llamar al login del contexto pasando usuario y token
         login(data.usuario, data.token);
 
         setMensaje("✅ Inicio de sesión exitoso");
 
-        // ✅ Redirigir al destino o a la cuenta
+        // Redirigir al destino o a la cuenta
         const destino = redirectPath || "/cuenta";
         navigate(destino);
         setRedirectPath("/");

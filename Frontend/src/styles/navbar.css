@@ -1,37 +1,39 @@
+/* ======== NAVBAR GENERAL ======== */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
-  z-index: 100;
-  padding: 10px 150px;
+  z-index: 200;
   font-family: Poppins, sans-serif;
   background: rgba(255, 255, 255, 0.75);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
+  padding: 10px 0px 10px 0px;
 }
-.Contcarrito-accesoregistro {
-  display: flex;
-  align-items: center;
-  gap: 29px;
-}
+
+
+/* LOGO */
 .nav-logo {
-  width: 152px;
+  width: 25%;
   height: 53px;
 }
+
 .nav-logo img {
-  width: 152px;
-  height: 53px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
+/* ======== LINKS DESKTOP ======== */
 .nav-links {
   display: flex;
   list-style: none;
   gap: 1.5rem;
   transition: all 0.3s ease;
+  width: 260px;
 }
 
 .nav-links a {
@@ -46,12 +48,27 @@
   color: #a60000;
 }
 
+/* ======== ACCESO + CARRITO ======== */
+.Contcarrito-accesoregistro {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  width: min-content;
+}
+
+/* PERFIL */
 .desingloginregister {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
+
+.desingloginregister:hover {
+  transform: scale(1.05);
+}
+
+/* ADMIN */
 .desingloginregisteradmin {
   display: flex;
   width: 48px;
@@ -64,16 +81,7 @@
     0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
-.desingloginregisterdesc p {
-  color: #000;
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-decoration: none;
-}
-
+/* ACCESO / REGISTRO */
 .desingloginregisterdesc {
   text-decoration: none;
   display: flex;
@@ -81,71 +89,48 @@
   height: 42px;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   border-radius: 11px;
   border: 3px solid #000;
   background: rgba(255, 255, 255, 0.85);
+  transition: all 0.3s ease;
 }
 
-.desingloginregisterdesc a {
+.desingloginregisterdesc p {
   font-size: 14px;
   font-weight: 700;
-  text-decoration: none;
+  margin: 0;
   color: #000;
 }
+
 .desingloginregisterdesc:hover {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  border-radius: 11px;
   border: 2px solid #8b0000;
   background: #9f0000;
   transform: scale(1.05);
+  color: white;
 }
 
-.desingloginregister:hover {
-  transform: scale(1.05);
-}
+/* ======== CARRITO ======== */
 .contcarrito {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-/* --- Botón hamburguesa --- */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
-  width: 30px;
-  height: 24px;
-  gap: 5px;
-  z-index: 200;
-}
-
-.hamburger span {
-  background: #000;
-  height: 3px;
-  border-radius: 5px;
-  width: 100%;
-  transition: all 0.3s ease;
 }
 
 .carrito-icono {
   position: relative;
-  display: inline-block;
 }
 
-.carrito-icono img {
-  display: flex;
-  align-items: center;
+.icono-carrito {
+  width: 28px;
+  transition: transform 0.2s ease;
+}
+
+.icono-carrito:hover {
+  transform: scale(1.05);
 }
 
 .carrito-contador {
   position: absolute;
-  top: -12px;
+  top: -10px;
   right: -12px;
   background-color: #8b0000;
   color: white;
@@ -157,63 +142,44 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  z-index: 2;
 }
 
-.icono-carrito {
-  width: 28px;
-  height: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
+/* ========================================================= */
+/* ======================= RESPONSIVE ======================= */
+/* ========================================================= */
 
-.icono-carrito:hover {
-  transform: scale(1.05);
-}
-
-.carrito-badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background-color: #8b0000;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-}
-
-/* --- Responsive --- */
+/* ----- Tablets grandes ----- */
 @media (max-width: 1024px) {
   .navbar {
-    padding: 10px 60px;
+    padding: 12px 60px;
   }
 }
 
+/* ----- Tablets y móviles grandes (hamburguesa) ----- */
 @media (max-width: 768px) {
   .navbar {
-    padding: 10px 30px;
+    padding: 12px 25px;
   }
 
+  /* Ocultar links del modo desktop */
   .nav-links {
     position: fixed;
-    top: 70px;
+    top: 77px;
     left: -100%;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
+    max-width: 300px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
-    text-align: center;
+    text-align: left;
     gap: 2rem;
-    padding: 2rem 0;
-    transition: left 0.3s ease, opacity 0.3s ease;
+    padding: 2rem 1.5rem;
+    height: auto;
+    box-shadow: 0px 5px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 0 0 15px 0;
     opacity: 0;
+    z-index: 150;
+    transition: left 0.35s ease, opacity 0.35s ease;
   }
 
   .nav-links.active {
@@ -221,33 +187,59 @@
     opacity: 1;
   }
 
-  .hamburger {
-    display: flex;
-  }
-
+  /* Ocultar perfil desktop en móviles */
   .desingloginregister {
     display: none;
   }
 
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translateY(8px);
+  /* -------------------------------- */
+  /* -------- BOTÓN HAMBURGUESA ----- */
+  /* -------------------------------- */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 30px;
+    cursor: pointer;
+    z-index: 300;
   }
 
-  .hamburger.active span:nth-child(2) {
+  .hamburger::before,
+  .hamburger::after,
+  .hamburger div {
+    content: "";
+    width: 100%;
+    height: 3px;
+    background: #000;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  /* Animación de la X */
+  .hamburger.active::before {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .hamburger.active::after {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+  .hamburger.active div {
     opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translateY(-8px);
   }
 }
 
+/* ----- Móviles pequeños ----- */
 @media (max-width: 480px) {
   .navbar {
-    padding: 10px 20px;
+    padding: 12px 15px;
   }
 
   .nav-logo img {
     width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
   }
 }
