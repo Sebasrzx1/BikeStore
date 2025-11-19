@@ -1,0 +1,9 @@
+.ContGestProduct{
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex: 1 0 0;
+    align-self: stretch;
+    background: #F5F5F5;
+    font-family: Poppins;
+}

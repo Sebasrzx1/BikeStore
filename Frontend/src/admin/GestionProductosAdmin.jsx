@@ -1,5 +1,8 @@
+// src/admin/GestionProductosAdmin.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AdminNavbar from "../components/AdminNavbar";
+import "../styles/GestionProductosAdmin.css";
 
 const GestionProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
@@ -7,6 +10,7 @@ const GestionProductosAdmin = () => {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [productoActual, setProductoActual] = useState({
+    id_producto: null,
     nombre_producto: "",
     marca: "",
     id_categoria: "",
@@ -20,9 +24,7 @@ const GestionProductosAdmin = () => {
   });
   const [imagenPreview, setImagenPreview] = useState(null);
 
-  // ==========================
-  // CARGAR PRODUCTOS Y CATEGORÍAS
-  // ==========================
+  // Cargar productos y categorías
   const obtenerProductos = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/productos");
@@ -46,12 +48,11 @@ const GestionProductosAdmin = () => {
     obtenerCategorias();
   }, []);
 
-  // ==========================
-  // ABRIR MODAL (CREAR)
-  // ==========================
+  // Abrir modal crear
   const abrirModalCrear = () => {
     setModoEdicion(false);
     setProductoActual({
+      id_producto: null,
       nombre_producto: "",
       marca: "",
       id_categoria: "",
@@ -67,70 +68,84 @@ const GestionProductosAdmin = () => {
     setModalAbierto(true);
   };
 
-  // ==========================
-  // ABRIR MODAL (EDITAR)
-  // ==========================
+  // Abrir modal editar
   const abrirModalEditar = (producto) => {
     setModoEdicion(true);
+
     setProductoActual({
-      ...producto,
-      imagen: null,
+      id_producto: producto.id_producto,
+      nombre_producto: producto.nombre_producto || "",
+      marca: producto.marca || "",
+      id_categoria: producto.id_categoria || "",
+      precio_unitario: producto.precio_unitario || "",
+      material: producto.material || "",
+      peso: producto.peso || "",
+      descripcion: producto.descripcion || "",
+      entradas: producto.entradas || "",
+      salidas: producto.salidas || "",
+      imagen: null, // no enviar la imagen original; solo enviar si el usuario selecciona un File
     });
-    setImagenPreview(`http://localhost:3000/uploads/productos/${producto.imagen}`);
+
+    setImagenPreview(
+      producto.imagen ? `http://localhost:3000/uploads/productos/${producto.imagen}` : null
+    );
+
     setModalAbierto(true);
   };
 
-  // ==========================
-  // CAMBIOS EN INPUTS
-  // ==========================
+  // Cambios en inputs
   const handleChange = (e) => {
-    setProductoActual({
-      ...productoActual,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setProductoActual((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ==========================
-  // CARGAR IMAGEN
-  // ==========================
+  // Cargar imagen (selección)
   const handleImagen = (e) => {
     const file = e.target.files[0];
-    setProductoActual({
-      ...productoActual,
-      imagen: file,
-    });
+    if (!file) return;
+    setProductoActual((prev) => ({ ...prev, imagen: file }));
     setImagenPreview(URL.createObjectURL(file));
   };
 
-  // ==========================
-  // GUARDAR PRODUCTO (CREAR/EDITAR)
-  // ==========================
+  // Guardar producto (crear / editar)
   const guardarProducto = async () => {
-    const formData = new FormData();
-    Object.entries(productoActual).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
     try {
+      const formData = new FormData();
+
+      // Añadir sólo campos con valor (evitar undefined)
+      Object.entries(productoActual).forEach(([key, value]) => {
+        if (value === null || value === undefined) return;
+        // Para imagen, sólo si es un File
+        if (key === "imagen") {
+          if (value instanceof File) {
+            formData.append("imagen", value);
+          }
+          return;
+        }
+        formData.append(key, value);
+      });
+
       if (modoEdicion) {
         await axios.put(
           `http://localhost:3000/api/productos/${productoActual.id_producto}`,
-          formData
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
       } else {
-        await axios.post("http://localhost:3000/api/productos", formData);
+        await axios.post("http://localhost:3000/api/productos", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       }
 
-      obtenerProductos();
+      await obtenerProductos();
       setModalAbierto(false);
     } catch (err) {
       console.error("Error guardando producto:", err);
+      alert("Ocurrió un error guardando el producto. Revisa la consola del servidor.");
     }
   };
 
-  // ==========================
-  // ELIMINAR PRODUCTO
-  // ==========================
+  // Eliminar producto
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Seguro que desea eliminar este producto?")) return;
 
@@ -139,166 +154,112 @@ const GestionProductosAdmin = () => {
       obtenerProductos();
     } catch (err) {
       console.error("Error eliminando producto:", err);
+      alert("Error eliminando producto. Revisa la consola del servidor.");
     }
   };
 
   return (
-    <div className="gestion-container">
-      <h2>Gestión de Productos</h2>
+    <div className="ContGestProduct">
+      <AdminNavbar />
+      <div className="gestion-container">
+        <h2>Gestión de Productos</h2>
 
-      {/* Botón agregar */}
-      <div className="header-actions">
-        <button className="btn-agregar" onClick={abrirModalCrear}>
-          + Agregar Producto
-        </button>
-      </div>
+        <div className="header-actions">
+          <button className="btn-agregar" onClick={abrirModalCrear}>
+            + Agregar Producto
+          </button>
+        </div>
 
-      {/* Lista de productos */}
-      <table className="tabla-productos">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {productos.length === 0 ? (
+        <table className="tabla-productos">
+          <thead>
             <tr>
-              <td colSpan="7">No hay productos disponibles</td>
+              <th>Producto</th>
+              <th>Marca</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
             </tr>
-          ) : (
-            productos.map((p) => (
-              <tr key={p.id_producto}>
-                <td>{p.nombre_producto}</td>
-                <td>{p.marca}</td>
-                <td>{p.id_categoria}</td>
-                <td>${p.precio_unitario}</td>
-                <td>{p.entradas - p.salidas}</td>
-                <td>
-                  <button className="btn-editar" onClick={() => abrirModalEditar(p)}>
-                    Editar
-                  </button>
-                  <button className="btn-eliminar" onClick={() => eliminarProducto(p.id_producto)}>
-                    Eliminar
-                  </button>
-                </td>
+          </thead>
+
+          <tbody>
+            {productos.length === 0 ? (
+              <tr>
+                <td colSpan="7">No hay productos disponibles</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              productos.map((p) => (
+                <tr key={p.id_producto}>
+                  <td>{p.nombre_producto}</td>
+                  <td>{p.marca}</td>
+                  <td>{p.id_categoria}</td>
+                  <td>${p.precio_unitario}</td>
+                  <td>{p.entradas - p.salidas}</td>
+                  <td>
+                    <button className="btn-editar" onClick={() => abrirModalEditar(p)}>
+                      Editar
+                    </button>
+                    <button className="btn-eliminar" onClick={() => eliminarProducto(p.id_producto)}>
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
 
-      {/* ==========================
-          MODAL CREAR / EDITAR
-      ========================== */}
-      {modalAbierto && (
-        <div className="modal-fondo">
-          <div className="modal">
-            <h3>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
+        {modalAbierto && (
+          <div className="modal-fondo">
+            <div className="modal">
+              <h3>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
 
-            <div className="formulario">
-              <input
-                type="text"
-                name="nombre_producto"
-                value={productoActual.nombre_producto}
-                onChange={handleChange}
-                placeholder="Nombre del producto"
-              />
+              <div className="formulario">
+                <input type="text" name="nombre_producto" value={productoActual.nombre_producto}
+                  onChange={handleChange} placeholder="Nombre del producto" />
 
-              <input
-                type="text"
-                name="marca"
-                value={productoActual.marca}
-                onChange={handleChange}
-                placeholder="Marca"
-              />
+                <input type="text" name="marca" value={productoActual.marca}
+                  onChange={handleChange} placeholder="Marca" />
 
-              <select
-                name="id_categoria"
-                value={productoActual.id_categoria}
-                onChange={handleChange}
-              >
-                <option value="">Seleccionar categoría</option>
-                {categorias.map((c) => (
-                  <option key={c.id_categoria} value={c.id_categoria}>
-                    {c.nombre_categoria}
-                  </option>
-                ))}
-              </select>
+                <select name="id_categoria" value={productoActual.id_categoria} onChange={handleChange}>
+                  <option value="">Seleccionar categoría</option>
+                  {categorias.map((c) => (
+                    <option key={c.id_categoria} value={c.id_categoria}>{c.nombre_categoria}</option>
+                  ))}
+                </select>
 
-              <input
-                type="number"
-                name="precio_unitario"
-                value={productoActual.precio_unitario}
-                onChange={handleChange}
-                placeholder="Precio"
-              />
+                <input type="number" name="precio_unitario" value={productoActual.precio_unitario}
+                  onChange={handleChange} placeholder="Precio" />
 
-              <input
-                type="text"
-                name="material"
-                value={productoActual.material}
-                onChange={handleChange}
-                placeholder="Material"
-              />
+                <input type="text" name="material" value={productoActual.material}
+                  onChange={handleChange} placeholder="Material" />
 
-              <input
-                type="text"
-                name="peso"
-                value={productoActual.peso}
-                onChange={handleChange}
-                placeholder="Peso"
-              />
+                <input type="text" name="peso" value={productoActual.peso}
+                  onChange={handleChange} placeholder="Peso" />
 
-              <textarea
-                name="descripcion"
-                value={productoActual.descripcion}
-                onChange={handleChange}
-                placeholder="Descripción"
-              />
+                <textarea name="descripcion" value={productoActual.descripcion}
+                  onChange={handleChange} placeholder="Descripción" />
 
-              <input
-                type="number"
-                name="entradas"
-                value={productoActual.entradas}
-                onChange={handleChange}
-                placeholder="Entradas"
-              />
+                <input type="number" name="entradas" value={productoActual.entradas}
+                  onChange={handleChange} placeholder="Entradas" />
 
-              <input
-                type="number"
-                name="salidas"
-                value={productoActual.salidas}
-                onChange={handleChange}
-                placeholder="Salidas"
-              />
+                <input type="number" name="salidas" value={productoActual.salidas}
+                  onChange={handleChange} placeholder="Salidas" />
 
-              <label>Imagen del producto:</label>
-              <input type="file" onChange={handleImagen} />
-              {imagenPreview && (
-                <img
-                  src={imagenPreview}
-                  alt="Vista previa"
-                  width="100"
-                  style={{ marginTop: "10px", borderRadius: "6px" }}
-                />
-              )}
+                <label>Imagen del producto:</label>
+                <input type="file" accept="image/*" onChange={handleImagen} />
+                {imagenPreview && <img src={imagenPreview} alt="Vista previa" width="100" style={{ marginTop: "10px", borderRadius: "6px" }} />}
 
-              <div className="modal-acciones">
-                <button onClick={() => setModalAbierto(false)}>Cancelar</button>
-                <button onClick={guardarProducto}>
-                  {modoEdicion ? "Guardar Cambios" : "Crear Producto"}
-                </button>
+                <div className="modal-acciones">
+                  <button onClick={() => setModalAbierto(false)}>Cancelar</button>
+                  <button onClick={guardarProducto}>{modoEdicion ? "Guardar Cambios" : "Crear Producto"}</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+      </div>
     </div>
   );
 };

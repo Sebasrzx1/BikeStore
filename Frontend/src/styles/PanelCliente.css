@@ -1,4 +1,6 @@
 .contenedor-panel{
+    position: sticky;
+    top: 100px;
     display: flex;
     width: 315px;
     height: auto;
@@ -9,6 +11,10 @@
     border-radius: 16px;
     border: 1px solid rgba(0, 0, 0, 0.10);
     background: #FFF;
+}
+.btn-logout p{
+    color: #D4183D;
+
 }
 
 .icon-perfil-panel img{

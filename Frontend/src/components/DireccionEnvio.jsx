@@ -87,9 +87,11 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
   };
 
   return (
-    <div className="direccion-envio" style={{ marginTop: "2rem" }}>
-      <h3>📦 Dirección de Envío</h3>
-
+    <div className="direccion-envio">
+      <div className="ContTIT">
+      <img src="../public/Iconubi.svg" alt="" />
+      <h3> Dirección de Envío</h3>
+      </div>
       {!mostrarFormulario ? (
         <>
           {direccionData.direccion ? (
@@ -162,7 +164,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             required
           />
 
-          <div style={{ marginTop: "1rem" }}>
+          <div style={{ marginTop: "1rem", justifyContent: "space-between", display:"flex" , gap:"10px"}}>
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
             </button>
@@ -170,9 +172,8 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
               type="button"
               onClick={() => setMostrarFormulario(false)}
               className="btn-cancelar"
-              style={{ marginLeft: "10px" }}
             >
-               Cancelar
+              Cancelar
             </button>
           </div>
         </form>
