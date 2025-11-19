@@ -1,0 +1,80 @@
+.panel-botones{
+    color: white;
+    margin: 0;
+    display: flex;
+    width: auto;
+    height: 969px;
+    padding: 24px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+}
+
+.ContAdmin{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+}
+
+.Cont-Nav-Tit{
+    display: flex;
+    width: 208px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+}
+.Cont-Nav-Tit h4{
+    color: #99A1AF;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+.Cont-Nav-Opt{
+    border-top: 1px solid #3f4854;
+    border-bottom: 1px solid #3f4854;
+    padding-block: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+.Cont-Logout button{
+    width: 100%;
+    align-items: center;
+    justify-content:flex-start;
+    gap: 10px;
+    display: flex;
+    color: white;
+}
+
+.Cont-Nav-Opt button{
+    width: 100%;
+    align-items: center;
+    justify-content:flex-start;
+    gap: 10px;
+    display: flex;
+    color: white;
+}
+.Cont-Nav-Opt button:hover{
+    border-radius: 12px;
+    background: #8B0000;
+}
+.Cont-Nav{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    align-self: stretch;
+}
+
+.panel-botones img{
+    width: 204px;
+    height: 71px;
+    flex-shrink: 0;
+    aspect-ratio: 204/71;
+}

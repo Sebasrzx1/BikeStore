@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AdminNavbar from "../components/AdminNavbar";
+import "../styles/GestionProductosAdmin.css";
 
 const GestionProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
@@ -76,7 +78,9 @@ const GestionProductosAdmin = () => {
       ...producto,
       imagen: null,
     });
-    setImagenPreview(`http://localhost:3000/uploads/productos/${producto.imagen}`);
+    setImagenPreview(
+      `http://localhost:3000/uploads/productos/${producto.imagen}`
+    );
     setModalAbierto(true);
   };
 
@@ -143,162 +147,173 @@ const GestionProductosAdmin = () => {
   };
 
   return (
-    <div className="gestion-container">
-      <h2>Gestión de Productos</h2>
+    <div className="ContGestProduct">
+      <AdminNavbar />
+      <div className="gestion-container">
+        <h2>Gestión de Productos</h2>
 
-      {/* Botón agregar */}
-      <div className="header-actions">
-        <button className="btn-agregar" onClick={abrirModalCrear}>
-          + Agregar Producto
-        </button>
-      </div>
+        {/* Botón agregar */}
+        <div className="header-actions">
+          <button className="btn-agregar" onClick={abrirModalCrear}>
+            + Agregar Producto
+          </button>
+        </div>
 
-      {/* Lista de productos */}
-      <table className="tabla-productos">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {productos.length === 0 ? (
+        {/* Lista de productos */}
+        <table className="tabla-productos">
+          <thead>
             <tr>
-              <td colSpan="7">No hay productos disponibles</td>
+              <th>Producto</th>
+              <th>Marca</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
             </tr>
-          ) : (
-            productos.map((p) => (
-              <tr key={p.id_producto}>
-                <td>{p.nombre_producto}</td>
-                <td>{p.marca}</td>
-                <td>{p.id_categoria}</td>
-                <td>${p.precio_unitario}</td>
-                <td>{p.entradas - p.salidas}</td>
-                <td>
-                  <button className="btn-editar" onClick={() => abrirModalEditar(p)}>
-                    Editar
-                  </button>
-                  <button className="btn-eliminar" onClick={() => eliminarProducto(p.id_producto)}>
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+          </thead>
 
-      {/* ==========================
+          <tbody>
+            {productos.length === 0 ? (
+              <tr>
+                <td colSpan="7">No hay productos disponibles</td>
+              </tr>
+            ) : (
+              productos.map((p) => (
+                <tr key={p.id_producto}>
+                  <td>{p.nombre_producto}</td>
+                  <td>{p.marca}</td>
+                  <td>{p.id_categoria}</td>
+                  <td>${p.precio_unitario}</td>
+                  <td>{p.entradas - p.salidas}</td>
+                  <td>
+                    <button
+                      className="btn-editar"
+                      onClick={() => abrirModalEditar(p)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btn-eliminar"
+                      onClick={() => eliminarProducto(p.id_producto)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+
+        {/* ==========================
           MODAL CREAR / EDITAR
       ========================== */}
-      {modalAbierto && (
-        <div className="modal-fondo">
-          <div className="modal">
-            <h3>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
+        {modalAbierto && (
+          <div className="modal-fondo">
+            <div className="modal">
+              <h3>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
 
-            <div className="formulario">
-              <input
-                type="text"
-                name="nombre_producto"
-                value={productoActual.nombre_producto}
-                onChange={handleChange}
-                placeholder="Nombre del producto"
-              />
-
-              <input
-                type="text"
-                name="marca"
-                value={productoActual.marca}
-                onChange={handleChange}
-                placeholder="Marca"
-              />
-
-              <select
-                name="id_categoria"
-                value={productoActual.id_categoria}
-                onChange={handleChange}
-              >
-                <option value="">Seleccionar categoría</option>
-                {categorias.map((c) => (
-                  <option key={c.id_categoria} value={c.id_categoria}>
-                    {c.nombre_categoria}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="number"
-                name="precio_unitario"
-                value={productoActual.precio_unitario}
-                onChange={handleChange}
-                placeholder="Precio"
-              />
-
-              <input
-                type="text"
-                name="material"
-                value={productoActual.material}
-                onChange={handleChange}
-                placeholder="Material"
-              />
-
-              <input
-                type="text"
-                name="peso"
-                value={productoActual.peso}
-                onChange={handleChange}
-                placeholder="Peso"
-              />
-
-              <textarea
-                name="descripcion"
-                value={productoActual.descripcion}
-                onChange={handleChange}
-                placeholder="Descripción"
-              />
-
-              <input
-                type="number"
-                name="entradas"
-                value={productoActual.entradas}
-                onChange={handleChange}
-                placeholder="Entradas"
-              />
-
-              <input
-                type="number"
-                name="salidas"
-                value={productoActual.salidas}
-                onChange={handleChange}
-                placeholder="Salidas"
-              />
-
-              <label>Imagen del producto:</label>
-              <input type="file" onChange={handleImagen} />
-              {imagenPreview && (
-                <img
-                  src={imagenPreview}
-                  alt="Vista previa"
-                  width="100"
-                  style={{ marginTop: "10px", borderRadius: "6px" }}
+              <div className="formulario">
+                <input
+                  type="text"
+                  name="nombre_producto"
+                  value={productoActual.nombre_producto}
+                  onChange={handleChange}
+                  placeholder="Nombre del producto"
                 />
-              )}
 
-              <div className="modal-acciones">
-                <button onClick={() => setModalAbierto(false)}>Cancelar</button>
-                <button onClick={guardarProducto}>
-                  {modoEdicion ? "Guardar Cambios" : "Crear Producto"}
-                </button>
+                <input
+                  type="text"
+                  name="marca"
+                  value={productoActual.marca}
+                  onChange={handleChange}
+                  placeholder="Marca"
+                />
+
+                <select
+                  name="id_categoria"
+                  value={productoActual.id_categoria}
+                  onChange={handleChange}
+                >
+                  <option value="">Seleccionar categoría</option>
+                  {categorias.map((c) => (
+                    <option key={c.id_categoria} value={c.id_categoria}>
+                      {c.nombre_categoria}
+                    </option>
+                  ))}
+                </select>
+
+                <input
+                  type="number"
+                  name="precio_unitario"
+                  value={productoActual.precio_unitario}
+                  onChange={handleChange}
+                  placeholder="Precio"
+                />
+
+                <input
+                  type="text"
+                  name="material"
+                  value={productoActual.material}
+                  onChange={handleChange}
+                  placeholder="Material"
+                />
+
+                <input
+                  type="text"
+                  name="peso"
+                  value={productoActual.peso}
+                  onChange={handleChange}
+                  placeholder="Peso"
+                />
+
+                <textarea
+                  name="descripcion"
+                  value={productoActual.descripcion}
+                  onChange={handleChange}
+                  placeholder="Descripción"
+                />
+
+                <input
+                  type="number"
+                  name="entradas"
+                  value={productoActual.entradas}
+                  onChange={handleChange}
+                  placeholder="Entradas"
+                />
+
+                <input
+                  type="number"
+                  name="salidas"
+                  value={productoActual.salidas}
+                  onChange={handleChange}
+                  placeholder="Salidas"
+                />
+
+                <label>Imagen del producto:</label>
+                <input type="file" onChange={handleImagen} />
+                {imagenPreview && (
+                  <img
+                    src={imagenPreview}
+                    alt="Vista previa"
+                    width="100"
+                    style={{ marginTop: "10px", borderRadius: "6px" }}
+                  />
+                )}
+
+                <div className="modal-acciones">
+                  <button onClick={() => setModalAbierto(false)}>
+                    Cancelar
+                  </button>
+                  <button onClick={guardarProducto}>
+                    {modoEdicion ? "Guardar Cambios" : "Crear Producto"}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

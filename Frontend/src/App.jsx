@@ -55,6 +55,8 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
     "/register",
     "/forgot-password",
     "/verificar-codigo",
+    "/admin",
+    "/admin/gestion-productos",
   ].includes(location.pathname);
 
   return (
