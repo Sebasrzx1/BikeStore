@@ -96,7 +96,7 @@ const DetallePedido = () => {
                             ) : (
                                 items.map(item => (
                                     <div key={item.id_detalle} className="item-card">
-                                        <p><strong> - {item.nombre_producto}</strong></p>
+                                        <p id="tituloProduct"><strong> - {item.nombre_producto}</strong></p>
                                         <p>Cantidad: {item.cantidad}</p>
                                         <p>Precio unitario: ${item.precio_unitario}</p>
                                         <p>Subtotal: ${item.total_item}</p>

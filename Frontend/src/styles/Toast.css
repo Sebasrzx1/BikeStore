@@ -14,9 +14,12 @@
     background: #FFF;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
     font-weight: 500;
-    color: #333;
     animation: slideDownUp 3s ease forwards;
     z-index: 9999;
+}
+
+.toast-notificacion p{
+  color: black;
 }
 
 @keyframes slideDownUp {

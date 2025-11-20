@@ -31,7 +31,7 @@ class AuthController {
     try {
       const [rows] = await db.query("SELECT * FROM usuarios WHERE email = ?", [email]);
       if (rows.length === 0)
-        return { success: false, message: "Usuario no encontrado" };
+        return { success: false, message: "Correo o contraseña incorrecta" };
 
       const usuario = rows[0];
       const coincide = await bcrypt.compare(contraseña, usuario.contraseña);

@@ -22,6 +22,7 @@ import VerifyCode from "./components/VerifyCode";
 import MisPedidos from "./components/MisPedidos.jsx";
 import DetallePedido from "./components/DetallePedido.jsx";
 import PanelCliente from "./components/PanelCliente.jsx";
+import SobreNosotros from "./components/SobreNostros.jsx";
 
 // 👉 Importa tus nuevos componentes
 import PanelAdministrador from "./admin/PanelAdministrador";
@@ -81,6 +82,7 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
         <Route path="/carrito" element={<Carrito setCantidadCarrito={setCantidadCarrito} />}
         />
         <Route path="/pago" element={<Pago />} />
+        <Route path="/SobreNosotros" element={<SobreNosotros />} />
 
         {/* Rutas privadas cliente */}
         <Route path="/cuenta" element={<RutaPrivada>  <CuentaCliente /> </RutaPrivada>} />

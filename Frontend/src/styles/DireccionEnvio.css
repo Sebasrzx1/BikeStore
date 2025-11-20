@@ -15,17 +15,16 @@
 .direccion-envio h3 {
   text-align: center;
 }
-.direccion-envio img{
+
+.direccion-envio img {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
 }
 
-.ContTIT{
+.ContTIT {
   display: flex;
-  width: 258.922px;
-  height: 32px;
-  align-items: center;
+  width: 100%;
   justify-content: center;
   gap: 12px;
 
@@ -33,10 +32,11 @@
 
 .contenedor-sin-registro {
   margin-top: 20px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   align-items: center;
+  gap: 20px;
 }
 
 .direccion-info {
@@ -45,6 +45,12 @@
   width: 100%;
   padding: 10px;
   align-items: center;
+  gap: 15px;
+}
+
+.direccion-info p {
+  color: black;
+
 }
 
 .direccion-envio button {

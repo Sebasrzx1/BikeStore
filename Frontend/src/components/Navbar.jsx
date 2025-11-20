@@ -10,7 +10,8 @@ const Navbar = ({ cantidadCarrito }) => {
   const toggleMenu = () => setMenuAbierto(!menuAbierto);
 
   return (
-    <nav className="navbar">
+    <div className="Contenedor-navPrincipal">
+      <nav className="navbar">
         <div className="nav-logo">
           <Link to="/">
             <img src="/Logo.png" alt="BikeStore Logo" />
@@ -25,7 +26,7 @@ const Navbar = ({ cantidadCarrito }) => {
             <Link to="/catalogo">Catálogo</Link>
           </li>
           <li>
-            <Link to="/">Sobre nosotros</Link>
+            <Link to="/SobreNosotros">Sobre nosotros</Link>
           </li>
         </ul>
 
@@ -64,7 +65,9 @@ const Navbar = ({ cantidadCarrito }) => {
           className={`hamburger ${menuAbierto ? "active" : ""}`}
           onClick={toggleMenu}
         ></div>
-    </nav>
+      </nav>
+    </div>
+
   );
 };
 

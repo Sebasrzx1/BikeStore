@@ -1,6 +1,10 @@
 /* ============================================
    TIENDA — ESTILOS BASE
 ============================================ */
+* {
+  font-family: 'Poppins';
+}
+
 .tienda-page {
   display: flex;
   padding: 10px 32px 32px 32px;
@@ -19,6 +23,26 @@
   align-items: flex-start;
   gap: 32px;
   position: relative;
+}
+
+.ContTienda {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  padding-left: 8%;
+}
+
+.ContTienda p {
+  color: rgb(85, 85, 85);
+}
+
+.tienda-busqueda input {
+  height: 30px;
+  padding-left: 10px;
+  border-radius: 4px;
+  border: 1px solid rgb(156, 156, 156);
 }
 
 
@@ -44,6 +68,9 @@
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.10);
   background: #FFF;
+  gap: 20px;
+  background: linear-gradient(to bottom, rgb(241, 241, 241), rgb(255, 255, 255));
+
 }
 
 .tienda-filtros-titulo {
@@ -51,6 +78,11 @@
   font-weight: 600;
   margin-bottom: 1.2rem;
   color: #222;
+}
+
+.tienda-categorias li {
+  display: flex;
+  gap: 5px;
 }
 
 
@@ -116,12 +148,31 @@
   align-items: center;
   border-radius: 33554400px;
   background: #8B0000;
+  gap: 4px;
+}
+
+.tienda-btn-add p {
+  color: white;
+  font-size: 15px;
 }
 
 .tienda-btn-add:hover {
   background: #7c0000;
 }
 
+.tienda-precios p {
+  color: black;
+}
+
+.tienda-stock {
+  color: rgb(64, 64, 64);
+}
+
+.rango-precios input {
+  border-radius: 19px;
+  padding-left: 10px;
+  border: 1px solid black;
+}
 
 /* ============================================
    FIX ESPECIAL PANTALLAS 1366px
