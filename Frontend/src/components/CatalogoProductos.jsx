@@ -177,63 +177,74 @@ export default function Catalogo({ setCantidadCarrito }) {
 
         {/* PRODUCTOS */}
         <section className="tienda-productos">
-          {productosFiltrados.length > 0 ? (
-            productosFiltrados.map((p) => (
-              <div key={p.id_producto} className="tienda-card">
-                <button
-                  className="tienda-card-img"
-                  onClick={() => navigate(`/producto/${p.id_producto}`)}
-                >
-                  <img
-                    src={
-                      p.imagen
-                        ? `http://localhost:3000/uploads/productos/${p.imagen}`
-                        : "/placeholder.png"
-                    }
-                    alt={p.nombre_producto}
-                  />
-                </button>
+  {productosFiltrados.length > 0 ? (
+    productosFiltrados.map((p) => {
+      const sinStock = p.stock === 0;
 
-                <div className="tienda-card-body">
-                  <div className="tienda-marca">
-                    <h4>{p.marca}</h4>
-                  </div>
-                  <div className="tienda-nombre">
-                    <h3>{p.nombre_producto}</h3>
-                  </div>
-                  <div className="tienda-card-cont">
-                    <div className="tienda-card-info">
-                      <p className="tienda-precio">
-                        ${p.precio_unitario.toLocaleString("es-CO")}
-                      </p>
+      return (
+        <div key={p.id_producto} className="tienda-card">
 
-                      {/* 🔥 ADAPTADO AQUÍ */}
-                      <p className="tienda-stock">
-                        {p.stock} en stock
-                      </p>
-                    </div>
+          <div className="tienda-card-img-wrapCatal">
+            {sinStock && (
+              <span className="etiqueta-sin-stockCatal">Sin Stock</span>
+            )}
 
-                    <button
-                      className="tienda-btn-add"
-                      onClick={() =>
-                        agregarUnidadAlCarrito(
-                          p,
-                          setCantidadCarrito,
-                          mostrarToast
-                        )
-                      }
-                    >
-                      <img src="./public/IconCarritoBoton.svg" alt="" />
-                      <p>Añadir al carrito</p>
-                    </button>
-                  </div>
-                </div>
+            <button
+              className="tienda-card-img"
+              onClick={() => navigate(`/producto/${p.id_producto}`)}
+            >
+              <img
+                src={
+                  p.imagen
+                    ? `http://localhost:3000/uploads/productos/${p.imagen}`
+                    : "/placeholder.png"
+                }
+                alt={p.nombre_producto}
+              />
+            </button>
+          </div>
+
+          <div className="tienda-card-body">
+            <div className="tienda-marca">
+              <h4>{p.marca}</h4>
+            </div>
+
+            <div className="tienda-nombre">
+              <h3>{p.nombre_producto}</h3>
+            </div>
+
+            <div className="tienda-card-cont">
+              <div className="tienda-card-info">
+                <p className="tienda-precio">
+                  ${p.precio_unitario.toLocaleString("es-CO")}
+                </p>
+
+                <p className="tienda-stock">
+                  {p.stock} en stock
+                </p>
               </div>
-            ))
-          ) : (
-            <p className="tienda-vacio">No se encontraron productos.</p>
-          )}
-        </section>
+
+              {/* BOTÓN CAMBIANTE */}
+              <button
+                disabled={sinStock}
+                className={`tienda-btn-add ${sinStock ? "agotado" : ""}`}
+                onClick={() =>
+                  agregarUnidadAlCarrito(p, setCantidadCarrito, mostrarToast)
+                }
+              >
+                <img src="./public/IconCarritoBoton.svg" alt="" />
+                <p>{sinStock ? "Agotado" : "Añadir al carrito"}</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    })
+  ) : (
+    <p className="tienda-vacio">No se encontraron productos.</p>
+  )}
+</section>
+
       </div>
     </div>
   );

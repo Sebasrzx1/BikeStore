@@ -253,6 +253,13 @@
   border-radius: 100px;
   background: #8B0000;
 }
+.btn-add-carrito.btn-disabled,
+.btn-add-carrito:disabled {
+  background: #999 !important;   /* gris desactivado */
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
 
 .btn-add-carrito p {
   color: white;

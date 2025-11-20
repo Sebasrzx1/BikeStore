@@ -230,7 +230,13 @@ export default function DetalleProducto({ setCantidadCarrito }) {
             </div>
           </div>
 
-          <button className="btn-add-carrito" onClick={agregarAlCarrito}>
+          <button
+            className={`btn-add-carrito ${
+              producto.stock === 0 ? "btn-disabled" : ""
+            }`}
+            onClick={agregarAlCarrito}
+            disabled={producto.stock === 0}
+          >
             <img src="./public/IconCarritoBoton.svg" alt="" />
             <p>Añadir al carrito</p>
           </button>
