@@ -174,6 +174,42 @@
   border: 1px solid black;
 }
 
+
+/* Posicionar la etiqueta sobre la imagen */
+.tienda-card-img-wrapCatal {
+  position: relative;
+}
+
+/* Etiqueta rojo "Sin Stock" */
+.etiqueta-sin-stockCatal {
+  position: absolute;
+  top: 362px;
+  right: 236px;
+  background-color: #b30000;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 4px 10px;
+  z-index: 10;
+}
+
+
+/* Botón deshabilitado por stock 0 */
+.tienda-btn-add.agotado {
+  background-color: #cfa0a0;
+  color: #800000;
+  cursor: not-allowed;
+  display: flex;
+  width: 100%;
+}
+
+.tienda-btn-add:disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 /* ============================================
    FIX ESPECIAL PANTALLAS 1366px
 ============================================ */
@@ -185,6 +221,11 @@
   .tienda-card-img {
     height: 320px;
   }
+
+  .etiqueta-sin-stockCatal {
+  top: 362px;
+  right: 286px;
+}
 }
 
 
@@ -216,6 +257,11 @@
     position: relative;
     top: unset;
   }
+
+  .etiqueta-sin-stockCatal {
+  top: 462px;
+  right: 286px;
+}
 
   .tienda-filtros-contenido {
     width: 100%;
@@ -300,3 +346,4 @@
     width: 100%;
   }
 }
+
