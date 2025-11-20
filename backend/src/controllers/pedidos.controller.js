@@ -1,89 +1,61 @@
 const db = require("../config/conexion_db");
 
 class PedidosController {
-
   // 🔹 Obtener pedidos del usuario logueado
   async obtenerMisPedidos(req, res) {
     try {
-      const id_usuario = req.usuario.id_usuario; // viene del token
+      const id_usuario = req.usuario.id_usuario;
 
-      // 1️⃣ Traer los pedidos del usuario
       const [pedidos] = await db.query(
-        `SELECT 
-          p.id_pedido,
-          p.estado,
-          p.fecha
-        FROM pedidos p
-        WHERE p.id_usuario = ?
-        ORDER BY p.fecha DESC`,
+        `SELECT p.id_pedido, p.estado, p.fecha
+         FROM pedidos p
+         WHERE p.id_usuario = ?
+         ORDER BY p.fecha DESC`,
         [id_usuario]
       );
 
-      // 2️⃣ Para cada pedido traer sus productos
       for (let pedido of pedidos) {
         const [items] = await db.query(
-          `SELECT 
-            dp.id_detalle,
-            dp.id_producto,
-            dp.cantidad,
-            pr.nombre_producto,
-            pr.precio_unitario,
-            pr.imagen AS imagen_url,
-            (dp.cantidad * pr.precio_unitario) AS total_item
-          FROM detalle_pedido dp
-          INNER JOIN productos pr ON dp.id_producto = pr.id_producto
-          WHERE dp.id_pedido = ?`,
+          `SELECT dp.id_detalle, dp.id_producto, dp.cantidad,
+                  pr.nombre_producto, pr.precio_unitario, pr.imagen AS imagen_url,
+                  (dp.cantidad * pr.precio_unitario) AS total_item
+           FROM detalle_pedido dp
+           INNER JOIN productos pr ON dp.id_producto = pr.id_producto
+           WHERE dp.id_pedido = ?`,
           [pedido.id_pedido]
         );
-
-        // Total calculado del pedido
         pedido.total = items.reduce((acc, item) => acc + item.total_item, 0);
-
-        // Agregar items al pedido
         pedido.items = items;
       }
 
-      return res.json({
-        success: true,
-        message: "Pedidos obtenidos correctamente",
-        pedidos
-      });
-
+      return res.json({ success: true, pedidos });
     } catch (error) {
       console.error("Error en obtenerMisPedidos:", error);
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener pedidos"
-      });
+      return res
+        .status(500)
+        .json({ success: false, message: "Error al obtener pedidos" });
     }
   }
 
-  // 🔹 Obtener detalle de un pedido específico
-  async obtenerPedidoPorId(req, res) {
+  // 🔹 Obtener todos los pedidos (ADMIN)
+  async obtenerTodosLosPedidos(req, res) {
     try {
-      const id_usuario = req.usuario.id_usuario;
-      const id_pedido = req.params.id;
+      // No validas el rol aquí, porque ya lo controlas desde el frontend
+      const [pedidos] = await db.query(`
+      SELECT 
+        p.id_pedido,
+        p.fecha,
+        p.estado,
+        u.nombre AS nombre_usuario,
+        u.email
+      FROM pedidos p
+      INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
+      ORDER BY p.fecha DESC
+    `);
 
-      // Validar que el pedido pertenece al usuario
-      const [pedidoData] = await db.query(
-        `SELECT id_pedido, estado, fecha 
-         FROM pedidos 
-         WHERE id_pedido = ? AND id_usuario = ?`,
-        [id_pedido, id_usuario]
-      );
-
-      if (pedidoData.length === 0) {
-        return res.status(403).json({
-          success: false,
-          message: "No tienes permiso para ver este pedido"
-        });
-      }
-
-      const pedido = pedidoData[0];
-
-      // Obtener items
-      const [items] = await db.query(
-        `SELECT 
+      for (let pedido of pedidos) {
+        const [items] = await db.query(
+          `SELECT 
           dp.id_detalle,
           dp.id_producto,
           dp.cantidad,
@@ -94,25 +66,66 @@ class PedidosController {
         FROM detalle_pedido dp
         INNER JOIN productos pr ON dp.id_producto = pr.id_producto
         WHERE dp.id_pedido = ?`,
+          [pedido.id_pedido]
+        );
+
+        pedido.total = items.reduce((acc, item) => acc + item.total_item, 0);
+        pedido.items = items;
+      }
+
+      return res.json({ success: true, data: pedidos });
+    } catch (error) {
+      console.error("Error en obtenerTodosLosPedidos:", error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error al obtener pedidos" });
+    }
+  }
+
+  // 🔹 Obtener detalle de un pedido específico (cliente)
+  async obtenerPedidoPorId(req, res) {
+    console.log("Usuario autenticado:", req.usuario);
+
+    try {
+      const id_usuario = req.usuario.id_usuario;
+      const id_pedido = req.params.id;
+
+      const [pedidoData] = await db.query(
+        `SELECT id_pedido, estado, fecha
+         FROM pedidos
+         WHERE id_pedido = ? AND id_usuario = ?`,
+        [id_pedido, id_usuario]
+      );
+
+      if (pedidoData.length === 0) {
+        return res
+          .status(403)
+          .json({
+            success: false,
+            message: "No tienes permiso para ver este pedido",
+          });
+      }
+
+      const pedido = pedidoData[0];
+      const [items] = await db.query(
+        `SELECT dp.id_detalle, dp.id_producto, dp.cantidad,
+                pr.nombre_producto, pr.precio_unitario, pr.imagen AS imagen_url,
+                (dp.cantidad * pr.precio_unitario) AS total_item
+         FROM detalle_pedido dp
+         INNER JOIN productos pr ON dp.id_producto = pr.id_producto
+         WHERE dp.id_pedido = ?`,
         [id_pedido]
       );
 
-      // Total calculado
       pedido.total = items.reduce((acc, item) => acc + item.total_item, 0);
       pedido.items = items;
 
-      return res.json({
-        success: true,
-        message: "Pedido encontrado",
-        pedido
-      });
-
+      return res.json({ success: true, pedido });
     } catch (error) {
       console.error("Error en obtenerPedidoPorId:", error);
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener el pedido"
-      });
+      return res
+        .status(500)
+        .json({ success: false, message: "Error al obtener el pedido" });
     }
   }
 }
