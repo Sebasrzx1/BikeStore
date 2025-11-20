@@ -106,7 +106,7 @@ const DetallePedido = () => {
                         </div>
                     </div>
 
-                    <button id="btn-volver">Volver</button>
+                    <button id="btn-volver" onClick={()=> navigate("/Mis-pedidos")}>Volver</button>
                 </div>
             </div>
 

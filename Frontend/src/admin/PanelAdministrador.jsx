@@ -19,23 +19,17 @@ const PanelAdministrador = () => {
   useEffect(() => {
     const fetchDatos = async () => {
       try {
-        // 🔹 Productos
-        const resProductos = await axios.get(
-          "http://localhost:3000/api/productos"
-        );
+        // Productos
+        const resProductos = await axios.get("http://localhost:3000/api/productos");
 
-        // 🔹 Categorías
-        const resCategorias = await axios.get(
-          "http://localhost:3000/api/categorias"
-        );
+        // Categorías
+        const resCategorias = await axios.get("http://localhost:3000/api/categorias");
         setCategorias(resCategorias.data);
 
-        // 🔹 Usuarios
-        const resUsuarios = await axios.get(
-          "http://localhost:3000/api/usuarios"
-        );
+        // Usuarios
+        const resUsuarios = await axios.get("http://localhost:3000/api/usuarios");
 
-        // 🔹 Pedidos
+        // Pedidos (con token)
         const token = localStorage.getItem("token");
         const resPedidos = await axios.get(
           "http://localhost:3000/api/pedidos/todos",
@@ -45,16 +39,17 @@ const PanelAdministrador = () => {
         setProductos(resProductos.data);
         setUsuarios(resUsuarios.data);
 
-        // Actualiza los pedidos totales reales
-        setPedidosTotales(resPedidos.data.data.length || 0);
+        const pedidos = resPedidos.data.data || [];
 
-        // 💰 Calcular ingresos
-        const ventas = resProductos.data.reduce(
-          (acc, p) => acc + (p.salidas || 0) * (p.precio_unitario || 0),
-          0
-        );
+        // TOTAL DE PEDIDOS
+        setPedidosTotales(pedidos.length);
 
-        setIngresosTotales(ventas);
+        // 💰 INGRESOS REALES DESDE LOS PEDIDOS
+        const ingresos = pedidos.reduce((acc, pedido) => {
+          return acc + (pedido.total || 0); // usa el total del pedido
+        }, 0);
+
+        setIngresosTotales(ingresos);
       } catch (error) {
         console.error("Error al cargar datos del panel:", error);
       }
@@ -65,8 +60,10 @@ const PanelAdministrador = () => {
 
   const productosTotales = productos.length;
   const usuariosActivos = usuarios.length;
+
+  // 🔥 STOCK BAJO: entradas - salidas
   const productosConStockBajo = productos.filter(
-    (p) => p.entradas - p.salidas <= 3
+    (p) => Number(p.stock) <= 3
   );
 
   const handleLogout = () => {
@@ -88,6 +85,7 @@ const PanelAdministrador = () => {
         </header>
 
         <main className="panel-main">
+
           {/* === MÉTRICAS === */}
           <section className="panel-resumen">
             <h2>Resumen general</h2>
@@ -121,6 +119,7 @@ const PanelAdministrador = () => {
 
             <section className="panel-alertas">
               <h2>Alerta de Stock Bajo</h2>
+
               {productosConStockBajo.length === 0 ? (
                 <p>Todos los productos tienen stock suficiente.</p>
               ) : (
@@ -128,15 +127,14 @@ const PanelAdministrador = () => {
                   {productosConStockBajo.map((p) => (
                     <li key={p.id_producto} className="stock-item">
                       <div className="stock-info">
-                        <span className="stock-nombre">
-                          {p.nombre_producto}
-                        </span>
+                        <span className="stock-nombre">{p.nombre_producto}</span>
                         <span className="stock-categoria">
                           {obtenerNombreCategoria(p.id_categoria)}
                         </span>
                       </div>
+
                       <span className="stock-cantidad">
-                        {p.entradas - p.salidas} en stock
+                        {p.stock} en stock
                       </span>
                     </li>
                   ))}

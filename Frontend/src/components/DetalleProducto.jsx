@@ -32,7 +32,8 @@ export default function DetalleProducto({ setCantidadCarrito }) {
   if (loading) return <p className="detalle-cargando">Cargando producto...</p>;
   if (!producto) return <p className="detalle-error">Producto no encontrado</p>;
 
-  const stockDisponible = producto.entradas - producto.salidas;
+  // 💥 ADAPTADO → Ahora stockDisponible viene directamente de la BD
+  const stockDisponible = Number(producto.stock) || 0;
 
   // Helpers para saber lo que ya hay en carrito
   const getCantidadYaEnCarrito = () => {
@@ -126,7 +127,7 @@ export default function DetalleProducto({ setCantidadCarrito }) {
         imagen: producto.imagen
           ? `http://localhost:3000/uploads/productos/${producto.imagen}`
           : "/placeholder.png",
-        stockDisponible, // 👈 clave para Carrito.jsx
+        stockDisponible, // 👈 se conserva para Carrito.jsx
       });
     }
 
@@ -240,4 +241,3 @@ export default function DetalleProducto({ setCantidadCarrito }) {
     </div>
   );
 }
-

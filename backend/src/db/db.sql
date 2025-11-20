@@ -38,14 +38,12 @@ id_producto int primary key auto_increment,
 id_categoria int,
 nombre_producto varchar(30) not null,
 marca varchar(30),
-stock int as (entradas - salidas) virtual,
+stock int not null,
 precio_unitario int,
 material varchar(25),
 peso varchar(10),
 descripcion text,
 imagen varchar(225),
-entradas int,
-salidas int,
 CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
 
@@ -78,25 +76,27 @@ VALUES
 ('Accesorios');
 
 #  INSERT INTO TABLA PRODUCTOS
-INSERT INTO productos (id_categoria, nombre_producto, marca, precio_unitario, material, peso, descripcion, imagen, entradas, salidas)
+
+INSERT INTO productos (id_categoria, nombre_producto, marca, stock, precio_unitario, material, peso, descripcion, imagen)
 VALUES
 -- Bicicletas
-(1, 'Bicicleta MTB Aro 29', 'Trek', 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'Bicicleta1.png', 15, 3),
-(1, 'Bicicleta Urbana', 'Giant', 1800000, 'Acero', '12kg', 'Bicicleta urbana cómoda para ciudad.', 'Bicicleta2.png', 10, 2),
-(1, 'Bicicleta Infantil', 'Scott', 950000, 'Aluminio', '8kg', 'Ideal para niños entre 6 y 9 años.', 'Bicicleta3.png', 8, 1),
-(1, 'Bicicleta de Ruta Carbono', 'Specialized', 5200000, 'Fibra de carbono', '7.8kg', 'Bicicleta de ruta profesional ultraliviana.', 'Bicicicleta4.png', 6, 1),
+(1, 'Bicicleta MTB Aro 29', 'Trek', 10, 2800000, 'Aluminio', '14kg', 'Bicicleta de montaña con 21 velocidades.', 'Bicicleta1.png'),
+(1, 'Bicicleta Urbana', 'Giant', 12, 1800000, 'Acero', '12kg', 'Bicicleta urbana cómoda para ciudad.', 'Bicicleta2.png'),
+(1, 'Bicicleta Infantil', 'Scott', 12, 950000, 'Aluminio', '8kg', 'Ideal para niños entre 6 y 9 años.', 'Bicicleta3.png'),
+(1, 'Bicicleta de Ruta Carbono', 'Specialized', 13, 5200000, 'Fibra de carbono', '7.8kg', 'Bicicleta de ruta profesional ultraliviana.', 'Bicicleta4.png'),
 
 -- Repuestos
-(2, 'Llantas MTB 29"', 'Michelin', 250000, 'Caucho', '2kg', 'Llantas con agarre para terrenos difíciles.', 'Repuesto2.webp', 25, 5),
-(2, 'Cadena Shimano 9v', 'Shimano', 120000, 'Acero', '0.5kg', 'Cadena compatible con bicicletas de 9 velocidades.', 'Repuesto1.jpg', 30, 7),
-(2, 'Disco de freno hidráulico', 'SRAM', 180000, 'Acero inoxidable', '0.7kg', 'Disco de freno de alto rendimiento.', 'Repuesto3.webp', 20, 4),
-(2, 'Sillín ergonómico', 'Prologo', 160000, 'Cuero sintético', '0.5kg', 'Sillín diseñado para máximo confort.', 'Repuesto4.avif', 18, 2),
+(2, 'Llantas MTB 29"', 'Michelin', 13, 250000, 'Caucho', '2kg', 'Llantas con agarre para terrenos difíciles.', 'Repuesto2.webp'),
+(2, 'Cadena Shimano 9v', 'Shimano', 14, 120000, 'Acero', '0.5kg', 'Cadena compatible con bicicletas de 9 velocidades.', 'Repuesto1.jpg'),
+(2, 'Disco de freno hidráulico', 'SRAM', 15, 180000, 'Acero inoxidable', '0.7kg', 'Disco de freno de alto rendimiento.', 'Repuesto3.webp'),
+(2, 'Sillín ergonómico', 'Prologo', 16, 160000, 'Cuero sintético', '0.5kg', 'Sillín diseñado para máximo confort.', 'Repuesto4.avif'),
 
 -- Accesorios
-(3, 'Casco de ciclismo', 'Specialized', 250000, 'Policarbonato', '0.3kg', 'Casco ventilado con diseño aerodinámico.', 'Accesorio2.avif', 40, 10),
-(3, 'Guantes de ciclismo', 'Giro', 85000, 'Lycra', '0.2kg', 'Guantes con agarre antideslizante.', 'Accesorio1.webp', 50, 15),
-(3, 'Luz delantera LED', 'Bontrager', 60000, 'Plástico', '0.1kg', 'Luz LED recargable por USB.', 'Accesorio4.webp', 35, 5),
-(3, 'Gafas de ciclismo UV400', 'Oakley', 210000, 'Policarbonato', '0.1kg', 'Gafas con protección solar y ventilación.', 'Accesorio3.webp', 30, 8);
+(3, 'Casco de ciclismo', 'Specialized', 17, 250000, 'Policarbonato', '0.3kg', 'Casco ventilado con diseño aerodinámico.', 'Accesorio2.avif'),
+(3, 'Guantes de ciclismo', 'Giro', 0, 85000, 'Lycra', '0.2kg', 'Guantes con agarre antideslizante.', 'Accesorio1.webp'),
+(3, 'Luz delantera LED', 'Bontrager', 0, 60000, 'Plástico', '0.1kg', 'Luz LED recargable por USB.', 'Accesorio4.webp'),
+(3, 'Gafas de ciclismo UV400', 'Oakley', 1, 210000, 'Policarbonato', '0.1kg', 'Gafas con protección solar y ventilación.', 'Accesorio3.webp');
+
 
 
 # INSERT INTO TABLA PEDIDOS

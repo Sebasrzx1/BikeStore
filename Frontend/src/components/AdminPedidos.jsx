@@ -73,15 +73,15 @@ export default function AdminPedidos() {
 
   if (cargando)
     return (
-      <div className="pedidos-container">
+      <div className="pedidos-container2">
         <p>Cargando pedidos...</p>
       </div>
     );
 
   return (
-    <div className="pedidos-container">
-      <h3 className="titulo-pedidos">Pedidos</h3>
-      <div className="tabs">
+    <div className="pedidos-container2">
+      <h3 className="titulo-pedidos2">Pedidos</h3>
+      <div className="tabs2">
         {estadosFiltro.map((e) => (
           <button
             key={e}
@@ -93,21 +93,21 @@ export default function AdminPedidos() {
         ))}
       </div>
 
-      <div className="lista-pedidos">
+      <div className="lista-pedidos2">
         {pedidosFiltrados.length === 0 ? (
-          <p className="sin-pedidos">No hay pedidos para mostrar.</p>
+          <p className="sin-pedidos2">No hay pedidos para mostrar.</p>
         ) : (
           pedidosFiltrados.map((p) => (
-            <div key={p.id_pedido} className="pedido-row">
-              <div className="pedido-info">
-                <div className="pedido-id">PED-{p.id_pedido}</div>
-                <div className="pedido-usuario">{p.nombre_usuario}</div>
-                <div className="pedido-fecha">
+            <div key={p.id_pedido} className="pedido-row2">
+              <div className="pedido-info2">
+                <div className="pedido-id2">PED-{p.id_pedido}</div>
+                <div className="pedido-usuario2">{p.nombre_usuario}</div>
+                <div className="pedido-fecha2">
                   {new Date(p.fecha).toLocaleDateString("es-CO")}
                 </div>
               </div>
 
-              <div className="pedido-valor">
+              <div className="pedido-valor2">
                 ${p.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
 
@@ -115,7 +115,7 @@ export default function AdminPedidos() {
                 value={p.estado}
                 onChange={(e) => cambiarEstado(p.id_pedido, e.target.value)}
                 disabled={cambiandoEstado === p.id_pedido}
-                className="select-estado"
+                className="select-estado2"
               >
                 <option value="pendiente">Pendiente</option>
                 <option value="procesando">Procesando</option>

@@ -14,12 +14,11 @@ export default function Catalogo({ setCantidadCarrito }) {
   const [precioMax, setPrecioMax] = useState(2000000);
   const { mostrarToast } = useToast();
 
-  const [filtrosOpen, setFiltrosOpen] = useState(false); // ⬅ NUEVO
+  const [filtrosOpen, setFiltrosOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Cargar productos y categorías
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,7 +31,6 @@ export default function Catalogo({ setCantidadCarrito }) {
         setProductos(productosData);
         setCategorias(resCat.data);
 
-        // Ajustar precios mínimo y máximo
         const precios = productosData.map((p) => p.precio_unitario);
         setPrecioMin(Math.min(...precios));
         setPrecioMax(Math.max(...precios));
@@ -59,7 +57,6 @@ export default function Catalogo({ setCantidadCarrito }) {
     fetchData();
   }, [location.search]);
 
-  // Alternar selección de categoría
   const toggleCategoria = (idCategoria) => {
     setCategoriasSeleccionadas((prev) =>
       prev.includes(idCategoria)
@@ -68,7 +65,6 @@ export default function Catalogo({ setCantidadCarrito }) {
     );
   };
 
-  // Filtrar productos
   const productosFiltrados = productos.filter((prod) => {
     const coincideBusqueda = prod.nombre_producto
       ?.toLowerCase()
@@ -78,6 +74,7 @@ export default function Catalogo({ setCantidadCarrito }) {
       categoriasSeleccionadas.includes(prod.id_categoria);
     const dentroDelRango =
       prod.precio_unitario >= precioMin && prod.precio_unitario <= precioMax;
+
     return coincideBusqueda && coincideCategoria && dentroDelRango;
   });
 
@@ -90,7 +87,6 @@ export default function Catalogo({ setCantidadCarrito }) {
         </p>
       </div>
 
-      {/* BOTÓN PARA MÓVILES */}
       <button
         className="tienda-filtros-toggle"
         onClick={() => setFiltrosOpen(!filtrosOpen)}
@@ -128,7 +124,7 @@ export default function Catalogo({ setCantidadCarrito }) {
                         cat.id_categoria
                       )}
                       onChange={() => toggleCategoria(cat.id_categoria)}
-                    /> 
+                    />
                     <label htmlFor={`cat-${cat.id_categoria}`}>
                       {cat.nombre_categoria}
                     </label>
@@ -162,7 +158,6 @@ export default function Catalogo({ setCantidadCarrito }) {
               </div>
             </div>
 
-            {/* Botón limpiar filtros */}
             {(categoriasSeleccionadas.length > 0 || busqueda) && (
               <button
                 onClick={() => {
@@ -211,8 +206,10 @@ export default function Catalogo({ setCantidadCarrito }) {
                       <p className="tienda-precio">
                         ${p.precio_unitario.toLocaleString("es-CO")}
                       </p>
+
+                      {/* 🔥 ADAPTADO AQUÍ */}
                       <p className="tienda-stock">
-                        {p.entradas - p.salidas} en stock
+                        {p.stock} en stock
                       </p>
                     </div>
 
