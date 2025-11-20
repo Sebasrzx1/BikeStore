@@ -52,7 +52,7 @@ const AdminNavbar = () => {
           <button onClick={() => navigate("/")}>Volver a bikestore</button>
         </div>
       </div>
-      <img src="./public/LogoFooter.png" alt="BikeStore Logo" />
+      <img src="../LogoFooter.png" alt="BikeStore Logo" />
     </section>
   );
 };

@@ -1,8 +1,9 @@
-// src/admin/GestionProductosAdmin.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminNavbar from "../components/AdminNavbar";
+import ProductoModal from "../components/ProductoModal";
 import "../styles/GestionProductosAdmin.css";
+import TablaProductos from "../components/TablaProductos";
 
 const GestionProductosAdmin = () => {
   const [productos, setProductos] = useState([]);
@@ -18,13 +19,13 @@ const GestionProductosAdmin = () => {
     material: "",
     peso: "",
     descripcion: "",
-    entradas: "",
-    salidas: "",
+    entradas: 0,
+    salidas: 0,
     imagen: null,
   });
   const [imagenPreview, setImagenPreview] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Cargar productos y categorías
   const obtenerProductos = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/productos");
@@ -48,7 +49,17 @@ const GestionProductosAdmin = () => {
     obtenerCategorias();
   }, []);
 
-  // Abrir modal crear
+  const obtenerNombreCategoria = (id) => {
+    const cat = categorias.find((c) => Number(c.id_categoria) === Number(id));
+    return cat ? cat.nombre_categoria : "Sin categoría";
+  };
+
+  const productosFiltrados = productos.filter(
+    (p) =>
+      p.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.marca.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const abrirModalCrear = () => {
     setModoEdicion(false);
     setProductoActual({
@@ -60,18 +71,16 @@ const GestionProductosAdmin = () => {
       material: "",
       peso: "",
       descripcion: "",
-      entradas: "",
-      salidas: "",
+      entradas: 0,
+      salidas: 0,
       imagen: null,
     });
     setImagenPreview(null);
     setModalAbierto(true);
   };
 
-  // Abrir modal editar
   const abrirModalEditar = (producto) => {
     setModoEdicion(true);
-
     setProductoActual({
       id_producto: producto.id_producto,
       nombre_producto: producto.nombre_producto || "",
@@ -81,25 +90,23 @@ const GestionProductosAdmin = () => {
       material: producto.material || "",
       peso: producto.peso || "",
       descripcion: producto.descripcion || "",
-      entradas: producto.entradas || "",
-      salidas: producto.salidas || "",
-      imagen: null, // no enviar la imagen original; solo enviar si el usuario selecciona un File
+      entradas: producto.entradas || 0,
+      salidas: producto.salidas || 0,
+      imagen: null,
     });
-
     setImagenPreview(
-      producto.imagen ? `http://localhost:3000/uploads/productos/${producto.imagen}` : null
+      producto.imagen
+        ? `http://localhost:3000/uploads/productos/${producto.imagen}`
+        : null
     );
-
     setModalAbierto(true);
   };
 
-  // Cambios en inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductoActual((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Cargar imagen (selección)
   const handleImagen = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -107,15 +114,12 @@ const GestionProductosAdmin = () => {
     setImagenPreview(URL.createObjectURL(file));
   };
 
-  // Guardar producto (crear / editar)
   const guardarProducto = async () => {
     try {
       const formData = new FormData();
 
-      // Añadir sólo campos con valor (evitar undefined)
       Object.entries(productoActual).forEach(([key, value]) => {
         if (value === null || value === undefined) return;
-        // Para imagen, sólo si es un File
         if (key === "imagen") {
           if (value instanceof File) {
             formData.append("imagen", value);
@@ -141,11 +145,12 @@ const GestionProductosAdmin = () => {
       setModalAbierto(false);
     } catch (err) {
       console.error("Error guardando producto:", err);
-      alert("Ocurrió un error guardando el producto. Revisa la consola del servidor.");
+      alert(
+        "Ocurrió un error guardando el producto. Revisa la consola del servidor."
+      );
     }
   };
 
-  // Eliminar producto
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Seguro que desea eliminar este producto?")) return;
 
@@ -165,100 +170,40 @@ const GestionProductosAdmin = () => {
         <h2>Gestión de Productos</h2>
 
         <div className="header-actions">
+          <div className="search-container">
+            
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+
           <button className="btn-agregar" onClick={abrirModalCrear}>
             + Agregar Producto
           </button>
         </div>
+        <TablaProductos
+          productos={productosFiltrados}
+          categorias={categorias}
+          obtenerNombreCategoria={obtenerNombreCategoria}
+          abrirModalEditar={abrirModalEditar}
+          eliminarProducto={eliminarProducto}
+        />
 
-        <table className="tabla-productos">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Marca</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {productos.length === 0 ? (
-              <tr>
-                <td colSpan="7">No hay productos disponibles</td>
-              </tr>
-            ) : (
-              productos.map((p) => (
-                <tr key={p.id_producto}>
-                  <td>{p.nombre_producto}</td>
-                  <td>{p.marca}</td>
-                  <td>{p.id_categoria}</td>
-                  <td>${p.precio_unitario}</td>
-                  <td>{p.entradas - p.salidas}</td>
-                  <td>
-                    <button className="btn-editar" onClick={() => abrirModalEditar(p)}>
-                      Editar
-                    </button>
-                    <button className="btn-eliminar" onClick={() => eliminarProducto(p.id_producto)}>
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-
-        {modalAbierto && (
-          <div className="modal-fondo">
-            <div className="modal">
-              <h3>{modoEdicion ? "Editar Producto" : "Agregar Producto"}</h3>
-
-              <div className="formulario">
-                <input type="text" name="nombre_producto" value={productoActual.nombre_producto}
-                  onChange={handleChange} placeholder="Nombre del producto" />
-
-                <input type="text" name="marca" value={productoActual.marca}
-                  onChange={handleChange} placeholder="Marca" />
-
-                <select name="id_categoria" value={productoActual.id_categoria} onChange={handleChange}>
-                  <option value="">Seleccionar categoría</option>
-                  {categorias.map((c) => (
-                    <option key={c.id_categoria} value={c.id_categoria}>{c.nombre_categoria}</option>
-                  ))}
-                </select>
-
-                <input type="number" name="precio_unitario" value={productoActual.precio_unitario}
-                  onChange={handleChange} placeholder="Precio" />
-
-                <input type="text" name="material" value={productoActual.material}
-                  onChange={handleChange} placeholder="Material" />
-
-                <input type="text" name="peso" value={productoActual.peso}
-                  onChange={handleChange} placeholder="Peso" />
-
-                <textarea name="descripcion" value={productoActual.descripcion}
-                  onChange={handleChange} placeholder="Descripción" />
-
-                <input type="number" name="entradas" value={productoActual.entradas}
-                  onChange={handleChange} placeholder="Entradas" />
-
-                <input type="number" name="salidas" value={productoActual.salidas}
-                  onChange={handleChange} placeholder="Salidas" />
-
-                <label>Imagen del producto:</label>
-                <input type="file" accept="image/*" onChange={handleImagen} />
-                {imagenPreview && <img src={imagenPreview} alt="Vista previa" width="100" style={{ marginTop: "10px", borderRadius: "6px" }} />}
-
-                <div className="modal-acciones">
-                  <button onClick={() => setModalAbierto(false)}>Cancelar</button>
-                  <button onClick={guardarProducto}>{modoEdicion ? "Guardar Cambios" : "Crear Producto"}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
+        <ProductoModal
+          abierto={modalAbierto}
+          modoEdicion={modoEdicion}
+          productoActual={productoActual}
+          categorias={categorias}
+          imagenPreview={imagenPreview}
+          onCerrar={() => setModalAbierto(false)}
+          onChange={handleChange}
+          onImagenChange={handleImagen}
+          onGuardar={guardarProducto}
+        />
       </div>
     </div>
   );

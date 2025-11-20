@@ -3,7 +3,7 @@
     margin: 0;
     display: flex;
     width: auto;
-    height: 969px;
+    height: 100vh;
     padding: 24px;
     flex-direction: column;
     justify-content: space-between;

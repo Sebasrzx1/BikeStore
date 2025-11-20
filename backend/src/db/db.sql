@@ -66,7 +66,7 @@ CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos(id_product
 INSERT INTO usuarios (nombre, apellido, rol, email, contraseña, telefono, direccion, ciudad, departamento, codigo_postal, pais)
 VALUES
 ('Sebastián', 'Ramírez', 'Administrador', 'sebas@bikestore.com', '$2b$10$JzH1KI1vB.7OqfldSq/l2O4aWaqnR/NbCz1wOEBMib.obQb0iV9AK', 3004567890, 'Calle 45 #23-10', 'Medellín', 'Antioquia', 050021, 'Colombia'),
-('María', 'Gómez', 'Cliente', 'maria@gmail.com', 'cliente123', 3105671234, 'Carrera 12 #45-56', 'Bogotá', 'Cundinamarca', 110111, 'Colombia'),
+('María', 'Gómez', 'Cliente', 'maria@gmail.com', '$2b$10$JzH1KI1vB.7OqfldSq/l2O4aWaqnR/NbCz1wOEBMib.obQb0iV9AK', 3105671234, 'Carrera 12 #45-56', 'Bogotá', 'Cundinamarca', 110111, 'Colombia'),
 ('Carlos', 'Lopez', 'Cliente', 'carlos@hotmail.com', 'cliente456', 3118904567, 'Av. 80 #45-23', 'Cali', 'Valle del Cauca', 760001, 'Colombia'),
 ('Ana', 'Martínez', 'Cliente', 'ana@gmail.com', 'cliente789', 3125670987, 'Calle 9 #10-22', 'Medellín', 'Antioquia', 050022, 'Colombia');
 
@@ -103,14 +103,23 @@ VALUES
 INSERT INTO pedidos (id_usuario, estado)
 VALUES
 (2, 'En alistamiento'),
-(3, 'En envío'),
-(4, 'Entregados');
+(2, 'En envío'),
+(2, 'Entregados');
 
 # INSERT INTO TABLA DETALLE_PEDIDO
 INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, total)
 VALUES
 (1, 1, 1, 2800000),
 (1, 7, 1, 250000),
-(2, 4, 2, 500000),  
-(3, 9, 1, 60000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(1, 4, 2, 500000),  
+(2, 9, 1, 60000),  
 (3, 8, 1, 85000); 
