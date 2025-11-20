@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom"
 import "../styles/SobreNostros.css"
+import { useNavigate } from "react-router-dom";
+
 const SobreNosotros = () => {
+    const navigate = useNavigate();
     return (
         <div className="contenedor-general-sobrenostros">
             <div className="logo-titulo">
@@ -80,7 +83,7 @@ const SobreNosotros = () => {
                 <div className="publicidad">
                     <p id="readyAventure">¿Listo para comenzar tu aventura?</p>
                     <p>Descubre nuestro catálogo completo de bicicletas, accesorios y repuestos. Encuentra el equipo perfecto para tu próximo desafio.</p>
-                    <button>Ver Catálogo</button>
+                    <button onClick={()=> navigate("/catalogo")}>Ver Catálogo</button>
                 </div>
             </div>
 

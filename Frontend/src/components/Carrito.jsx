@@ -91,7 +91,7 @@ export default function Carrito({ setCantidadCarrito }) {
   }
 
   return (
-    <div className="carrito-contenedor">
+    <div className="carrito-contenedorS">
       <div className="carrito-titulo">
         <h1>Carrito de compras</h1>
         <p>
@@ -101,12 +101,12 @@ export default function Carrito({ setCantidadCarrito }) {
             : "items"}
         </p>
       </div>
-      <div className="ContCarrito">
-        <div className="carrito-lista">
+      <div className="ContCarritoS">
+        <div className="carrito-listaS">
           {carrito.map((p) => (
-            <div key={p.id_producto} className="carrito-item">
-              <div className="cicla-info">
-                <div className="carrito-imagen">
+            <div key={p.id_producto} className="carrito-itemS">
+              <div className="cicla-infoS">
+                <div className="carrito-imagenS">
                   <img
                     src={
                       p.imagen?.startsWith("http")
@@ -119,14 +119,14 @@ export default function Carrito({ setCantidadCarrito }) {
                     onError={(e) => (e.target.src = "/placeholder.png")}
                   />
                 </div>
-                <div className="contenedor-control-desc">
+                <div className="contenedor-control-descS">
                   <p>{p.marca}</p>
                   <div className="carrito-detalles">
                     <h3>{p.nombre}</h3>
                     <p>Subtotal: ${p.subtotal.toLocaleString("es-CO")}</p>
                   </div>
 
-                  <div className="carrito-controles">
+                  <div className="carrito-controlesS">
                     <button
                       onClick={() =>
                         actualizarCantidad(p.id_producto, p.cantidad - 1)
@@ -144,8 +144,8 @@ export default function Carrito({ setCantidadCarrito }) {
                     </button>
                   </div>
                 </div>
-                <div className="ContPrecio">
-                  <div className="contenedor-eliminar-precio">
+                <div className="ContPrecioS">
+                  <div className="contenedor-eliminar-precioS">
                     <button
                       onClick={() => {
                         eliminarProducto(p.id_producto);

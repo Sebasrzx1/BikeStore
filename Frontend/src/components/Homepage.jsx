@@ -44,9 +44,10 @@ const Homepage = ({ setCantidadCarrito }) => {
 
   const categoriasPermitidasIds = [1, 2, 3];
 
+  // ADAPTADO: antes ordenaba por salidas, que ya no existe.
   const productosFiltrados = productos
     .filter((p) => categoriasPermitidasIds.includes(Number(p.id_categoria)))
-    .sort((a, b) => (b.salidas || 0) - (a.salidas || 0));
+    .sort(() => 0); // mantiene orden sin usar salidas
 
   const productosPorCategoria = {};
   categoriasPermitidasIds.forEach((id) => {
@@ -62,9 +63,7 @@ const Homepage = ({ setCantidadCarrito }) => {
       <section className="hero">
         <div className="heroTitulo">
           <h1>COMPRA POR CATÁLOGO</h1>
-          <p>
-            Encuentra exactamente lo que necesitas para tu viaje en bicicleta
-          </p>
+          <p>Encuentra exactamente lo que necesitas para tu viaje en bicicleta</p>
         </div>
 
         <div className="ContCategoria">
@@ -174,14 +173,15 @@ const Homepage = ({ setCantidadCarrito }) => {
                       <div className="card-body">
                         <h4 className="marca">{p.marca}</h4>
                         <h3 className="nombre">{p.nombre_producto}</h3>
+
                         <div className="ContPrecioADD">
                           <div className="contprecio">
                             <p className="precio">
                               ${p.precio_unitario.toLocaleString("es-CO")}
                             </p>
-                            <p className="stock">
-                              {p.entradas - p.salidas} en stock
-                            </p>
+
+                            {/* ✔️ MOSTRAR STOCK (ya funciona en tu backend) */}
+                            <p className="stock">{p.stock} en stock</p>
                           </div>
 
                           <button

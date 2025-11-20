@@ -10,6 +10,8 @@ const GestionProductosAdmin = () => {
   const [categorias, setCategorias] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
+
+  // 🔥 Producto base con STOCK (sin entradas/salidas)
   const [productoActual, setProductoActual] = useState({
     id_producto: null,
     nombre_producto: "",
@@ -19,13 +21,16 @@ const GestionProductosAdmin = () => {
     material: "",
     peso: "",
     descripcion: "",
-    entradas: 0,
-    salidas: 0,
+    stock: 0,
     imagen: null,
   });
+
   const [imagenPreview, setImagenPreview] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // ============================
+  //  GET productos y categorías
+  // ============================
   const obtenerProductos = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/productos");
@@ -54,12 +59,18 @@ const GestionProductosAdmin = () => {
     return cat ? cat.nombre_categoria : "Sin categoría";
   };
 
+  // ============================
+  //   BUSCADOR
+  // ============================
   const productosFiltrados = productos.filter(
     (p) =>
       p.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.marca.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // ============================
+  //      CREAR PRODUCTO
+  // ============================
   const abrirModalCrear = () => {
     setModoEdicion(false);
     setProductoActual({
@@ -71,16 +82,19 @@ const GestionProductosAdmin = () => {
       material: "",
       peso: "",
       descripcion: "",
-      entradas: 0,
-      salidas: 0,
+      stock: 0,
       imagen: null,
     });
     setImagenPreview(null);
     setModalAbierto(true);
   };
 
+  // ============================
+  //     EDITAR PRODUCTO
+  // ============================
   const abrirModalEditar = (producto) => {
     setModoEdicion(true);
+
     setProductoActual({
       id_producto: producto.id_producto,
       nombre_producto: producto.nombre_producto || "",
@@ -90,18 +104,22 @@ const GestionProductosAdmin = () => {
       material: producto.material || "",
       peso: producto.peso || "",
       descripcion: producto.descripcion || "",
-      entradas: producto.entradas || 0,
-      salidas: producto.salidas || 0,
-      imagen: null,
+      stock: producto.stock || 0,
+      imagen: null, // se setea aparte
     });
+
     setImagenPreview(
       producto.imagen
         ? `http://localhost:3000/uploads/productos/${producto.imagen}`
         : null
     );
+
     setModalAbierto(true);
   };
 
+  // ============================
+  //     HANDLE INPUTS
+  // ============================
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductoActual((prev) => ({ ...prev, [name]: value }));
@@ -114,18 +132,21 @@ const GestionProductosAdmin = () => {
     setImagenPreview(URL.createObjectURL(file));
   };
 
+  // ============================
+  //     GUARDAR PRODUCTO
+  // ============================
   const guardarProducto = async () => {
     try {
       const formData = new FormData();
 
       Object.entries(productoActual).forEach(([key, value]) => {
         if (value === null || value === undefined) return;
+
         if (key === "imagen") {
-          if (value instanceof File) {
-            formData.append("imagen", value);
-          }
+          if (value instanceof File) formData.append("imagen", value);
           return;
         }
+
         formData.append(key, value);
       });
 
@@ -145,12 +166,13 @@ const GestionProductosAdmin = () => {
       setModalAbierto(false);
     } catch (err) {
       console.error("Error guardando producto:", err);
-      alert(
-        "Ocurrió un error guardando el producto. Revisa la consola del servidor."
-      );
+      alert("Ocurrió un error guardando el producto.");
     }
   };
 
+  // ============================
+  //      ELIMINAR PRODUCTO
+  // ============================
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Seguro que desea eliminar este producto?")) return;
 
@@ -159,19 +181,22 @@ const GestionProductosAdmin = () => {
       obtenerProductos();
     } catch (err) {
       console.error("Error eliminando producto:", err);
-      alert("Error eliminando producto. Revisa la consola del servidor.");
+      alert("Error eliminando producto.");
     }
   };
 
+  // ============================
+  //          RENDER
+  // ============================
   return (
     <div className="ContGestProduct">
       <AdminNavbar />
+
       <div className="gestion-container">
         <h2>Gestión de Productos</h2>
 
         <div className="header-actions">
           <div className="search-container">
-            
             <input
               type="text"
               placeholder="Buscar productos..."
@@ -185,6 +210,7 @@ const GestionProductosAdmin = () => {
             + Agregar Producto
           </button>
         </div>
+
         <TablaProductos
           productos={productosFiltrados}
           categorias={categorias}

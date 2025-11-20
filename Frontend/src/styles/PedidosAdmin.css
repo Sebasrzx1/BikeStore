@@ -1,4 +1,4 @@
-.pedidos-container {
+.pedidos-container2 {
   width: 667.5px;
   height: 460px;
   padding: 16px 24px 24px 24px;
@@ -11,21 +11,21 @@
   border-radius: 12px;
 }
 
-.titulo-pedidos {
+.titulo-pedidos2 {
   margin: 0 0 12px 0;
   font-weight: 600;
   font-size: 20px;
   user-select: none;
 }
 
-.tabs {
+.tabs2 {
   display: flex;
   gap: 8px;
   margin-bottom: 12px;
   user-select: none;
 }
 
-.tab-btn {
+.tab-btn2 {
   background-color: #f0f0f0;
   border: none;
   border-radius: 12px;
@@ -36,12 +36,12 @@
   transition: background-color 0.3s ease;
 }
 
-.tab-btn.active {
+.tab-btn.active2 {
   background-color: #92000a;
   color: white;
 }
 
-.lista-pedidos {
+.lista-pedidos2 {
   flex-grow: 1;
   overflow-y: auto;
   border-top: 1px solid #eee;
@@ -49,7 +49,7 @@
   user-select: none;
 }
 
-.pedido-row {
+.pedido-row2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,7 +58,7 @@
   font-size: 14px;
 }
 
-.pedido-info {
+.pedido-info2 {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -68,18 +68,18 @@
   text-overflow: ellipsis;
 }
 
-.pedido-id {
+.pedido-id2 {
   font-weight: 700;
   color: #222;
 }
 
-.pedido-usuario,
-.pedido-fecha {
+.pedido-usuario2,
+.pedido-fecha2 {
   color: #666;
   font-size: 12px;
 }
 
-.pedido-valor {
+.pedido-valor2 {
   font-weight: 600;
   min-width: 110px;
   text-align: right;
@@ -87,7 +87,7 @@
   user-select: text;
 }
 
-.select-estado {
+.select-estado2 {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -98,12 +98,12 @@
   min-width: 120px;
 }
 
-.select-estado:disabled {
+.select-estado2:disabled {
   opacity: 0.6;
   cursor: wait;
 }
 
-.sin-pedidos {
+.sin-pedidos2 {
   color: #888;
   font-style: italic;
   margin-top: 32px;

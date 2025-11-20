@@ -171,6 +171,9 @@
     border-radius: 10px;
     background-color: rgb(133, 6, 6);
 }
+.publicidad button:hover {
+    background-color: rgb(112, 5, 5);
+}
 
 .recomendacion {
     display: flex;
