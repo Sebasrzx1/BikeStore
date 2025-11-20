@@ -144,7 +144,7 @@ export default function DetalleProducto({ setCantidadCarrito }) {
     <div className="detalle-contenedor">
       <div className="ContVolver">
         <button className="btn-volver" onClick={() => navigate(-1)}>
-          ← Volver
+          ← Volver al catalogo
         </button>
       </div>
 
@@ -240,3 +240,4 @@ export default function DetalleProducto({ setCantidadCarrito }) {
     </div>
   );
 }
+

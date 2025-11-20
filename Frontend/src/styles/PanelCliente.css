@@ -12,9 +12,10 @@
     border: 1px solid rgba(0, 0, 0, 0.10);
     background: #FFF;
 }
-.btn-logout p{
-    color: #D4183D;
 
+.btn-logout{
+    display: flex;
+    gap: 20px;
 }
 
 .icon-perfil-panel img{
@@ -45,7 +46,9 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+    align-items: center;
 }
+
 .name-correo h1 {
     color: #000;
     text-align: center;

@@ -24,12 +24,17 @@
   text-align: center;
 }
 
+.encabezado p {
+  color: black;
+
+}
+
 .contendor-componente-panelCliente {
   background-color: rgb(243, 243, 243);
   padding: 20px;
   padding-top: 60px;
   border-radius: 15px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .contenedor-datos-personales {
@@ -43,7 +48,11 @@
   padding-bottom: 30px;
   width: 100%;
 }
-.contajustes{
+.contenedor-sin-registro p{
+  color: black;
+}
+
+.contajustes {
   display: flex;
   justify-content: center;
   width: 100%;

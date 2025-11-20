@@ -1,4 +1,10 @@
 /* ======== NAVBAR GENERAL ======== */
+.Contenedor-navPrincipal{
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
 .navbar {
   display: flex;
   align-items: center;
@@ -11,13 +17,13 @@
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
-  padding: 10px 0px 10px 0px;
+  padding: 10px 100px 10px 100px;
+  width:100%;
 }
 
 
 /* LOGO */
 .nav-logo {
-  width: 25%;
   height: 53px;
 }
 
@@ -143,6 +149,9 @@
   align-items: center;
   justify-content: center;
 }
+.hamburger{
+  position: absolute;
+}
 
 /* ========================================================= */
 /* ======================= RESPONSIVE ======================= */
@@ -152,6 +161,9 @@
 @media (max-width: 1024px) {
   .navbar {
     padding: 12px 60px;
+  }
+  .hamburger{
+    margin-left: 360px;
   }
 }
 
@@ -241,5 +253,9 @@
 
   .Contcarrito-accesoregistro {
     gap: 15px;
+  }
+
+  .hamburger{
+    margin-left: 280px;
   }
 }

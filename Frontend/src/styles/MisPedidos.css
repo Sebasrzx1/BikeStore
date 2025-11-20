@@ -1,6 +1,6 @@
 .contenedor-general {
     padding: 20px;
-    height: 50rem;
+    height: auto;
 }
 
 .contenedor-panel-y-pedidos {
@@ -8,25 +8,24 @@
     gap: 10rem;
     height: 100%;
 }
-
+.contenedor-panel{
+    height: min-content;
+}
 .contenedorPanel {
     display: flex;
-    flex-direction: column;
-    width: 360px;
-    align-items: center;
     padding-top: 60px;
-    border-radius: 20px;
-    background: rgb(240, 240, 240);
-    box-shadow: 0 0 5px 1px rgb(205, 205, 205);
-    height: 100%;
 }
 
 .contenedor-pedidos {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 700px;
+    width: 800px;
     gap: 20px;
+    border: 1px solid rgba(179, 179, 179, 0.579);
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
 }
 
 .filtros {
@@ -114,6 +113,7 @@
 }
 .No_pedido_fecha p{
     font-size: 15px;
+    color: black;
 }
 
 .Estado_total_verDetalle{
@@ -139,4 +139,8 @@
     font-weight: bold;
     color: black;
     font-size: 20px;
+}
+
+.lista-pedidos p{
+    color: black;
 }
