@@ -198,8 +198,9 @@ textarea {
 .modal-footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 12px;
-  padding: 0 24px 24px;
+  padding: 0 24px 0;
 }
 
 .btn-cancelar,
@@ -215,6 +216,8 @@ textarea {
 }
 
 .btn-cancelar {
+  height: 41.33px;
+  display: flex;
   background: #fff;
   color: #444;
   border: 1.5px solid #ccc;
