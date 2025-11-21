@@ -149,6 +149,7 @@
   border-radius: 33554400px;
   background: #8B0000;
   gap: 4px;
+  width: 100%;
 }
 
 .tienda-btn-add p {
@@ -174,41 +175,40 @@
   border: 1px solid black;
 }
 
-
-/* Posicionar la etiqueta sobre la imagen */
-.tienda-card-img-wrapCatal {
-  position: relative;
-}
-
-/* Etiqueta rojo "Sin Stock" */
-.etiqueta-sin-stockCatal {
-  position: absolute;
-  top: 362px;
-  right: 236px;
-  background-color: #b30000;
-  color: white;
-  font-weight: 600;
-  font-size: 0.8rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 4px 10px;
-  z-index: 10;
-}
-
-
-/* Botón deshabilitado por stock 0 */
-.tienda-btn-add.agotado {
-  background-color: #cfa0a0;
-  color: #800000;
-  cursor: not-allowed;
-  display: flex;
+/* Contenedor slider */
+.rango-slider {
   width: 100%;
+  padding: 10px 0;
 }
 
-.tienda-btn-add:disabled {
-  opacity: 0.7;
-  pointer-events: none;
+/* Slider */
+.rango-slider input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
 }
+
+/* Thumb */
+.rango-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #bf0202;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Valores */
+.rango-valores {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
 
 /* ============================================
    FIX ESPECIAL PANTALLAS 1366px

@@ -6,15 +6,57 @@ import { useAuth } from "../context/AuthContext";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
-  const [mensaje, setMensaje] = useState("");
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
+
+  // Validaciones
+  const [errores, setErrores] = useState({});
+
+  // Modal Alertas
+  const [modalAlerta, setModalAlerta] = useState({
+    visible: false,
+    texto: "",
+  });
 
   const navigate = useNavigate();
   const { login, redirectPath, setRedirectPath } = useAuth();
 
+  // --- VALIDAR CAMPOS ---
+  const validarCampo = (campo, valor) => {
+    let error = "";
+
+    if (!valor.trim()) {
+      error = "Este campo es obligatorio.";
+    } else {
+      if (campo === "email") {
+        if (!/\S+@\S+\.\S+/.test(valor)) {
+          error = "Correo electrónico no válido.";
+        }
+      }
+      if (campo === "contraseña") {
+        if (valor.length < 6) {
+          error = "Debe tener al menos 6 caracteres.";
+        }
+      }
+    }
+
+    setErrores((prev) => ({ ...prev, [campo]: error }));
+    return error;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMensaje("Verificando...");
+
+    // Validación antes de enviar
+    const errorEmail = validarCampo("email", email);
+    const errorPass = validarCampo("contraseña", contraseña);
+
+    if (errorEmail || errorPass) {
+      setModalAlerta({
+        visible: true,
+        texto: "⚠️ Verifica los campos antes de iniciar sesión.",
+      });
+      return;
+    }
 
     try {
       const response = await fetch("http://localhost:3000/api/auth/login", {
@@ -26,26 +68,27 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // ✅ Guardar token y usuario en localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("rol", data.usuario.rol);
         localStorage.setItem("nombre", data.usuario.nombre);
 
-        // Llamar al login del contexto pasando usuario y token
         login(data.usuario, data.token);
 
-        setMensaje("✅ Inicio de sesión exitoso");
-
-        // Redirigir al destino o a la cuenta
         const destino = redirectPath || "/cuenta";
         navigate(destino);
         setRedirectPath("/");
       } else {
-        setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
+        setModalAlerta({
+          visible: true,
+          texto: data.message || "Error al iniciar sesión",
+        });
       }
     } catch (error) {
       console.error("Error en login:", error);
-      setMensaje("❌ No se pudo conectar con el servidor");
+      setModalAlerta({
+        visible: true,
+        texto: "❌ No se pudo conectar con el servidor",
+      });
     }
   };
 
@@ -60,6 +103,7 @@ export default function LoginForm() {
           </p>
         </div>
 
+        {/* Botones */}
         <div className="BotonesLogin">
           <div className="botondir" onClick={() => navigate("/login")}>
             Iniciar sesión
@@ -69,33 +113,47 @@ export default function LoginForm() {
           </div>
         </div>
 
+        {/* FORM */}
         <form className="CardLogin" onSubmit={handleSubmit}>
+          {/* Email */}
           <div className="LoginCampo">
             <label>Correo electrónico</label>
-            <div className="ContCampo">
+            <div
+              className={`ContCampo ${errores.email ? "campo-error" : email ? "campo-exito" : ""
+                }`}
+            >
               <img src="../public/IconEmail.svg" alt="" />
               <input
                 className="LoginInput"
                 type="email"
-                placeholder="tu@correo.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validarCampo("email", e.target.value);
+                }}
+                placeholder="tu@correo.com"
               />
             </div>
+
+            {errores.email && <p className="error-text">{errores.email}</p>}
           </div>
 
+          {/* Contraseña */}
           <div className="LoginCampo">
             <label>Contraseña</label>
-            <div className="ContCampo">
+            <div
+              className={`ContCampo ${errores.contraseña ? "campo-error" : contraseña ? "campo-exito" : ""
+                }`}
+            >
               <img src="../public/Icon Lock.svg" alt="" />
               <input
-                className="LoginInput"
                 type={mostrarContraseña ? "text" : "password"}
-                placeholder="*****"
+                className="LoginInput"
                 value={contraseña}
-                onChange={(e) => setContraseña(e.target.value)}
-                required
+                onChange={(e) => {
+                  setContraseña(e.target.value);
+                  validarCampo("contraseña", e.target.value);
+                }}
               />
               <img
                 src={
@@ -103,11 +161,14 @@ export default function LoginForm() {
                     ? "../public/IconEyeoff.svg"
                     : "../public/IconEye.svg"
                 }
-                alt="Mostrar contraseña"
                 className="icono-ojo"
                 onClick={() => setMostrarContraseña(!mostrarContraseña)}
               />
             </div>
+
+            {errores.contraseña && (
+              <p className="error-text">{errores.contraseña}</p>
+            )}
           </div>
 
           <Link to="/forgot-password" className="LoginOlvidar">
@@ -125,7 +186,21 @@ export default function LoginForm() {
           </Link>
         </div>
 
-        {mensaje && <p className="auth-message">{mensaje}</p>}
+        {/* MODAL ERROR */}
+        {modalAlerta.visible && (
+          <div
+            className="modal-overlay"
+            onClick={() => setModalAlerta({ visible: false })}
+          >
+            <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ color: "red" }}>Error</h3>
+              <p>{modalAlerta.texto}</p>
+              <button onClick={() => setModalAlerta({ visible: false })}>
+                Cerrar
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

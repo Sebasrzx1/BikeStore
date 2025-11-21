@@ -6,7 +6,12 @@ export default function RegisterForm({ setIsRegistering }) {
   const [mensaje, setMensaje] = useState("");
   const [errores, setErrores] = useState({});
   const [aceptaDatos, setAceptaDatos] = useState(false);
+
+  // MODALES NUEVOS
+  const [modalAlerta, setModalAlerta] = useState({ visible: false, texto: "" });
+  const [modalExito, setModalExito] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [modalFormularioVacio, setModalFormularioVacio] = useState(false); // NUEVO
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -18,53 +23,58 @@ export default function RegisterForm({ setIsRegistering }) {
     pais: "Colombia",
   });
 
-  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]*$/;
-  const soloNumeros = /^[0-9]*$/;
+  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+  const soloNumeros = /^[0-9]+$/;
 
   const validarCampo = (nombreCampo, valor) => {
     let error = "";
 
-    switch (nombreCampo) {
-      case "nombre":
-      case "apellido":
-        if (!soloLetras.test(valor)) {
-          error = "Solo se permiten letras.";
-        } else if (valor.length > 30) {
-          error = "Máximo 30 caracteres.";
-        }
-        break;
+    if (!valor || valor.trim() === "") {
+      error = "Este campo es obligatorio.";
+    } else {
+      switch (nombreCampo) {
+        case "nombre":
+        case "apellido":
+          if (!soloLetras.test(valor)) {
+            error = "Solo se permiten letras.";
+          } else if (valor.length > 30) {
+            error = "Máximo 30 caracteres.";
+          }
+          break;
 
-      case "telefono":
-        if (!soloNumeros.test(valor)) {
-          error = "Solo se permiten números.";
-        } else if (valor.length > 15) {
-          error = "Máximo 15 dígitos.";
-        }
-        break;
+        case "telefono":
+          if (!soloNumeros.test(valor)) {
+            error = "Solo se permiten números.";
+          } else if (valor.length > 15) {
+            error = "Máximo 15 dígitos.";
+          }
+          break;
 
-      case "email":
-        if (!/\S+@\S+\.\S+/.test(valor)) {
-          error = "Correo electrónico no válido.";
-        }
-        break;
+        case "email":
+          if (!/\S+@\S+\.\S+/.test(valor)) {
+            error = "Correo electrónico no válido.";
+          }
+          break;
 
-      case "contraseña":
-        if (valor.length < 6) {
-          error = "Debe tener al menos 6 caracteres.";
-        }
-        break;
+        case "contraseña":
+          if (valor.length < 6) {
+            error = "Debe tener al menos 6 caracteres.";
+          }
+          break;
 
-      case "confirmarContraseña":
-        if (valor !== formData.contraseña) {
-          error = "Las contraseñas no coinciden.";
-        }
-        break;
+        case "confirmarContraseña":
+          if (valor !== formData.contraseña) {
+            error = "Las contraseñas no coinciden.";
+          }
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
 
     setErrores((prev) => ({ ...prev, [nombreCampo]: error }));
+    return error;
   };
 
   const navigate = useNavigate();
@@ -78,17 +88,36 @@ export default function RegisterForm({ setIsRegistering }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Object.keys(formData).forEach((campo) =>
-      validarCampo(campo, formData[campo])
+    // NUEVO: detectar formulario totalmente vacío + checkbox no aceptado
+    const formularioVacio = Object.values(formData).every(
+      (v) => v === "" || v === "Colombia"
     );
-    const hayErrores = Object.values(errores).some((msg) => msg);
-    if (hayErrores) {
-      setMensaje("❌ Corrige los errores antes de continuar.");
+
+    if (formularioVacio && !aceptaDatos) {
+      setModalFormularioVacio(true);
+      return;
+    }
+
+    // Validación individual de cada campo
+    let errorEncontrado = false;
+    Object.keys(formData).forEach((campo) => {
+      const r = validarCampo(campo, formData[campo]);
+      if (r) errorEncontrado = true;
+    });
+
+    if (errorEncontrado) {
+      setModalAlerta({
+        visible: true,
+        texto: "❌ Corrige los errores antes de continuar.",
+      });
       return;
     }
 
     if (!aceptaDatos) {
-      setMensaje("⚠️ Debes aceptar el tratamiento de tus datos personales.");
+      setModalAlerta({
+        visible: true,
+        texto: "⚠️ Debes aceptar el tratamiento de tus datos personales.",
+      });
       return;
     }
 
@@ -111,7 +140,12 @@ export default function RegisterForm({ setIsRegistering }) {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMensaje(` ${data.message || "Registro exitoso"}`);
+        setModalExito(true);
+
+        // Redirigir automáticamente al login
+        setTimeout(() => navigate("/login"), 2500);
+
+        // limpiar form
         setFormData({
           nombre: "",
           apellido: "",
@@ -124,11 +158,16 @@ export default function RegisterForm({ setIsRegistering }) {
         setErrores({});
         setAceptaDatos(false);
       } else {
-        setMensaje(` ${data.message || "Error al registrarse"}`);
+        setModalAlerta({
+          visible: true,
+          texto: data.message || "Error al registrarse",
+        });
       }
     } catch (error) {
-      console.error(error);
-      setMensaje(" No se pudo conectar con el servidor");
+      setModalAlerta({
+        visible: true,
+        texto: "No se pudo conectar con el servidor",error
+      });
     }
   };
 
@@ -159,7 +198,11 @@ export default function RegisterForm({ setIsRegistering }) {
               <label>Nombre</label>
               <input
                 className={`RegisterInput ${
-                  errores.nombre ? "input-error" : ""
+                  errores.nombre
+                    ? "input-error"
+                    : formData.nombre
+                    ? "input-success"
+                    : ""
                 }`}
                 type="text"
                 name="nombre"
@@ -167,6 +210,7 @@ export default function RegisterForm({ setIsRegistering }) {
                 onChange={handleChange}
                 required
               />
+
               {errores.nombre && <p className="error-text">{errores.nombre}</p>}
             </div>
 
@@ -174,7 +218,11 @@ export default function RegisterForm({ setIsRegistering }) {
               <label>Apellido</label>
               <input
                 className={`RegisterInput ${
-                  errores.apellido ? "input-error" : ""
+                  errores.apellido
+                    ? "input-error"
+                    : formData.apellido
+                    ? "input-success"
+                    : ""
                 }`}
                 type="text"
                 name="apellido"
@@ -182,41 +230,58 @@ export default function RegisterForm({ setIsRegistering }) {
                 onChange={handleChange}
                 required
               />
+
               {errores.apellido && (
                 <p className="error-text">{errores.apellido}</p>
               )}
             </div>
           </div>
 
-          {/* Campos normales */}
+          {/* Correo */}
           <div className="auth-field">
             <label>Correo electrónico</label>
             <input
-              className={`InputNormal ${errores.email ? "input-error" : ""}`}
+              className={`InputNormal ${
+                errores.email
+                  ? "input-error"
+                  : formData.email
+                  ? "input-success"
+                  : ""
+              }`}
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
             />
+
             {errores.email && <p className="error-text">{errores.email}</p>}
           </div>
 
+          {/* Teléfono */}
           <div className="auth-field">
             <label>Teléfono</label>
             <input
-              className={`InputNormal ${errores.telefono ? "input-error" : ""}`}
+              className={`InputNormal ${
+                errores.telefono
+                  ? "input-error"
+                  : formData.telefono
+                  ? "input-success"
+                  : ""
+              }`}
               type="tel"
               name="telefono"
               value={formData.telefono}
               onChange={handleChange}
               required
             />
+
             {errores.telefono && (
               <p className="error-text">{errores.telefono}</p>
             )}
           </div>
 
+          {/* País */}
           <div className="auth-field">
             <label>País</label>
             <select
@@ -235,11 +300,16 @@ export default function RegisterForm({ setIsRegistering }) {
             </select>
           </div>
 
+          {/* Contraseña */}
           <div className="auth-field">
             <label>Contraseña</label>
             <input
               className={`InputNormal ${
-                errores.contraseña ? "input-error" : ""
+                errores.contraseña
+                  ? "input-error"
+                  : formData.contraseña
+                  ? "input-success"
+                  : ""
               }`}
               type="password"
               name="contraseña"
@@ -247,16 +317,22 @@ export default function RegisterForm({ setIsRegistering }) {
               onChange={handleChange}
               required
             />
+
             {errores.contraseña && (
               <p className="error-text">{errores.contraseña}</p>
             )}
           </div>
 
+          {/* Confirmar */}
           <div className="auth-field">
             <label>Confirmar contraseña</label>
             <input
               className={`InputNormal ${
-                errores.confirmarContraseña ? "input-error" : ""
+                errores.confirmarContraseña
+                  ? "input-error"
+                  : formData.confirmarContraseña
+                  ? "input-success"
+                  : ""
               }`}
               type="password"
               name="confirmarContraseña"
@@ -264,11 +340,13 @@ export default function RegisterForm({ setIsRegistering }) {
               onChange={handleChange}
               required
             />
+
             {errores.confirmarContraseña && (
               <p className="error-text">{errores.confirmarContraseña}</p>
             )}
           </div>
 
+          {/* Checkbox datos */}
           <div className="checkbox-datos">
             <input
               type="checkbox"
@@ -291,15 +369,13 @@ export default function RegisterForm({ setIsRegistering }) {
           <button
             className="button-crear-cuenta"
             type="submit"
-            disabled={!aceptaDatos}
           >
             Crear cuenta
           </button>
         </form>
-
-        {mensaje && <p className="auth-message">{mensaje}</p>}
       </div>
 
+      {/* Modal de términos */}
       {mostrarModal && (
         <div className="modal-overlay" onClick={() => setMostrarModal(false)}>
           <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
@@ -311,6 +387,51 @@ export default function RegisterForm({ setIsRegistering }) {
               información con terceros sin tu consentimiento.
             </p>
             <button onClick={() => setMostrarModal(false)}>Cerrar</button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL FORMULARIO VACÍO */}
+      {modalFormularioVacio && (
+        <div
+          className="modal-overlay"
+          onClick={() => setModalFormularioVacio(false)}
+        >
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ color: "red" }}>Formulario incompleto</h3>
+            <p>
+              Debes llenar el formulario de registro y aceptar los términos y
+              condiciones.
+            </p>
+            <button onClick={() => setModalFormularioVacio(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL ALERTA */}
+      {modalAlerta.visible && (
+        <div
+          className="modal-overlay"
+          onClick={() => setModalAlerta({ visible: false })}
+        >
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ color: "red" }}>Error</h3>
+            <p>{modalAlerta.texto}</p>
+            <button onClick={() => setModalAlerta({ visible: false })}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL ÉXITO */}
+      {modalExito && (
+        <div className="modal-overlay">
+          <div className="modal-contenido">
+            <h3 style={{ color: "green" }}>✔ Registro exitoso</h3>
+            <p>Serás redirigido al inicio de sesión...</p>
           </div>
         </div>
       )}
