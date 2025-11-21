@@ -1,3 +1,4 @@
+// GestionProductosAdmin.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AdminNavbar from "../components/AdminNavbar";
@@ -22,6 +23,8 @@ const GestionProductosAdmin = () => {
     peso: "",
     descripcion: "",
     stock: 0,
+    stock_actual: 0, // Para mostrar en edición
+    cantidad_a_agregar: 0, // Para añadir en edición
     imagen: null,
   });
 
@@ -83,6 +86,8 @@ const GestionProductosAdmin = () => {
       peso: "",
       descripcion: "",
       stock: 0,
+      stock_actual: 0,
+      cantidad_a_agregar: 0,
       imagen: null,
     });
     setImagenPreview(null);
@@ -104,7 +109,9 @@ const GestionProductosAdmin = () => {
       material: producto.material || "",
       peso: producto.peso || "",
       descripcion: producto.descripcion || "",
-      stock: producto.stock || 0,
+      stock: producto.stock || 0, // Este será el nuevo stock total
+      stock_actual: producto.stock || 0, // Mostrar el actual
+      cantidad_a_agregar: 0, // Resetear para añadir
       imagen: null, // se setea aparte
     });
 
@@ -122,7 +129,12 @@ const GestionProductosAdmin = () => {
   // ============================
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProductoActual((prev) => ({ ...prev, [name]: value }));
+    let parsedValue = value;
+    // Parsear a número los campos numéricos
+    if (["cantidad_a_agregar", "stock", "precio_unitario", "stock_actual"].includes(name)) {
+      parsedValue = parseFloat(value) || 0;
+    }
+    setProductoActual((prev) => ({ ...prev, [name]: parsedValue }));
   };
 
   const handleImagen = (e) => {
@@ -139,11 +151,38 @@ const GestionProductosAdmin = () => {
     try {
       const formData = new FormData();
 
-      Object.entries(productoActual).forEach(([key, value]) => {
+      // Calcular stock total si es edición
+      let stockFinal = productoActual.stock;
+      if (modoEdicion) {
+        stockFinal = productoActual.stock_actual + productoActual.cantidad_a_agregar;
+      }
+
+      // Campos a enviar al backend (excluye stock_actual y cantidad_a_agregar)
+      const camposPermitidos = [
+        "id_producto",
+        "nombre_producto",
+        "marca",
+        "id_categoria",
+        "precio_unitario",
+        "material",
+        "peso",
+        "descripcion",
+        "stock",
+        "imagen"
+      ];
+
+      camposPermitidos.forEach((key) => {
+        let value = productoActual[key];
         if (value === null || value === undefined) return;
 
         if (key === "imagen") {
           if (value instanceof File) formData.append("imagen", value);
+          return;
+        }
+
+        // Usar stockFinal para stock
+        if (key === "stock") {
+          formData.append(key, stockFinal);
           return;
         }
 
