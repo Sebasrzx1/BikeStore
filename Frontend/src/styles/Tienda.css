@@ -109,15 +109,25 @@
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
+  position: relative; /* Agregado para que la etiqueta absoluta se posicione relativa al card */
 }
 
 .tienda-card:hover {
   transform: scale(1.03);
 }
 
+.tienda-card-img-wrapCatal {
+  position: relative; /* Necesario para posicionar la etiqueta absoluta dentro de este contenedor */
+  width: 100%;
+}
+
 .tienda-card-img {
   width: 100%;
   height: 380px;
+  border: none; /* Para que el botón no tenga borde por defecto */
+  background: none; /* Para que el botón no tenga fondo */
+  padding: 0; /* Para que no haya padding extra */
+  cursor: pointer; /* Para que se vea como clickable */
 }
 
 .tienda-card-img img {
@@ -211,6 +221,24 @@
   font-weight: bold;
 }
 
+.etiqueta-sin-stockCatal {
+  position: absolute;
+  background-color: #b30000;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 4px 10px;
+  z-index: 10;
+  display: block; /* Ahora siempre visible */
+  bottom: 0;
+  left: 0;
+}
+
+.tienda-vacio {
+  /* Usa data-aos="fade-in" en el JSX */
+}
 
 /* ============================================
    FIX ESPECIAL PANTALLAS 1366px
@@ -225,9 +253,9 @@
   }
 
   .etiqueta-sin-stockCatal {
-  top: 362px;
-  right: 286px;
-}
+    bottom: 0;
+    left: 0;
+  }
 }
 
 
@@ -256,14 +284,14 @@
 
   .tienda-filtros {
     width: 100%;
-    position: relative;
+    position: relative; /* En móvil, quitar sticky para que no interfiera */
     top: unset;
   }
 
   .etiqueta-sin-stockCatal {
-  top: 462px;
-  right: 286px;
-}
+    bottom: 0;
+    left: 0;
+  }
 
   .tienda-filtros-contenido {
     width: 100%;
@@ -342,10 +370,10 @@
   .tienda-filtros.open {
     max-height: 1500px;
     margin-bottom: 20px;
+    
   }
 
   .tienda-filtros-contenido {
     width: 100%;
   }
 }
-

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import axios from "axios";
 import "../styles/Homepage.css";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
@@ -14,6 +16,12 @@ const Homepage = ({ setCantidadCarrito }) => {
   const { mostrarToast } = useToast();
 
   useEffect(() => {
+    AOS.init({
+      duration: 500,
+      once: true,
+      offset: 100,
+    });
+
     const fetchProductos = async () => {
       try {
         const res = await axios.get("http://localhost:3000/api/productos");
@@ -60,7 +68,7 @@ const Homepage = ({ setCantidadCarrito }) => {
     <div className="productos-page">
       <HeroSlider />
 
-      <section className="hero">
+      <section className="hero" data-aos="fade-up">
         <div className="heroTitulo">
           <h1>COMPRA POR CATÁLOGO</h1>
           <p>
@@ -68,9 +76,13 @@ const Homepage = ({ setCantidadCarrito }) => {
           </p>
         </div>
 
-        <div className="ContCategoria">
+        <button className="btn-hero" data-aos="zoom-in" onClick={() => navigate("/catalogo")}>
+          Explorar Catálogo
+        </button>
+
+        <div className="ContCategoria" data-aos="fade-in">
           {/* Bicicletas */}
-          <div className="categoria-item">
+          <div className="categoria-item" data-aos="slide-left" data-aos-delay="100">
             <div className="ContIcon">
               <div className="icono">
                 <img src="../IconBike.svg" alt="IconoBicicletas" />
@@ -94,7 +106,7 @@ const Homepage = ({ setCantidadCarrito }) => {
           </div>
 
           {/* Accesorios */}
-          <div className="categoria-item">
+          <div className="categoria-item" data-aos="slide-left" data-aos-delay="200">
             <div className="ContIcon">
               <div className="icono">
                 <img src="./public/IconAccesori.svg" alt="IconoAccesorios" />
@@ -118,7 +130,7 @@ const Homepage = ({ setCantidadCarrito }) => {
           </div>
 
           {/* Repuestos */}
-          <div className="categoria-item">
+          <div className="categoria-item" data-aos="slide-left" data-aos-delay="300">
             <div className="ContIcon">
               <div className="icono">
                 <img src="./public/IconStem.svg" alt="IconoRepuestos" />
@@ -143,14 +155,14 @@ const Homepage = ({ setCantidadCarrito }) => {
         </div>
       </section>
 
-      <section className="productos-lista">
-        <div className="SectProducTitulo">
+      <section className="productos-lista" data-aos="fade-in">
+        <div className="SectProducTitulo" data-aos="fade-up">
           <h1>PRODUCTOS POPULARES</h1>
           <p>Los productos favoritos de nuestra comunidad</p>
         </div>
 
         <div className="ContPopul">
-          {Object.entries(productosPorCategoria).map(([id, items]) => {
+          {Object.entries(productosPorCategoria).map(([id, items], index) => {
             let nombreCategoria = "";
             if (id === "1") nombreCategoria = "Bicicletas";
             if (id === "2") nombreCategoria = "Repuestos";
@@ -158,10 +170,12 @@ const Homepage = ({ setCantidadCarrito }) => {
 
             return (
               <div key={id} className="categoria-seccion">
-                <h3 className="titulocategoria">{nombreCategoria}</h3>
+                <h3 className="titulocategoria" data-aos="fade-in" data-aos-delay={index * 100}>
+                  {nombreCategoria}
+                </h3>
                 <div className="productos-grid">
-                  {items.map((p) => (
-                    <div key={p.id_producto} className="cardProductos">
+                  {items.map((p, cardIndex) => (
+                    <div key={p.id_producto} className="cardProductos" data-aos="zoom-in" data-aos-delay={cardIndex * 100}>
                       <div className="card-img-wrapper">
                         {p.stock === 0 && (
                           <span className="etiqueta-sin-stock">Sin Stock</span>
