@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ cantidadCarrito }) => {
   const { isAuthenticated, isAdmin } = useAuth();
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   const toggleMenu = () => setMenuAbierto(!menuAbierto);
-
+  const navigate = useNavigate();
+  
   return (
     <div className="Contenedor-navPrincipal">
       <nav className="navbar">
@@ -44,9 +46,9 @@ const Navbar = ({ cantidadCarrito }) => {
               </Link>
             )
           ) : (
-            <Link to="/login" className="desingloginregisterdesc">
-              <p>Acceso / Registro</p>
-            </Link>
+            <button onClick={() => navigate("/login")} className="desingloginregisterdesc">
+              Acceso / Registro
+            </button>
           )}
 
           <div className="contcarrito">

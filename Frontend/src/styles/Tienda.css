@@ -50,12 +50,14 @@
    SIDEBAR
 ============================================ */
 .tienda-filtros {
-  position: sticky;
+  position:sticky;
   top: 120px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  z-index: 150;
+  height: 30px;
 }
 
 .tienda-filtros-contenido {

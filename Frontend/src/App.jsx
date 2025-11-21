@@ -23,6 +23,8 @@ import MisPedidos from "./components/MisPedidos.jsx";
 import DetallePedido from "./components/DetallePedido.jsx";
 import PanelCliente from "./components/PanelCliente.jsx";
 import SobreNosotros from "./components/SobreNostros.jsx";
+import ScrollToTop from "./components/scrollToTop.jsx";
+
 
 // 👉 Importa tus nuevos componentes
 import PanelAdministrador from "./admin/PanelAdministrador";
@@ -62,6 +64,9 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
 
   return (
     <>
+
+      <ScrollToTop />
+
       {!hideNavbar && <Navbar cantidadCarrito={cantidadCarrito} />}
 
       <Routes>
