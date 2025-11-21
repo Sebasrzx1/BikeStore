@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
@@ -20,6 +22,12 @@ export default function Catalogo({ setCantidadCarrito }) {
   const location = useLocation();
 
   useEffect(() => {
+    AOS.init({
+      duration: 800, // Duración de la animación en ms
+      once: true, // La animación ocurre solo una vez al hacer scroll
+      offset: 100, // Distancia desde el viewport para activar
+    });
+
     const fetchData = async () => {
       try {
         const [resProd, resCat] = await Promise.all([
@@ -80,7 +88,7 @@ export default function Catalogo({ setCantidadCarrito }) {
 
   return (
     <div className="tienda-page">
-      <div className="ContTienda">
+      <div className="ContTienda" data-aos="fade-up">
         <h1>Catálogo de productos</h1>
         <p>
           Mostrando {productosFiltrados.length} de {productos.length} productos
@@ -90,13 +98,14 @@ export default function Catalogo({ setCantidadCarrito }) {
       <button
         className="tienda-filtros-toggle"
         onClick={() => setFiltrosOpen(!filtrosOpen)}
+        data-aos="zoom-in"
       >
         {filtrosOpen ? "Ocultar filtros ▲" : "Mostrar filtros ▼"}
       </button>
 
-      <div className="tienda-contenido">
+      <div className="tienda-contenido" data-aos="fade-in">
         {/* SIDEBAR FILTROS */}
-        <aside className={`tienda-filtros ${filtrosOpen ? "open" : ""}`}>
+        <aside className={`tienda-filtros ${filtrosOpen ? "open" : ""}`} data-aos="slide-right">
           <div className="tienda-filtros-contenido">
             <h2 className="tienda-filtros-titulo">Filtros</h2>
 
@@ -180,13 +189,13 @@ export default function Catalogo({ setCantidadCarrito }) {
         </aside>
 
         {/* PRODUCTOS */}
-        <section className="tienda-productos">
+        <section className="tienda-productos" data-aos="fade-in">
   {productosFiltrados.length > 0 ? (
-    productosFiltrados.map((p) => {
+    productosFiltrados.map((p, index) => {
       const sinStock = p.stock === 0;
 
       return (
-        <div key={p.id_producto} className="tienda-card">
+        <div key={p.id_producto} className="tienda-card" data-aos="zoom-in" data-aos-delay={index * 100}>
 
           <div className="tienda-card-img-wrapCatal">
             {sinStock && (
@@ -245,7 +254,7 @@ export default function Catalogo({ setCantidadCarrito }) {
       );
     })
   ) : (
-    <p className="tienda-vacio">No se encontraron productos.</p>
+    <p className="tienda-vacio" data-aos="fade-in">No se encontraron productos.</p>
   )}
 </section>
 
