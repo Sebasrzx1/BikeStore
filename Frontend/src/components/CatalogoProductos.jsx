@@ -142,19 +142,23 @@ export default function Catalogo({ setCantidadCarrito }) {
               <h3>Rango de precios</h3>
               <div className="rango-precios">
                 <label>Desde:</label>
-                <input
-                  type="number"
-                  value={precioMin}
-                  onChange={(e) => setPrecioMin(Number(e.target.value))}
-                  min="0"
-                />
-                <input
-                  type="number"
-                  value={precioMax}
-                  onChange={(e) => setPrecioMax(Number(e.target.value))}
-                  min={precioMin}
-                  max={Math.max(...productos.map((p) => p.precio_unitario), 0)}
-                />
+                <div className="rango-slider">
+                  <input
+                    type="range"
+                    min={precioMin}
+                    max={Math.max(...productos.map(p => p.precio_unitario), 0)}
+                    value={precioMax}
+                    onChange={(e) => setPrecioMax(Number(e.target.value))}
+                    className="slider-max"
+                  />
+
+                  <div className="rango-valores">
+                    <p>Mínimo: ${precioMin.toLocaleString("es-CO")}</p>
+                    <p>Máximo: ${precioMax.toLocaleString("es-CO")}</p>
+                  </div>
+                </div>
+
+
               </div>
             </div>
 

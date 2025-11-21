@@ -149,6 +149,7 @@
   border-radius: 33554400px;
   background: #8B0000;
   gap: 4px;
+  width: 100%;
 }
 
 .tienda-btn-add p {
@@ -173,6 +174,41 @@
   padding-left: 10px;
   border: 1px solid black;
 }
+
+/* Contenedor slider */
+.rango-slider {
+  width: 100%;
+  padding: 10px 0;
+}
+
+/* Slider */
+.rango-slider input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Thumb */
+.rango-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #bf0202;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Valores */
+.rango-valores {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
 
 /* ============================================
    FIX ESPECIAL PANTALLAS 1366px

@@ -36,7 +36,7 @@ class AuthController {
       const usuario = rows[0];
       const coincide = await bcrypt.compare(contraseña, usuario.contraseña);
       if (!coincide)
-        return { success: false, message: "Contraseña incorrecta" };
+        return { success: false, message: "Correo o Contraseña incorrecta" };
 
       const token = jwt.sign(
         {

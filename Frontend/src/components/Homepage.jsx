@@ -71,7 +71,7 @@ const Homepage = ({ setCantidadCarrito }) => {
           <div className="categoria-item">
             <div className="ContIcon">
               <div className="icono">
-                <img src="./public/IconBike.svg" alt="IconoBicicletas" />
+                <img src="../IconBike.svg" alt="IconoBicicletas" />
               </div>
             </div>
             <div
