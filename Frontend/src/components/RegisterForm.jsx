@@ -296,7 +296,7 @@ export default function RegisterForm({ setIsRegistering }) {
               <option value="México">México</option>
               <option value="Argentina">Argentina</option>
               <option value="Chile">Chile</option>
-              <option value="España">España</option>
+              <option value="Ecuador">Ecuador</option>
             </select>
           </div>
 

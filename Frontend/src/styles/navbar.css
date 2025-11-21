@@ -1,10 +1,11 @@
 /* ======== NAVBAR GENERAL ======== */
-.Contenedor-navPrincipal{
+.Contenedor-navPrincipal {
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 200;
 }
+
 .navbar {
   display: flex;
   align-items: center;
@@ -18,7 +19,7 @@
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
   padding: 10px 100px 10px 100px;
-  width:100%;
+  width: 100%;
 }
 
 
@@ -39,7 +40,8 @@
   list-style: none;
   gap: 1.5rem;
   transition: all 0.3s ease;
-  width: 260px;
+  width: 270px;
+  justify-content: center;
 }
 
 .nav-links a {
@@ -52,6 +54,8 @@
 
 .nav-links a:hover {
   color: #a60000;
+  font-size: 15px;
+  transition: 0.3s;
 }
 
 /* ======== ACCESO + CARRITO ======== */
@@ -99,14 +103,13 @@
   border: 3px solid #000;
   background: rgba(255, 255, 255, 0.85);
   transition: all 0.3s ease;
-}
-
-.desingloginregisterdesc p {
   font-size: 14px;
   font-weight: 700;
   margin: 0;
   color: #000;
 }
+
+
 
 .desingloginregisterdesc:hover {
   border: 2px solid #8b0000;
@@ -149,7 +152,8 @@
   align-items: center;
   justify-content: center;
 }
-.hamburger{
+
+.hamburger {
   position: absolute;
 }
 
@@ -162,7 +166,8 @@
   .navbar {
     padding: 12px 60px;
   }
-  .hamburger{
+
+  .hamburger {
     margin-left: 360px;
   }
 }
@@ -201,8 +206,11 @@
 
   /* Ocultar perfil desktop en móviles */
   .desingloginregister {
-    display: none;
+    position: relative ;
+    margin-right:70px;
   }
+
+  
 
   /* -------------------------------- */
   /* -------- BOTÓN HAMBURGUESA ----- */
@@ -239,10 +247,23 @@
   .hamburger.active div {
     opacity: 0;
   }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    display: flex;
+    width: 100px;
+    height: 42px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 10px;
+
+  }
 }
 
 /* ----- Móviles pequeños ----- */
-@media (max-width: 480px) {
+@media (max-width: 430px) {
   .navbar {
     padding: 12px 15px;
   }
@@ -255,7 +276,157 @@
     gap: 15px;
   }
 
-  .hamburger{
+  .hamburger {
+    margin-left: 300px;
+  }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 80px;
+    height: 42px;
+    position: absolute;
+    margin-left: -180px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 7px;
+
+  }
+}
+
+/* ----- Móviles pequeños ----- */
+@media (max-width: 414px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+  }
+
+  .hamburger {
     margin-left: 280px;
+  }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 80px;
+    height: 42px;
+    position: absolute;
+    margin-left: -180px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 7px;
+
+  }
+}
+
+
+
+/* ----- Móviles super pequeños ----- */
+@media (max-width: 390px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+  }
+
+  .hamburger {
+    margin-left: 280px;
+  }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 80px;
+    height: 42px;
+    position: relative;
+    margin-right: 57px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 7px;
+  }
+}
+
+/* ----- Móviles super pequeños ----- */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+  }
+
+  .hamburger {
+    margin-left: 270px;
+  }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 80px;
+    height: 42px;
+    position: relative;
+    margin-right: 57px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 7px;
+  }
+}
+
+
+
+
+
+
+/* ----- Móviles con anchura pequeña ----- */
+@media (max-width: 360px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+  }
+
+  .hamburger {
+    margin-left: 237px;
+  }
+
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 80px;
+    height: 42px;
+    position: relative;
+    margin-right: px;
+  }
+
+  .desingloginregisterdesc p {
+    text-decoration: none;
+    font-size: 7px;
   }
 }
