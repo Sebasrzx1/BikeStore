@@ -169,11 +169,14 @@ textarea {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #666;
+  color: #717182;
   font-size: 0.85rem;
   cursor: pointer;
   position: relative;
   padding: 12px;
+}
+.upload-container p {
+  color: #717182;
 }
 
 .upload-container input[type="file"] {

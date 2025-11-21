@@ -221,6 +221,11 @@
   .tienda-card-img {
     height: 320px;
   }
+
+  .etiqueta-sin-stockCatal {
+  top: 362px;
+  right: 286px;
+}
 }
 
 
@@ -252,6 +257,11 @@
     position: relative;
     top: unset;
   }
+
+  .etiqueta-sin-stockCatal {
+  top: 462px;
+  right: 286px;
+}
 
   .tienda-filtros-contenido {
     width: 100%;
@@ -336,3 +346,4 @@
     width: 100%;
   }
 }
+

@@ -63,7 +63,9 @@ const Homepage = ({ setCantidadCarrito }) => {
       <section className="hero">
         <div className="heroTitulo">
           <h1>COMPRA POR CATÁLOGO</h1>
-          <p>Encuentra exactamente lo que necesitas para tu viaje en bicicleta</p>
+          <p>
+            Encuentra exactamente lo que necesitas para tu viaje en bicicleta
+          </p>
         </div>
 
         <div className="ContCategoria">
@@ -160,15 +162,21 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <div className="productos-grid">
                   {items.map((p) => (
                     <div key={p.id_producto} className="cardProductos">
-                      <button
-                        className="card-img"
-                        onClick={() => navigate(`/producto/${p.id_producto}`)}
-                      >
-                        <img
-                          src={`http://localhost:3000/uploads/productos/${p.imagen}`}
-                          alt={p.nombre_producto}
-                        />
-                      </button>
+                      <div className="card-img-wrapper">
+                        {p.stock === 0 && (
+                          <span className="etiqueta-sin-stock">Sin Stock</span>
+                        )}
+
+                        <button
+                          className="card-img"
+                          onClick={() => navigate(`/producto/${p.id_producto}`)}
+                        >
+                          <img
+                            src={`http://localhost:3000/uploads/productos/${p.imagen}`}
+                            alt={p.nombre_producto}
+                          />
+                        </button>
+                      </div>
 
                       <div className="card-body">
                         <h4 className="marca">{p.marca}</h4>
@@ -180,22 +188,34 @@ const Homepage = ({ setCantidadCarrito }) => {
                               ${p.precio_unitario.toLocaleString("es-CO")}
                             </p>
 
-                            {/* ✔️ MOSTRAR STOCK (ya funciona en tu backend) */}
-                            <p className="stock">{p.stock} en stock</p>
+                            <p
+                              className={`stock ${
+                                p.stock === 0 ? "stock-agotado" : ""
+                              }`}
+                            >
+                              {p.stock} en stock
+                            </p>
                           </div>
 
                           <button
-                            className="btn-add"
-                            onClick={() =>
-                              agregarUnidadAlCarrito(
-                                p,
-                                setCantidadCarrito,
-                                mostrarToast
-                              )
-                            }
+                            className={`btn-addH ${
+                              p.stock === 0 ? "btn-disabled" : ""
+                            }`}
+                            disabled={p.stock === 0}
+                            onClick={() => {
+                              if (p.stock > 0) {
+                                agregarUnidadAlCarrito(
+                                  p,
+                                  setCantidadCarrito,
+                                  mostrarToast
+                                );
+                              }
+                            }}
                           >
                             <img src="./public/IconCarritoBoton.svg" alt="" />
-                            <p>Añadir al carrito</p>
+                            <p>
+                              {p.stock === 0 ? "Agotado" : "Añadir al carrito"}
+                            </p>
                           </button>
                         </div>
                       </div>
