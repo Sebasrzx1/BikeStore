@@ -23,8 +23,17 @@ export default function RegisterForm({ setIsRegistering }) {
     pais: "Colombia",
   });
 
-  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+%$/;
   const soloNumeros = /^[0-9]+$/;
+
+
+  const sanitizarEntrada = (valor) => {
+    // Lista de caracteres NO permitidos
+    const noPermitidos = /[%<>{}=]/g;
+
+    // Reemplaza caracteres prohibidos por vacío
+    return valor.replace(noPermitidos, "");
+  };
 
   const validarCampo = (nombreCampo, valor) => {
     let error = "";
@@ -81,7 +90,11 @@ export default function RegisterForm({ setIsRegistering }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Sanitizar el valor del input
+    const valorLimpio = sanitizarEntrada(value);
+
+    setFormData((prev) => ({ ...prev, [name]: valorLimpio }));
     validarCampo(name, value);
   };
 
@@ -166,9 +179,12 @@ export default function RegisterForm({ setIsRegistering }) {
     } catch (error) {
       setModalAlerta({
         visible: true,
-        texto: "No se pudo conectar con el servidor",error
+        texto: "No se pudo conectar con el servidor", error
       });
     }
+
+
+
   };
 
   return (
@@ -197,13 +213,12 @@ export default function RegisterForm({ setIsRegistering }) {
             <div className="contenedor-input-nombre">
               <label>Nombre</label>
               <input
-                className={`RegisterInput ${
-                  errores.nombre
-                    ? "input-error"
-                    : formData.nombre
+                className={`RegisterInput ${errores.nombre
+                  ? "input-error"
+                  : formData.nombre
                     ? "input-success"
                     : ""
-                }`}
+                  }`}
                 type="text"
                 name="nombre"
                 value={formData.nombre}
@@ -217,13 +232,12 @@ export default function RegisterForm({ setIsRegistering }) {
             <div className="contenedor-input-apellido">
               <label>Apellido</label>
               <input
-                className={`RegisterInput ${
-                  errores.apellido
-                    ? "input-error"
-                    : formData.apellido
+                className={`RegisterInput ${errores.apellido
+                  ? "input-error"
+                  : formData.apellido
                     ? "input-success"
                     : ""
-                }`}
+                  }`}
                 type="text"
                 name="apellido"
                 value={formData.apellido}
@@ -241,13 +255,12 @@ export default function RegisterForm({ setIsRegistering }) {
           <div className="auth-field">
             <label>Correo electrónico</label>
             <input
-              className={`InputNormal ${
-                errores.email
-                  ? "input-error"
-                  : formData.email
+              className={`InputNormal ${errores.email
+                ? "input-error"
+                : formData.email
                   ? "input-success"
                   : ""
-              }`}
+                }`}
               type="email"
               name="email"
               value={formData.email}
@@ -262,13 +275,12 @@ export default function RegisterForm({ setIsRegistering }) {
           <div className="auth-field">
             <label>Teléfono</label>
             <input
-              className={`InputNormal ${
-                errores.telefono
-                  ? "input-error"
-                  : formData.telefono
+              className={`InputNormal ${errores.telefono
+                ? "input-error"
+                : formData.telefono
                   ? "input-success"
                   : ""
-              }`}
+                }`}
               type="tel"
               name="telefono"
               value={formData.telefono}
@@ -304,13 +316,12 @@ export default function RegisterForm({ setIsRegistering }) {
           <div className="auth-field">
             <label>Contraseña</label>
             <input
-              className={`InputNormal ${
-                errores.contraseña
-                  ? "input-error"
-                  : formData.contraseña
+              className={`InputNormal ${errores.contraseña
+                ? "input-error"
+                : formData.contraseña
                   ? "input-success"
                   : ""
-              }`}
+                }`}
               type="password"
               name="contraseña"
               value={formData.contraseña}
@@ -327,13 +338,12 @@ export default function RegisterForm({ setIsRegistering }) {
           <div className="auth-field">
             <label>Confirmar contraseña</label>
             <input
-              className={`InputNormal ${
-                errores.confirmarContraseña
-                  ? "input-error"
-                  : formData.confirmarContraseña
+              className={`InputNormal ${errores.confirmarContraseña
+                ? "input-error"
+                : formData.confirmarContraseña
                   ? "input-success"
                   : ""
-              }`}
+                }`}
               type="password"
               name="confirmarContraseña"
               value={formData.confirmarContraseña}
