@@ -6,31 +6,37 @@
   align-self: stretch;
   background: #f5f5f5;
   font-family: Poppins;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
+
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.panel-main{
+
+.panel-main {
   display: flex;
-width: 1359px;
-flex-direction: column;
-align-items: flex-start;
-gap: 24px;
+  width: 1359px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
 }
+
 .panel-user button {
   color: black;
 }
-.ContPaneles{
+
+.ContPaneles {
   display: flex;
   height: auto;
   align-items: flex-start;
   align-content: flex-start;
   gap: 24px;
-
 }
-.panel-box{
+
+.panel-box {
   width: 294px;
   display: flex;
   padding: 24px 24px 24px 24px;
@@ -43,23 +49,25 @@ gap: 24px;
   border: 1px solid rgba(0, 0, 0, 0.10);
   background: #FFF;
 }
-.panel-box h3{
+
+.panel-box h3 {
   color: #717182;
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: 20px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 }
-.panel-box p{
+
+.panel-box p {
   color: #000;
-font-family: Poppins;
-font-size: 30px;
-font-style: normal;
-font-weight: 600;
-line-height: 36px;
-  
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 36px;
 }
+
 .panel-metricas {
   display: flex;
   height: auto;
@@ -68,6 +76,7 @@ line-height: 36px;
   gap: 26px;
   align-self: stretch;
 }
+
 .panel-alertas {
   display: flex;
   width: 667.5px;
@@ -79,7 +88,8 @@ line-height: 36px;
   border: 1px solid rgba(0, 0, 0, 0.10);
   background: #FFF;
 }
-.panel-alertas h2{
+
+.panel-alertas h2 {
   color: #000;
   font-family: Poppins;
   font-size: 20px;
@@ -87,6 +97,7 @@ line-height: 36px;
   font-weight: 600;
   line-height: 24px;
 }
+
 .panel-alertas ul {
   display: flex;
   width: 617.5px;
@@ -101,6 +112,7 @@ line-height: 36px;
   display: flex;
   gap: 1rem;
 }
+
 .panel-botones button {
   color: black;
   padding: 0.8rem 1.2rem;
@@ -138,13 +150,12 @@ line-height: 36px;
 
 .stock-cantidad {
   display: flex;
-  color: white;
   color: #FFF;
   font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 16px; 
+  line-height: 16px;
   height: 22px;
   padding: 2px 8px;
   justify-content: center;
@@ -153,4 +164,257 @@ line-height: 36px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.00);
   background: #D4183D;
+}
+
+/* Márgenes para evitar superposición con la sidebar */
+@media (min-width: 1025px) {
+  .panel-admin {
+    margin-left: 280px; /* Compensar sidebar en desktop */
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .panel-admin {
+    margin-left: 200px; /* Compensar sidebar en tablets */
+  }
+}
+
+/* ============================================
+   RESPONSIVE PARA TABLETS (1024px y menos)
+============================================ */
+@media (max-width: 1024px) {
+  .panel-admin {
+    gap: 20px;
+  }
+
+  .panel-main {
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+  }
+
+  .ContPaneles {
+    gap: 20px;
+  }
+
+  .panel-box {
+    width: 250px;
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .panel-box h3 {
+    font-size: 13px;
+  }
+
+  .panel-box p {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .panel-metricas {
+    gap: 20px;
+  }
+
+  .panel-alertas {
+    width: 550px;
+    padding: 20px;
+    gap: 32px;
+  }
+
+  .panel-alertas h2 {
+    font-size: 18px;
+  }
+
+  .panel-alertas ul {
+    width: 100%;
+    gap: 14px;
+  }
+
+  .stock-item {
+    height: 55px;
+  }
+
+  .stock-info {
+    height: 40px;
+  }
+
+  .stock-nombre {
+    font-size: 0.95rem;
+  }
+
+  .stock-categoria {
+    font-size: 0.85rem;
+  }
+
+  .stock-cantidad {
+    font-size: 11px;
+    height: 20px;
+    padding: 2px 6px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE PARA MÓVILES (768px y menos)
+============================================ */
+@media (max-width: 768px) {
+  .panel-admin {
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px;
+    padding-top: 60px; /* Espacio para el botón hamburguesa */
+  }
+
+  .panel-main {
+    width: 100%;
+    gap: 16px;
+  }
+
+  .panel-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .panel-metricas {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .panel-box {
+    width: 100%;
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .panel-box h3 {
+    font-size: 12px;
+  }
+
+  .panel-box p {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .ContPaneles {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .panel-alertas {
+    width: 100%;
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .panel-alertas h2 {
+    font-size: 16px;
+  }
+
+  .panel-alertas ul {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .stock-item {
+    height: 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stock-info {
+    height: auto;
+  }
+
+  .stock-nombre {
+    font-size: 0.9rem;
+  }
+
+  .stock-categoria {
+    font-size: 0.8rem;
+  }
+
+  .stock-cantidad {
+    font-size: 10px;
+    height: 18px;
+    padding: 1px 6px;
+    align-self: flex-end;
+  }
+
+  .panel-botones {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .panel-botones button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE PARA PANTALLAS MUY PEQUEÑAS (480px y menos)
+============================================ */
+@media (max-width: 480px) {
+  .panel-admin {
+    padding: 8px;
+    padding-top: 50px; /* Menos espacio para el botón */
+  }
+
+  .panel-main {
+    gap: 12px;
+  }
+
+  .panel-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .panel-box {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .panel-box h3 {
+    font-size: 11px;
+  }
+
+  .panel-box p {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .panel-alertas {
+    padding: 12px;
+    gap: 20px;
+  }
+
+  .panel-alertas h2 {
+    font-size: 14px;
+  }
+
+  .panel-alertas ul {
+    gap: 10px;
+  }
+
+  .stock-item {
+    height: 45px;
+  }
+
+  .stock-nombre {
+    font-size: 0.85rem;
+  }
+
+  .stock-categoria {
+    font-size: 0.75rem;
+  }
+
+  .stock-cantidad {
+    font-size: 9px;
+    height: 16px;
+    padding: 1px 4px;
+  }
+
+  .panel-botones button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
 }

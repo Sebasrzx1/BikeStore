@@ -7,6 +7,8 @@ import { agregarUnidadAlCarrito } from "../utils/carrito";
 import { useNavigate, useLocation } from "react-router-dom";
 import HeroSlider from "./HeroSlider";
 import { useToast } from "../context/ToastContext";
+import BotonExplorar from "../components/BotonExplorar"
+import BotonSubrayado from "../components/BotonSubrayado"
 
 const Homepage = ({ setCantidadCarrito }) => {
   const [productos, setProductos] = useState([]);
@@ -76,9 +78,7 @@ const Homepage = ({ setCantidadCarrito }) => {
           </p>
         </div>
 
-        <button className="btn-hero" data-aos="zoom-in" onClick={() => navigate("/catalogo")}>
-          Explorar Catálogo
-        </button>
+        <BotonSubrayado texto="Explorar catalogo" onClick={() => navigate("/catalogo")}></BotonSubrayado>
 
         <div className="ContCategoria" data-aos="fade-in">
           {/* Bicicletas */}
@@ -97,12 +97,9 @@ const Homepage = ({ setCantidadCarrito }) => {
             <div className="CategPar">
               <p>Explora nuestra amplia gama de bicicletas</p>
             </div>
-            <button
-              className="CategBoton"
-              onClick={() => navigate("/catalogo?categoria=bicicletas")}
-            >
-              <p>Explorar</p>
-            </button>
+            <div className="CategBoton">
+            <BotonExplorar onClick={() => navigate("/catalogo?categoria=bicicletas")}></BotonExplorar>
+            </div>
           </div>
 
           {/* Accesorios */}
@@ -121,12 +118,9 @@ const Homepage = ({ setCantidadCarrito }) => {
             <div className="CategPar">
               <p>Equipo esencial para cada ocasión</p>
             </div>
-            <button
-              className="CategBoton"
-              onClick={() => navigate("/catalogo?categoria=accesorios")}
-            >
-              <p>Explorar</p>
-            </button>
+            <div className="CategBoton">
+            <BotonExplorar onClick={() => navigate("/catalogo?categoria=accesorios")}></BotonExplorar>
+            </div>
           </div>
 
           {/* Repuestos */}
@@ -145,12 +139,9 @@ const Homepage = ({ setCantidadCarrito }) => {
             <div className="CategPar">
               <p>Hombre precavido vale x2</p>
             </div>
-            <button
-              className="CategBoton"
-              onClick={() => navigate("/catalogo?categoria=repuestos")}
-            >
-              <p>Explorar</p>
-            </button>
+            <div className="CategBoton">
+            <BotonExplorar onClick={() => navigate("/catalogo?categoria=repuestos")}></BotonExplorar>
+            </div>
           </div>
         </div>
       </section>

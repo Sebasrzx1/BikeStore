@@ -6,6 +6,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { agregarUnidadAlCarrito } from "../utils/carrito";
 import "../styles/Tienda.css";
 import { useToast } from "../context/ToastContext";
+import InputSearch from "../components/InputSearch";
+import Checkbox from "../components/Checkbox";
 
 export default function Catalogo({ setCantidadCarrito }) {
   const [productos, setProductos] = useState([]);
@@ -23,9 +25,9 @@ export default function Catalogo({ setCantidadCarrito }) {
 
   useEffect(() => {
     AOS.init({
-      duration: 800, // Duración de la animación en ms
-      once: true, // La animación ocurre solo una vez al hacer scroll
-      offset: 100, // Distancia desde el viewport para activar
+      duration: 800,
+      once: true,
+      offset: 100,
     });
 
     const fetchData = async () => {
@@ -43,7 +45,6 @@ export default function Catalogo({ setCantidadCarrito }) {
         setPrecioMin(Math.min(...precios));
         setPrecioMax(Math.max(...precios));
 
-        // Leer parámetro de categoría desde URL
         const searchParams = new URLSearchParams(location.search);
         const categoriaParam = searchParams.get("categoria");
 
@@ -77,11 +78,14 @@ export default function Catalogo({ setCantidadCarrito }) {
     const coincideBusqueda = prod.nombre_producto
       ?.toLowerCase()
       .includes(busqueda.toLowerCase());
+
     const coincideCategoria =
       categoriasSeleccionadas.length === 0 ||
       categoriasSeleccionadas.includes(prod.id_categoria);
+
     const dentroDelRango =
-      prod.precio_unitario >= precioMin && prod.precio_unitario <= precioMax;
+      prod.precio_unitario >= precioMin &&
+      prod.precio_unitario <= precioMax;
 
     return coincideBusqueda && coincideCategoria && dentroDelRango;
   });
@@ -111,9 +115,9 @@ export default function Catalogo({ setCantidadCarrito }) {
 
             {/* Búsqueda */}
             <div className="tienda-busqueda">
-              <label>Buscar producto: </label>
-              <input
-                type="text"
+              <label>Buscar producto:</label>
+
+              <InputSearch
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 placeholder="Ej. Bicicleta, casco..."
@@ -126,18 +130,13 @@ export default function Catalogo({ setCantidadCarrito }) {
               <ul>
                 {categorias.map((cat) => (
                   <li key={cat.id_categoria}>
-                    <input
-                      type="checkbox"
-                      id={`cat-${cat.id_categoria}`}
-                      checked={categoriasSeleccionadas.includes(
-                        cat.id_categoria
-                      )}
-                      onChange={() => toggleCategoria(cat.id_categoria)}
-                    />
-                    <label htmlFor={`cat-${cat.id_categoria}`}>
-                      {cat.nombre_categoria}
-                    </label>
-                  </li>
+                  <Checkbox
+                    id={`cat-${cat.id_categoria}`}
+                    checked={categoriasSeleccionadas.includes(cat.id_categoria)}
+                    onChange={() => toggleCategoria(cat.id_categoria)}
+                    label={cat.nombre_categoria}
+                  />
+                </li>
                 ))}
               </ul>
             </div>
@@ -148,14 +147,19 @@ export default function Catalogo({ setCantidadCarrito }) {
                 Mostrando productos entre ${precioMin.toLocaleString("es-CO")} y{" "}
                 ${precioMax.toLocaleString("es-CO")}
               </p>
+
               <h3>Rango de precios</h3>
               <div className="rango-precios">
                 <label>Desde:</label>
+
                 <div className="rango-slider">
                   <input
                     type="range"
                     min={precioMin}
-                    max={Math.max(...productos.map(p => p.precio_unitario), 0)}
+                    max={Math.max(
+                      ...productos.map((p) => p.precio_unitario),
+                      0
+                    )}
                     value={precioMax}
                     onChange={(e) => setPrecioMax(Number(e.target.value))}
                     className="slider-max"
@@ -166,98 +170,90 @@ export default function Catalogo({ setCantidadCarrito }) {
                     <p>Máximo: ${precioMax.toLocaleString("es-CO")}</p>
                   </div>
                 </div>
-
-
               </div>
             </div>
-
-            {(categoriasSeleccionadas.length > 0 || busqueda) && (
-              <button
-                onClick={() => {
-                  setCategoriasSeleccionadas([]);
-                  setBusqueda("");
-                  const precios = productos.map((p) => p.precio_unitario);
-                  setPrecioMin(Math.min(...precios));
-                  setPrecioMax(Math.max(...precios));
-                }}
-                className="tienda-btn-limpiar"
-              >
-                Limpiar filtros
-              </button>
-            )}
           </div>
         </aside>
 
         {/* PRODUCTOS */}
         <section className="tienda-productos" data-aos="fade-in">
-  {productosFiltrados.length > 0 ? (
-    productosFiltrados.map((p, index) => {
-      const sinStock = p.stock === 0;
+          {productosFiltrados.length > 0 ? (
+            productosFiltrados.map((p, index) => {
+              const sinStock = p.stock === 0;
 
-      return (
-        <div key={p.id_producto} className="tienda-card" data-aos="zoom-in" data-aos-delay={index * 100}>
+              return (
+                <div
+                  key={p.id_producto}
+                  className="tienda-card"
+                  data-aos="zoom-in"
+                  data-aos-delay={index * 100}
+                >
+                  <div className="tienda-card-img-wrapCatal">
+                    {sinStock && (
+                      <span className="etiqueta-sin-stockCatal">Sin Stock</span>
+                    )}
 
-          <div className="tienda-card-img-wrapCatal">
-            {sinStock && (
-              <span className="etiqueta-sin-stockCatal">Sin Stock</span>
-            )}
+                    <button
+                      className="tienda-card-img"
+                      onClick={() => navigate(`/producto/${p.id_producto}`)}
+                    >
+                      <img
+                        src={
+                          p.imagen
+                            ? `http://localhost:3000/uploads/productos/${p.imagen}`
+                            : "/placeholder.png"
+                        }
+                        alt={p.nombre_producto}
+                      />
+                    </button>
+                  </div>
 
-            <button
-              className="tienda-card-img"
-              onClick={() => navigate(`/producto/${p.id_producto}`)}
-            >
-              <img
-                src={
-                  p.imagen
-                    ? `http://localhost:3000/uploads/productos/${p.imagen}`
-                    : "/placeholder.png"
-                }
-                alt={p.nombre_producto}
-              />
-            </button>
-          </div>
+                  <div className="tienda-card-body">
+                    <div className="tienda-marca">
+                      <h4>{p.marca}</h4>
+                    </div>
 
-          <div className="tienda-card-body">
-            <div className="tienda-marca">
-              <h4>{p.marca}</h4>
-            </div>
+                    <div className="tienda-nombre">
+                      <h3>{p.nombre_producto}</h3>
+                    </div>
 
-            <div className="tienda-nombre">
-              <h3>{p.nombre_producto}</h3>
-            </div>
+                    <div className="tienda-card-cont">
+                      <div className="tienda-card-info">
+                        <p className="tienda-precio">
+                          ${p.precio_unitario.toLocaleString("es-CO")}
+                        </p>
 
-            <div className="tienda-card-cont">
-              <div className="tienda-card-info">
-                <p className="tienda-precio">
-                  ${p.precio_unitario.toLocaleString("es-CO")}
-                </p>
+                        <p className="tienda-stock">
+                          {p.stock} en stock
+                        </p>
+                      </div>
 
-                <p className="tienda-stock">
-                  {p.stock} en stock
-                </p>
-              </div>
-
-              {/* BOTÓN CAMBIANTE */}
-              <button
-                disabled={sinStock}
-                className={`tienda-btn-add ${sinStock ? "agotado" : ""}`}
-                onClick={() =>
-                  agregarUnidadAlCarrito(p, setCantidadCarrito, mostrarToast)
-                }
-              >
-                <img src="./public/IconCarritoBoton.svg" alt="" />
-                <p>{sinStock ? "Agotado" : "Añadir al carrito"}</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    })
-  ) : (
-    <p className="tienda-vacio" data-aos="fade-in">No se encontraron productos.</p>
-  )}
-</section>
-
+                      {/* BOTÓN CAMBIANTE */}
+                      <button
+                        disabled={sinStock}
+                        className={`tienda-btn-add ${sinStock ? "agotado" : ""}`}
+                        onClick={() =>
+                          agregarUnidadAlCarrito(
+                            p,
+                            setCantidadCarrito,
+                            mostrarToast
+                          )
+                        }
+                      >
+                        <img src="./public/IconCarritoBoton.svg" alt="" />
+                        <p>{sinStock ? "Agotado" : "Añadir al carrito"}</p>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p className="tienda-vacio" data-aos="fade-in">
+              No se encontraron productos.
+            </p>
+          )}
+        </section>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom"
 import "../styles/SobreNostros.css"
 import { useNavigate } from "react-router-dom";
+import BotonPresent from "../components/BotonPresent"
 
 const SobreNosotros = () => {
     const navigate = useNavigate();
@@ -83,7 +84,8 @@ const SobreNosotros = () => {
                 <div className="publicidad">
                     <p id="readyAventure">¿Listo para comenzar tu aventura?</p>
                     <p>Descubre nuestro catálogo completo de bicicletas, accesorios y repuestos. Encuentra el equipo perfecto para tu próximo desafio.</p>
-                    <button onClick={()=> navigate("/catalogo")}>Ver Catálogo</button>
+                    
+                    <BotonPresent onClick={() => navigate("/catalogo")}></BotonPresent>
                 </div>
             </div>
 
@@ -102,24 +104,6 @@ const SobreNosotros = () => {
                 </div>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
     )
 }
