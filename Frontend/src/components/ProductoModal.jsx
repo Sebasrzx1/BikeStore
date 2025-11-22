@@ -33,6 +33,12 @@ const ProductoModal = ({
         {/* Header */}
         <div className="modal-header">
           <div className="modal-header-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M11 20.7299C11.304 20.9054 11.6489 20.9979 12 20.9979C12.3511 20.9979 12.696 20.9054 13 20.7299L20 16.7299C20.3037 16.5545 20.556 16.3024 20.7315 15.9987C20.9071 15.6951 20.9996 15.3506 21 14.9999V6.9999C20.9996 6.64918 20.9071 6.30471 20.7315 6.00106C20.556 5.69742 20.3037 5.44526 20 5.2699L13 1.2699C12.696 1.09437 12.3511 1.00195 12 1.00195C11.6489 1.00195 11.304 1.09437 11 1.2699L4 5.2699C3.69626 5.44526 3.44398 5.69742 3.26846 6.00106C3.09294 6.30471 3.00036 6.64918 3 6.9999V14.9999C3.00036 15.3506 3.09294 15.6951 3.26846 15.9987C3.44398 16.3024 3.69626 16.5545 4 16.7299L11 20.7299Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 21V11" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3.28906 6L11.9991 11L20.7091 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.5 3.26953L16.5 8.41953" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
             <div className="modal-header-text">
               <h2>{modoEdicion ? "Editar Producto" : "Agregar Nuevo Producto"}</h2>
               <p>Complete todos los campos para agregar un producto al catálogo</p>
@@ -198,6 +204,11 @@ const ProductoModal = ({
                 onChange={onImagenChange}
                 required={!modoEdicion}
               />
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" viewBox="0 0 40 32" fill="none">
+                <path d="M20 4V20" stroke="#717182" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M28.3327 10.6667L19.9993 4L11.666 10.6667" stroke="#717182" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M35 20V25.3333C35 26.0406 34.6488 26.7189 34.0237 27.219C33.3986 27.719 32.5507 28 31.6667 28H8.33333C7.44928 28 6.60143 27.719 5.97631 27.219C5.35119 26.7189 5 26.0406 5 25.3333V20" stroke="#717182" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
               <p>
                 Haga clic para cargar imágenes
                 <br />

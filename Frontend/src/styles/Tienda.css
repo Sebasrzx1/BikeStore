@@ -2,7 +2,8 @@
    TIENDA — ESTILOS BASE
 ============================================ */
 * {
-  font-family: 'Poppins';
+  font-family: 'Poppins', sans-serif; /* Agregado sans-serif para fallback */
+  box-sizing: border-box; /* Mejor manejo de cajas */
 }
 
 .tienda-page {
@@ -34,30 +35,44 @@
   padding-left: 8%;
 }
 
+.ContTienda h1 {
+  font-weight: 700; /* Más peso para títulos */
+  color: #333; /* Mejor contraste */
+}
+
 .ContTienda p {
   color: rgb(85, 85, 85);
+  font-size: 1.1rem; /* Ligeramente más grande */
+}
+.tienda-busqueda{
+  width: 100%;
 }
 
 .tienda-busqueda input {
-  height: 30px;
-  padding-left: 10px;
-  border-radius: 4px;
+  height: 35px; /* Un poco más alto para comodidad */
+  padding-left: 12px;
+  border-radius: 8px; /* Más redondeado */
   border: 1px solid rgb(156, 156, 156);
+  transition: border-color 0.3s ease; /* Transición suave */
 }
 
+.tienda-busqueda input:focus {
+  border-color: #b30000; /* Enfoque rojo para consistencia */
+  outline: none;
+}
 
 /* ============================================
-   SIDEBAR
+   SIDEBAR (DESKTOP)
 ============================================ */
 .tienda-filtros {
-  position:sticky;
+  position: sticky;
   top: 120px;
+  width: 256px;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   z-index: 150;
-  height: 30px;
+  height: auto; /* ← FIX IMPORTANTE */
 }
 
 .tienda-filtros-contenido {
@@ -67,26 +82,54 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: #FFF;
+  border-radius: 30px; /* Cambiado a 30px para neumórfico */
+  background: #f5f5f5; /* Cambiado a sólido para neumórfico */
+  box-shadow: 10px 10px 20px #bebebe, /* Sombras neumórficas escaladas */
+  -10px -10px 20px #ffffff;
   gap: 20px;
-  background: linear-gradient(to bottom, rgb(241, 241, 241), rgb(255, 255, 255));
-
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
 }
 
+.tienda-categorias{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+
+}
 .tienda-filtros-titulo {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem; /* Un poco más grande */
+  font-weight: 700; /* Más peso */
   margin-bottom: 1.2rem;
   color: #222;
+  text-align: center; /* Centrado para mejor look */
 }
 
+.tienda-categorias h3 {
+  font-weight: 600; /* Más peso */
+  color: #444; /* Mejor contraste */
+}
+.tienda-categorias ul{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
 .tienda-categorias li {
   display: flex;
-  gap: 5px;
+  gap: 8px; /* Más espacio */
+  align-items: center;
 }
 
+.tienda-categorias label {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.tienda-categorias label:hover {
+  color: #b30000; /* Hover rojo */
+}
 
 /* ============================================
    PRODUCTOS GRID
@@ -101,33 +144,38 @@
 
 .tienda-card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 15px; /* Más redondeado */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más moderna */
   overflow: hidden;
   max-width: 500px;
   width: 100%;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
   display: flex;
   flex-direction: column;
-  position: relative; /* Agregado para que la etiqueta absoluta se posicione relativa al card */
+  position: relative;
 }
 
 .tienda-card:hover {
   transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Sombra más intensa en hover */
 }
 
 .tienda-card-img-wrapCatal {
-  position: relative; /* Necesario para posicionar la etiqueta absoluta dentro de este contenedor */
+  position: relative;
   width: 100%;
 }
 
 .tienda-card-img {
   width: 100%;
   height: 380px;
-  border: none; /* Para que el botón no tenga borde por defecto */
-  background: none; /* Para que el botón no tenga fondo */
-  padding: 0; /* Para que no haya padding extra */
-  cursor: pointer; /* Para que se vea como clickable */
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.tienda-card-img:hover {
+  opacity: 0.9; /* Efecto hover sutil en imagen */
 }
 
 .tienda-card-img img {
@@ -135,7 +183,6 @@
   height: 100%;
   object-fit: cover;
 }
-
 
 /* ============================================
    TEXTO Y CUERPO DE LA CARD
@@ -147,53 +194,64 @@
   gap: 8px;
 }
 
+.tienda-marca h4 {
+  font-weight: 500;
+  color: #666;
+}
+
+.tienda-nombre h3 {
+  font-weight: 600;
+  color: #333;
+}
+
 .tienda-precio {
   color: #b30000;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.3rem; /* Un poco más grande */
 }
 
 .tienda-btn-add {
   display: flex;
-  padding: 8px 97px;
+  padding: 10px 20px; /* Ajustado para mejor proporción */
   justify-content: center;
   align-items: center;
-  border-radius: 33554400px;
-  background: #8B0000;
-  gap: 4px;
+  border-radius: 50px; /* Más redondeado */
+  background: linear-gradient(135deg, #8B0000, #a00000); /* Gradiente sutil */
+  gap: 6px;
   width: 100%;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .tienda-btn-add p {
   color: white;
   font-size: 15px;
+  font-weight: 500;
 }
 
 .tienda-btn-add:hover {
-  background: #7c0000;
+  background: linear-gradient(135deg, #7c0000, #900000); /* Gradiente más oscuro en hover */
+  transform: translateY(-2px); /* Efecto lift */
+}
+
+.tienda-btn-add.agotado {
+  background: #ccc; /* Gris para agotado */
 }
 
 .tienda-precios p {
-  color: black;
+  color: #333;
+  font-weight: 500;
 }
 
 .tienda-stock {
   color: rgb(64, 64, 64);
 }
 
-.rango-precios input {
-  border-radius: 19px;
-  padding-left: 10px;
-  border: 1px solid black;
-}
-
-/* Contenedor slider */
+/* Slider */
 .rango-slider {
   width: 100%;
   padding: 10px 0;
 }
 
-/* Slider */
 .rango-slider input[type="range"] {
   width: 100%;
   -webkit-appearance: none;
@@ -203,17 +261,14 @@
   cursor: pointer;
 }
 
-/* Thumb */
 .rango-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
   background: #bf0202;
   border-radius: 50%;
-  cursor: pointer;
 }
 
-/* Valores */
 .rango-valores {
   display: flex;
   justify-content: space-between;
@@ -231,17 +286,12 @@
   border-top-right-radius: 10px;
   padding: 4px 10px;
   z-index: 10;
-  display: block; /* Ahora siempre visible */
   bottom: 0;
   left: 0;
 }
 
-.tienda-vacio {
-  /* Usa data-aos="fade-in" en el JSX */
-}
-
 /* ============================================
-   FIX ESPECIAL PANTALLAS 1366px
+   RESPONSIVE 1366px
 ============================================ */
 @media (max-width: 1366px) {
   .tienda-productos {
@@ -251,19 +301,11 @@
   .tienda-card-img {
     height: 320px;
   }
-
-  .etiqueta-sin-stockCatal {
-    bottom: 0;
-    left: 0;
-  }
 }
 
-
 /* ============================================
-   RESPONSIVE 100% REAL
+   RESPONSIVE 1200px = 2 columnas
 ============================================ */
-
-/* --------- 1200px = 2 columnas --------- */
 @media (max-width: 1200px) {
   .tienda-productos {
     grid-template-columns: repeat(2, 1fr);
@@ -274,8 +316,9 @@
   }
 }
 
-
-/* --------- 900px = sidebar debajo --------- */
+/* ============================================
+   RESPONSIVE 900px = sidebar debajo
+============================================ */
 @media (max-width: 900px) {
   .tienda-contenido {
     flex-direction: column;
@@ -283,14 +326,9 @@
   }
 
   .tienda-filtros {
+    position: relative;
     width: 100%;
-    position: relative; /* En móvil, quitar sticky para que no interfiera */
     top: unset;
-  }
-
-  .etiqueta-sin-stockCatal {
-    bottom: 0;
-    left: 0;
   }
 
   .tienda-filtros-contenido {
@@ -299,16 +337,52 @@
   }
 
   .tienda-productos {
-    width: 100%;
     grid-template-columns: 1fr 1fr;
   }
 }
 
+/* ============================================
+   RESPONSIVE 768px (MÓVIL REAL)
+============================================ */
+.tienda-filtros-toggle {
+  display: none;
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #8B0000, #a00000); /* Gradiente consistente */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 
-/* --------- 768px = 1 sola columna centrada --------- */
+.tienda-filtros-toggle:hover {
+  background: linear-gradient(135deg, #7c0000, #900000);
+  transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
-  .tienda-productos {
-    grid-template-columns: 1fr;
+
+  .tienda-filtros-toggle {
+    display: block;
+  }
+
+  .tienda-filtros {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .35s ease;
+    padding: 0;
+  }
+
+  .tienda-filtros.open {
+    max-height: 2000px;
+    padding: 10px 0;
+    margin-bottom: 20px;
   }
 
   .tienda-card {
@@ -321,8 +395,9 @@
   }
 }
 
-
-/* --------- Celulares pequeños --------- */
+/* ============================================
+   CELULARES PEQUEÑOS
+============================================ */
 @media (max-width: 480px) {
   .tienda-card {
     max-width: 90%;
@@ -330,50 +405,5 @@
 
   .tienda-card-img img {
     height: 220px;
-  }
-}
-
-
-/* ============================================
-   FILTROS RESPONSIVE (MÓVIL)
-============================================ */
-.tienda-filtros-toggle {
-  display: none;
-  width: 100%;
-  padding: 12px 16px;
-  background: #8B0000;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  margin-bottom: 16px;
-}
-
-.tienda-filtros-toggle:hover {
-  background: #7c0000;
-}
-
-@media (max-width: 768px) {
-  .tienda-filtros-toggle {
-    display: block;
-  }
-
-  .tienda-filtros {
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .35s ease;
-  }
-
-  .tienda-filtros.open {
-    max-height: 1500px;
-    margin-bottom: 20px;
-    
-  }
-
-  .tienda-filtros-contenido {
-    width: 100%;
   }
 }

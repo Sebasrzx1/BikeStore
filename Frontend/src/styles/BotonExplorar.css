@@ -1,0 +1,60 @@
+.btn-explore {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 2px solid var(--btn-border, #8b0000);
+  border-radius: 50px;
+  background: var(--btn-bg, rgba(249, 250, 251, 0.7));
+  backdrop-filter: blur(6px);
+  color: #8b0000;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  transition: color .3s ease;
+}
+
+/* texto al pasar el mouse */
+.btn-explore:hover {
+  color: var(--btn-hover-text, #ffffff);
+}
+
+/* fondo animado */
+.btn-explore::before {
+  content: "";
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--btn-primary, #8b0000);
+  border-radius: 50px;
+  transition: all .7s ease;
+  z-index: -1;
+}
+
+.btn-explore:hover::before {
+  left: 0;
+  scale: 1.5;
+}
+
+/* Icono */
+.btn-explore-icon {
+  width: 28px;
+  height: 28px;
+  padding: 6px;
+  border: 1px solid var(--btn-icon-border, #374151);
+  border-radius: 50%;
+  transform: rotate(45deg);
+  transition: all .3s ease;
+  fill: var(--btn-icon-fill, #111827);
+}
+
+.btn-explore:hover .btn-explore-icon {
+  background: var(--btn-icon-hover-bg, #ffffff);
+  transform: rotate(90deg);
+  border: none;
+}

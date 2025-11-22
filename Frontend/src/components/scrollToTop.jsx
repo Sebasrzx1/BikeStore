@@ -8,7 +8,7 @@ export default function ScrollToTop() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth" // usa "smooth" si quieres animación
+      behavior: "smooth"
     });
   }, [pathname, search]);
 
