@@ -1,207 +1,318 @@
-.contenedor-general-sobrenostros {
-    height: auto;
-    padding: 0px 30px;
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; /* Fuente moderna */
 }
 
+.contenedor-general-sobrenostros {
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    color: #333;
+}
+
+/* Logo y título */
 .logo-titulo {
-    background: linear-gradient(to bottom, rgb(233, 233, 233), rgba(255, 255, 255, 0));
-    font-size: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 70px;
-    padding-bottom: 30px;
-    gap: 0px;
-
+    padding: 40px 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.5));
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo-titulo img {
-    height: 210px;
-    width: 300px;
+    height: 200px;
+    width: 280px;
+    transition: transform 0.3s ease;
+}
+
+.logo-titulo img:hover {
+    transform: scale(1.05);
 }
 
 .logo-titulo p {
     color: black;
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-top: 10px;
 }
 
-.Descripcion-sobrenostros {
+/* Descripción */
+.descripcion-sobrenostros {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding-bottom: 50px;
+    margin-bottom: 60px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.Descripcion-sobrenostros h1 {
-    font-size: 23px;
-    color: rgb(119, 119, 119);
+.descripcion-sobrenostros h1 {
+    font-size: 2rem;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .text {
-    width: 50%;
+    max-width: 800px;
+    text-align: center;
+    line-height: 1.6;
 }
 
 .text p {
-    color: black;
+    color: #666;
 }
 
+/* Contenedor de imágenes (Slider) */
 .contenedor-imagenes {
-    height: auto;
+    margin-bottom: 60px;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.slider-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.slider-item img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal para imágenes */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
-    gap: 50px;
     justify-content: center;
-    padding: 40px 20px 40px 20px;
-    flex-wrap: wrap;
-
-}
-
-.contenedor-imagenes img {
-    height: 560px;
-    width: 350px;
-    border-radius: 20px;
-    transition: 1s;
-
-}
-
-.contenedor-imagenes img:hover {
-    transform: scale(1.3);
-    transition: 1s;
+    align-items: center;
+    z-index: 1000;
     cursor: pointer;
 }
 
+.modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Tarjetas informativas */
 .cards-informativas {
-    background-color: rgb(234, 234, 234);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 100px;
-    gap: 50px;
-    padding-bottom: 100px;
-
+    background: #f9f9f9;
+    padding: 60px 20px;
+    border-radius: 15px;
+    margin-bottom: 60px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.encabezado_SN {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 600px;
-    gap: 20px;
+.encabezado-sn {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.encabezado_SN h2 {
-    font-size: 20px;
-    font-weight: lighter;
+.encabezado-sn h2 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-.encabezado_SN p {
-    color: rgb(114, 114, 114);
-    font-size: 19px;
+.encabezado-sn p {
+    font-size: 1.2rem;
+    color: #777;
 }
 
 .contenedor-de-cards {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-items: center;
 }
 
 .cardinfo {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 370px;
-    border: 1px solid rgb(208, 208, 208);
-    padding: 20px;
-    padding-top: 60px;
-    padding-bottom: 60px;
-    border-radius: 16px;
-    background-color: white;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.cardinfo p {
-    color: black;
+.cardinfo:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.icono-background {
+    background: linear-gradient(135deg, #b91c1c, #dc2626);
+    border-radius: 50%;
+    padding: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.icono-background:hover {
+    transform: rotate(10deg);
 }
 
 #titlecard {
-    color: black;
+    font-size: 1.5rem;
     font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-.ContenedorPublicidad {
-    background: linear-gradient(to bottom, white, rgba(210, 210, 210, 0.35));
-    display: flex;
-    justify-content: center;
-    height: 400px;
-    align-items: center;
+.cardinfo p {
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Publicidad */
+.contenedor-publicidad {
+    background: linear-gradient(to bottom, white, rgba(220, 220, 220, 0.5));
+    padding: 60px 20px;
+    border-radius: 15px;
+    margin-bottom: 60px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .publicidad {
     display: flex;
-    width: 600px;
-    gap: 20px;
     flex-direction: column;
     align-items: center;
-    height: min-content;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#ready-adventure {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #b91c1c;
+    margin-bottom: 20px;
 }
 
 .publicidad p {
-    color: rgb(88, 88, 88);
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
 }
 
-#readyAventure {
-    font-weight: bold;
-
-}
-
-.icono-background {
-    background-color: rgb(150, 9, 9);
-    display: flex;
-    padding: 15px;
-    border-radius: 30px;
-}
-
-.publicidad button {
-    font-size: 16px;
-    border: 1px solid rgb(125, 6, 6);
-    width: 200px;
-    padding: 15px 25px 15px 25px;
-    border-radius: 10px;
-    background-color: rgb(133, 6, 6);
-}
-.publicidad button:hover {
-    background-color: rgb(112, 5, 5);
-}
-
+/* Recomendaciones */
 .recomendacion {
-    display: flex;
-    justify-content: center;
-    gap: 300px;
-    height: auto;
-    padding: 30px;
-    margin-top: 60px;
-    padding-bottom: 80px;
-    flex-wrap: wrap;
-
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    padding: 40px 20px;
+    justify-items: center;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .card-recomendacion {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    align-items: center;
-    justify-content: center;
-}
-
-.card-recomendacion p {
-    font-size: 20px;
-    color: rgb(125, 125, 125);
+    text-align: center;
 }
 
 #price {
-    font-size: 50px;
-    color: rgb(185, 12, 12);
+    font-size: 3rem;
     font-weight: bold;
+    color: #b91c1c;
+    margin-bottom: 10px;
+}
+
+.card-recomendacion p {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .contenedor-general-sobrenostros {
+        padding: 10px;
+    }
+
+    .logo-titulo img {
+        height: 150px;
+        width: 200px;
+    }
+
+    .descripcion-sobrenostros h1 {
+        font-size: 1.5rem;
+    }
+
+    .text {
+        max-width: 100%;
+    }
+
+    .slider-item img {
+        height: 250px;
+    }
+
+    .encabezado-sn h2 {
+        font-size: 2rem;
+    }
+
+    .contenedor-de-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .cardinfo {
+        max-width: 100%;
+    }
+
+    .recomendacion {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    #price {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-titulo p {
+        font-size: 1.2rem;
+    }
+
+    .descripcion-sobrenostros h1 {
+        font-size: 1.2rem;
+    }
+
+    .encabezado-sn h2 {
+        font-size: 1.8rem;
+    }
+
+    .publicidad p {
+        font-size: 1rem;
+    }
+
+    .card-recomendacion p {
+        font-size: 1rem;
+    }
 }

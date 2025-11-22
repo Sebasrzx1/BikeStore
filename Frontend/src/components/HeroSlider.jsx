@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 const slides = [
   {
     textoPrincipal: "Encuentra la bicicleta de tus sueños",
-    textoSecundario:
-      "Bicicletas de alta calidad para todo tipo de terreno y estilo.",
+    textoSecundario: "Bicicletas de alta calidad para todo tipo de terreno y estilo.",
     boton: "Compra ahora",
     imagen: "/imgslide1.jpg",
   },
@@ -19,24 +18,30 @@ const slides = [
   {
     textoPrincipal: "Viaja con pasión",
     textoSecundario: "Accesorios y repuestos de calidad",
-    boton: "Comprar ahora",
+    boton: "Compra ahora",
     imagen: "/imgslide3.jpg",
   },
 ];
 
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const intervalo = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(intervalo);
-  }, []);
+    if (!isPaused) {
+      const intervalo = setInterval(() => {
+        setIndex((prev) => (prev + 1) % slides.length);
+      }, 5000);
+      return () => clearInterval(intervalo);
+    }
+  }, [isPaused]);
 
   const { textoPrincipal, textoSecundario, boton, imagen } = slides[index];
 
-  const navigate = useNavigate();
+  const nextSlide = () => setIndex((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  const goToSlide = (slideIndex) => setIndex(slideIndex);
 
   return (
     <div
@@ -44,6 +49,8 @@ export default function HeroSlider() {
       style={{
         backgroundImage: `url(${imagen})`,
       }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="slider-content">
         <div className="Tituloslider">
@@ -56,6 +63,26 @@ export default function HeroSlider() {
             {boton}
           </button>
         </div>
+      </div>
+
+      {/* Flechas de navegación */}
+      <button className="arrow left-arrow" onClick={prevSlide} aria-label="Slide anterior">
+        &#10094;
+      </button>
+      <button className="arrow right-arrow" onClick={nextSlide} aria-label="Slide siguiente">
+        &#10095;
+      </button>
+
+      {/* Indicadores (dots) */}
+      <div className="dots">
+        {slides.map((_, slideIndex) => (
+          <button
+            key={slideIndex}
+            className={`dot ${slideIndex === index ? 'active' : ''}`}
+            onClick={() => goToSlide(slideIndex)}
+            aria-label={`Ir al slide ${slideIndex + 1}`}
+          />
+        ))}
       </div>
     </div>
   );
