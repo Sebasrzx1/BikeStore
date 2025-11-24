@@ -14,7 +14,7 @@ direccion varchar(100),
 ciudad varchar(25),
 departamento varchar(25),
 codigo_postal int,
-pais enum('Argentina','Colombia','Chile','Ecuador','Brazil','Mexico')
+pais enum('Argentina','Colombia','Chile','Ecuador','Mexico')
 );
 
 # -------- Creación de la tabla pedidos. --------#
@@ -23,7 +23,9 @@ id_pedido int primary key auto_increment,
 id_usuario int,
 estado enum('En alistamiento','En envío','Entregados'),
 fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+metodo_pago enum('Visa','Mastercard','Paypal'),
+Numero_tarjeta bigint
 );
 
 # -------- Creación de la tabla categorias --------#
@@ -109,17 +111,6 @@ VALUES
 # INSERT INTO TABLA DETALLE_PEDIDO
 INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, total)
 VALUES
-(1, 1, 1, 2800000),
-(1, 7, 1, 250000),
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
-(1, 4, 2, 500000),  
+(1, 1, 1, 2800000), 
 (2, 9, 1, 60000),  
 (3, 8, 1, 85000); 

@@ -17,5 +17,8 @@ router.get("/:id", verificarToken, (req, res) =>
   PedidosController.obtenerPedidoPorId(req, res)
 );
 
+router.post("/crear-pedido", verificarToken, (req, res) =>
+  PedidosController.crearPedido(req, res)
+);
 
 module.exports = router;
