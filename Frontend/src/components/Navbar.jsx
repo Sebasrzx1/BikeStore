@@ -21,13 +21,13 @@ const Navbar = ({ cantidadCarrito }) => {
         </div>
 
         <ul className={`nav-links ${menuAbierto ? "active" : ""}`}>
-          <li>
+          <li key="inicio">
             <Link to="/">Inicio</Link>
           </li>
-          <li>
+          <li key="catalogo">
             <Link to="/catalogo">Catálogo</Link>
           </li>
-          <li>
+          <li key="sobre-nosotros">
             <Link to="/SobreNosotros">Sobre nosotros</Link>
           </li>
         </ul>
@@ -35,32 +35,35 @@ const Navbar = ({ cantidadCarrito }) => {
         <div className="Contcarrito-accesoregistro">
           {isAuthenticated ? (
             isAdmin ? (
-              <Link to="/admin">
+              <Link to="/admin" key="admin">
                 <div className="desingloginregisteradmin">
                   <img src="/IconAdmin.svg" alt="Admin" />
                 </div>
               </Link>
             ) : (
-              <Link to="/cuenta" className="desingloginregister">
+              <Link to="/cuenta" className="desingloginregister" key="perfil">
                 <img src="/IconPerfil.svg" alt="Perfil" />
               </Link>
             )
           ) : (
-            <button onClick={() => navigate("/login")} className="desingloginregisterdesc">
+            <button onClick={() => navigate("/login")} className="desingloginregisterdesc" key="login">
               Acceso / Registro
             </button>
           )}
 
-          <div className="contcarrito">
-            <div className="carrito-icono">
-              <Link to="/carrito">
-                <img src="/Vector.svg" alt="Carrito" className="icono-carrito" />
-                {cantidadCarrito > 0 && (
-                  <span className="carrito-contador">{cantidadCarrito}</span>
-                )}
-              </Link>
+          {/* Condición corregida: Mostrar carrito si NO es admin (invitado o cliente) */}
+          {!isAdmin && (
+            <div className="contcarrito">
+              <div className="carrito-icono">
+                <Link to="/carrito">
+                  <img src="/Vector.svg" alt="Carrito" className="icono-carrito" />
+                  {cantidadCarrito > 0 && (
+                    <span className="carrito-contador">{cantidadCarrito}</span>
+                  )}
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div
@@ -69,7 +72,6 @@ const Navbar = ({ cantidadCarrito }) => {
         ></div>
       </nav>
     </div>
-
   );
 };
 
