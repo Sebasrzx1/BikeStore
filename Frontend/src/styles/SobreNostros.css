@@ -75,7 +75,7 @@
 .contenedor-imagenes {
     margin-bottom: 60px;
     padding: 20px;
-    background: white;
+    background: rgb(145, 11, 11);
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
