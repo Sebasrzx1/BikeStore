@@ -171,7 +171,7 @@ export default function Carrito({ setCantidadCarrito }) {
             <h2>${total.toLocaleString("es-CO")}</h2>
           </div>
           <button className="btn-pagar" onClick={procederPago}>
-            Pagar en PAYU ←
+            Pagar ←
           </button>
           <button className="btn-Volver" onClick={() => navigate("/catalogo")}>
             Continuar comprando
