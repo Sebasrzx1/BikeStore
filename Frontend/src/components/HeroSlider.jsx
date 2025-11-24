@@ -28,20 +28,38 @@ export default function HeroSlider() {
   const [isPaused, setIsPaused] = useState(false);
   const navigate = useNavigate();
 
+  // --- AUTOPLAY MÁS RÁPIDO (3s) ---
   useEffect(() => {
-    if (!isPaused) {
-      const intervalo = setInterval(() => {
+    const interval = setInterval(() => {
+      if (!isPaused) {
         setIndex((prev) => (prev + 1) % slides.length);
-      }, 5000);
-      return () => clearInterval(intervalo);
-    }
+      }
+    }, 1600); // <--- velocidad reducida
+
+    return () => clearInterval(interval);
   }, [isPaused]);
 
   const { textoPrincipal, textoSecundario, boton, imagen } = slides[index];
 
-  const nextSlide = () => setIndex((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
-  const goToSlide = (slideIndex) => setIndex(slideIndex);
+  const pauseTime = 1500; // <--- Pausa después de botón/dot
+
+  const nextSlide = () => {
+    setIndex((prev) => (prev + 1) % slides.length);
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), pauseTime);
+  };
+
+  const prevSlide = () => {
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), pauseTime);
+  };
+
+  const goToSlide = (slideIndex) => {
+    setIndex(slideIndex);
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), pauseTime);
+  };
 
   return (
     <div
@@ -65,7 +83,6 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Flechas de navegación */}
       <button className="arrow left-arrow" onClick={prevSlide} aria-label="Slide anterior">
         &#10094;
       </button>
@@ -73,7 +90,6 @@ export default function HeroSlider() {
         &#10095;
       </button>
 
-      {/* Indicadores (dots) */}
       <div className="dots">
         {slides.map((_, slideIndex) => (
           <button
