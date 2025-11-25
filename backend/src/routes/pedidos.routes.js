@@ -17,8 +17,17 @@ router.get("/:id", verificarToken, (req, res) =>
   PedidosController.obtenerPedidoPorId(req, res)
 );
 
+router.put("/:id/estado", verificarToken, (req, res) =>
+  PedidosController.cambiarEstadoPedido(req, res)
+);
+
+router.put("/:id/cancelar", verificarToken, (req, res) =>
+  PedidosController.cancelarPedido(req, res)
+);
+
 router.post("/crear-pedido", verificarToken, (req, res) =>
   PedidosController.crearPedido(req, res)
 );
+
 
 module.exports = router;

@@ -171,7 +171,7 @@ const CuentaCliente = () => {
           </div>
 
           {/* formulario para editar */}
-          <div className="contenedor-formulario">
+          <div className="contenedor-formularios">
             <h3>Editar información personal</h3>
             <form onSubmit={handleGuardar} className="cuenta-form">
               <label>Nombre:</label>

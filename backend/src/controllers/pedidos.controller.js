@@ -98,12 +98,10 @@ class PedidosController {
       );
 
       if (pedidoData.length === 0) {
-        return res
-          .status(403)
-          .json({
-            success: false,
-            message: "No tienes permiso para ver este pedido",
-          });
+        return res.status(403).json({
+          success: false,
+          message: "No tienes permiso para ver este pedido",
+        });
       }
 
       const pedido = pedidoData[0];
@@ -131,7 +129,7 @@ class PedidosController {
 
   // 🔹 Crear un nuevo pedido
   async crearPedido(req, res) {
-    const connection = await db.getConnection();  // Para transacciones
+    const connection = await db.getConnection(); // Para transacciones
     try {
       await connection.beginTransaction();
 
@@ -140,7 +138,9 @@ class PedidosController {
 
       // Validar datos básicos
       if (!metodo_pago || !numero_tarjeta || !items || items.length === 0) {
-        return res.status(400).json({ success: false, message: "Datos incompletos." });
+        return res
+          .status(400)
+          .json({ success: false, message: "Datos incompletos." });
       }
 
       // Verificar stock suficiente para todos los items
@@ -153,7 +153,9 @@ class PedidosController {
           await connection.rollback();
           return res.status(400).json({
             success: false,
-            message: `Stock insuficiente para ${item.nombre}. Disponible: ${producto[0]?.stock || 0}.`,
+            message: `Stock insuficiente para ${item.nombre}. Disponible: ${
+              producto[0]?.stock || 0
+            }.`,
           });
         }
       }
@@ -167,7 +169,7 @@ class PedidosController {
 
       // Insertar detalles y reducir stock
       for (const item of items) {
-        const totalItem = item.cantidad * item.precio;  // Usa el precio del carrito
+        const totalItem = item.cantidad * item.precio; // Usa el precio del carrito
         await connection.query(
           "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, total) VALUES (?, ?, ?, ?)",
           [id_pedido, item.id_producto, item.cantidad, totalItem]
@@ -179,16 +181,136 @@ class PedidosController {
       }
 
       await connection.commit();
-      return res.json({ success: true, message: "Pedido creado exitosamente.", id_pedido });
+      return res.json({
+        success: true,
+        message: "Pedido creado exitosamente.",
+        id_pedido,
+      });
     } catch (error) {
       await connection.rollback();
       console.error("Error en crearPedido:", error);
-      return res.status(500).json({ success: false, message: "Error al crear el pedido." });
+      return res
+        .status(500)
+        .json({ success: false, message: "Error al crear el pedido." });
     } finally {
       connection.release();
     }
   }
 
-}
+  async cancelarPedido(req, res) {
+    let connection;
+    try {
+      connection = await db.getConnection();
 
+      const id_pedido = req.params.id;
+      const id_usuario = req.usuario.id_usuario;
+
+      await connection.beginTransaction();
+
+      // Validar que el pedido pertenece al usuario y está en estado "En alistamiento"
+      const [pedidoRows] = await connection.query(
+        "SELECT estado FROM pedidos WHERE id_pedido = ? AND id_usuario = ? FOR UPDATE",
+        [id_pedido, id_usuario]
+      );
+
+      if (pedidoRows.length === 0) {
+        await connection.rollback();
+        return res
+          .status(404)
+          .json({ success: false, message: "Pedido no encontrado" });
+      }
+
+      const estadoActual = pedidoRows[0].estado;
+      if (estadoActual !== "En alistamiento") {
+        await connection.rollback();
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: "Solo se pueden cancelar pedidos en alistamiento",
+          });
+      }
+
+      // Obtener detalles del pedido para devolver stock
+      const [detalles] = await connection.query(
+        "SELECT id_producto, cantidad FROM detalle_pedido WHERE id_pedido = ?",
+        [id_pedido]
+      );
+
+      // Devolver stock de cada producto
+      for (const detalle of detalles) {
+        await connection.query(
+          "UPDATE productos SET stock = stock + ? WHERE id_producto = ?",
+          [detalle.cantidad, detalle.id_producto]
+        );
+      }
+
+      // Eliminar detalles del pedido
+      await connection.query("DELETE FROM detalle_pedido WHERE id_pedido = ?", [
+        id_pedido,
+      ]);
+
+      // Eliminar pedido
+      await connection.query("DELETE FROM pedidos WHERE id_pedido = ?", [
+        id_pedido,
+      ]);
+
+      await connection.commit();
+
+      return res.json({
+        success: true,
+        message: "Pedido eliminado correctamente.",
+      });
+    } catch (error) {
+      if (connection) await connection.rollback();
+      console.error("Error eliminando pedido:", error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error al eliminar el pedido." });
+    } finally {
+      if (connection) {
+        try {
+          connection.release();
+        } catch (e) {
+          console.error("Error liberando conexión:", e);
+        }
+      }
+    }
+  }
+
+  async cambiarEstadoPedido(req, res) {
+    try {
+      const id_pedido = req.params.id;
+      const { estado } = req.body;
+      // Validar estados válidos
+      const estadosPermitidos = ["En alistamiento", "En envío", "Entregados"];
+      if (!estadosPermitidos.includes(estado)) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Estado inválido." });
+      }
+      const [result] = await db.query(
+        "UPDATE pedidos SET estado = ? WHERE id_pedido = ?",
+        [estado, id_pedido]
+      );
+      if (result.affectedRows === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Pedido no encontrado." });
+      }
+      return res.json({
+        success: true,
+        message: "Estado del pedido actualizado.",
+      });
+    } catch (error) {
+      console.error("Error en cambiarEstadoPedido:", error);
+      return res
+        .status(500)
+        .json({
+          success: false,
+          message: "Error al actualizar estado del pedido.",
+        });
+    }
+  }
+}
 module.exports = new PedidosController();
