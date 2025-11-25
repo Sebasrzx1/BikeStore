@@ -58,7 +58,8 @@
   width: 100%;
 }
 
-.contenedor-formulario {
+.contenedor-formularios {
+  font-family: Poppins;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -70,13 +71,13 @@
   background-color: white;
 }
 
-.contenedor-formulario form {
+.contenedor-formularios form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.contenedor-formulario form input {
+.contenedor-formularios form input {
   border-radius: 5px;
   border: none;
   height: 35px;

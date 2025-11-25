@@ -315,6 +315,15 @@ p {
   transition: background 0.3s ease;
 }
 
+.btn-addH p {
+  color: #FFF;
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+}
+
 .btn-add:hover {
   background: #7c0000;
 }

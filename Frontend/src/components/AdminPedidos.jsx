@@ -2,22 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/PedidosAdmin.css";
 
-const estadosFiltro = ["todos", "por despachar", "en envío", "entregados"];
+const estadosFiltro = ["todos", "En alistamiento", "En envío", "Entregados"];
 
 const filtrosEstadosMap = {
   todos: null,
-  "por despachar": ["pendiente", "procesando"],
-  "en envío": ["enviado"],
-  entregados: ["entregado", "completado"],
+  "En alistamiento": ["En alistamiento"],
+  "En envío": ["En envío"],
+  Entregados: ["Entregados"],
 };
 
 const colorEstado = {
-  pendiente: "#ccc",
-  procesando: "#bbb",
-  enviado: "#a3d2ca",
-  completado: "#3aafa9",
-  cancelado: "#e63946",
-  entregado: "#e63946",
+  "En alistamiento": "#ffb7b7ff",
+  "En envío": "#a3b7ffff",
+  Entregados: "#adffe5ff",
 };
 
 export default function AdminPedidos() {
@@ -30,9 +27,12 @@ export default function AdminPedidos() {
     try {
       setCargando(true);
       const token = localStorage.getItem("token");
-      const { data } = await axios.get("http://localhost:3000/api/pedidos/todos", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        "http://localhost:3000/api/pedidos/todos",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setPedidos(Array.isArray(data.data) ? data.data : []);
     } catch (error) {
       console.error("Error al cargar pedidos:", error);
@@ -52,7 +52,9 @@ export default function AdminPedidos() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setPedidos((prev) =>
-        prev.map((p) => (p.id_pedido === id_pedido ? { ...p, estado: nuevoEstado } : p))
+        prev.map((p) =>
+          p.id_pedido === id_pedido ? { ...p, estado: nuevoEstado } : p
+        )
       );
     } catch (error) {
       console.error("Error cambiando estado:", error);
@@ -71,12 +73,13 @@ export default function AdminPedidos() {
     ? pedidos.filter((p) => estadosFiltrados.includes(p.estado))
     : pedidos;
 
-  if (cargando)
+  if (cargando) {
     return (
       <div className="pedidos-container2">
         <p>Cargando pedidos...</p>
       </div>
     );
+  }
 
   return (
     <div className="pedidos-container2">
@@ -108,7 +111,11 @@ export default function AdminPedidos() {
               </div>
 
               <div className="pedido-valor2">
-                ${p.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                $
+                {p.total.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </div>
 
               <select
@@ -116,13 +123,13 @@ export default function AdminPedidos() {
                 onChange={(e) => cambiarEstado(p.id_pedido, e.target.value)}
                 disabled={cambiandoEstado === p.id_pedido}
                 className="select-estado2"
+                style={{
+                  backgroundColor: colorEstado[p.estado] || "transparent",
+                }}
               >
-                <option value="pendiente">Pendiente</option>
-                <option value="procesando">Procesando</option>
-                <option value="enviado">Enviado</option>
-                <option value="completado">Completado</option>
-                <option value="cancelado">Cancelado</option>
-                <option value="entregado">Entregado</option>
+                <option value="En alistamiento">En alistamiento</option>
+                <option value="En envío">En envío</option>
+                <option value="Entregados">Entregados</option>
               </select>
             </div>
           ))

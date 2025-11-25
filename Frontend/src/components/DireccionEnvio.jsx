@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import '../styles/DireccionEnvio.css'
+import "../styles/DireccionEnvio.css";
 
-
-const DireccionEnvio = ({ usuario, onActualizar }) => {
+const DireccionEnvio = ({ usuario, onActualizar, onCancel }) => {
   const [direccionData, setDireccionData] = useState({
     departamento: "",
     direccion: "",
     codigo_postal: "",
     ciudad: "",
   });
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [mostrarFormulario, setMostrarFormulario] = useState(true);
   const [mensaje, setMensaje] = useState("");
+  const [hasEdited, setHasEdited] = useState(false); // 🟢 Nuevo: Bandera para saber si el usuario editó
 
-  // ✅ Cargar datos actuales del usuario (si existen)
+  // ✅ Cargar datos actuales del usuario SOLO inicialmente (al montar)
   useEffect(() => {
-    if (usuario) {
+    if (usuario && !hasEdited) { // 🟢 Solo carga si NO ha editado
       setDireccionData({
         departamento: usuario.departamento || "",
         direccion: usuario.direccion || "",
@@ -22,10 +22,11 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
         ciudad: usuario.ciudad || "",
       });
     }
-  }, [usuario]);
+  }, [usuario, hasEdited]); // 🟢 Agrega hasEdited como dependencia
 
   // Manejador de cambios
   const handleChange = (e) => {
+    setHasEdited(true); // 🟢 Marca que el usuario empezó a editar
     setDireccionData({ ...direccionData, [e.target.name]: e.target.value });
   };
 
@@ -78,6 +79,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
 
       setMensaje("✅ Dirección actualizada con éxito");
       setMostrarFormulario(false);
+      setHasEdited(false); // 🟢 Resetea la bandera después de guardar
 
       if (onActualizar) onActualizar(); // refresca datos del usuario
     } catch (error) {
@@ -89,9 +91,10 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
   return (
     <div className="direccion-envio">
       <div className="ContTIT">
-      <img src="../public/Iconubi.svg" alt="" />
-      <h3> Dirección de Envío</h3>
+        <img src="../public/Iconubi.svg" alt="Icono ubicación" />
+        <h3>Dirección de Envío</h3>
       </div>
+
       {!mostrarFormulario ? (
         <>
           {direccionData.direccion ? (
@@ -112,7 +115,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
                 className="btn-editar-direccion"
                 onClick={() => setMostrarFormulario(true)}
               >
-                 Editar dirección
+                Editar dirección
               </button>
             </div>
           ) : (
@@ -128,9 +131,14 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
           )}
         </>
       ) : (
-        <form onSubmit={handleGuardarDireccion} className="direccion-form">
-          <label>Departamento:</label>
+        <form
+          onSubmit={handleGuardarDireccion}
+          className="direccion-form"
+          noValidate
+        >
+          <label htmlFor="departamento">Departamento:</label>
           <input
+            id="departamento"
             type="text"
             name="departamento"
             value={direccionData.departamento}
@@ -138,8 +146,9 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             required
           />
 
-          <label>Dirección:</label>
+          <label htmlFor="direccion">Dirección:</label>
           <input
+            id="direccion"
             type="text"
             name="direccion"
             value={direccionData.direccion}
@@ -147,16 +156,18 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             required
           />
 
-          <label>Código postal:</label>
+          <label htmlFor="codigo_postal">Código postal:</label>
           <input
+            id="codigo_postal"
             type="text"
             name="codigo_postal"
             value={direccionData.codigo_postal}
             onChange={handleChange}
           />
 
-          <label>Ciudad:</label>
+          <label htmlFor="ciudad">Ciudad:</label>
           <input
+            id="ciudad"
             type="text"
             name="ciudad"
             value={direccionData.ciudad}
@@ -164,13 +175,23 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             required
           />
 
-          <div style={{ marginTop: "1rem", justifyContent: "space-between", display:"flex" , gap:"10px"}}>
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "10px",
+            }}
+          >
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
             </button>
             <button
               type="button"
-              onClick={() => setMostrarFormulario(false)}
+              onClick={() => {
+                setMostrarFormulario(false);
+                if (onCancel) onCancel();
+              }}
               className="btn-cancelar"
             >
               Cancelar

@@ -3,13 +3,18 @@
 /* ========================= */
 
 .contenedor-general {
+    font-family: Poppins;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
     height: auto;
+    min-height: 532px;
     width: 100%;
     overflow-x: hidden; /* Evita scroll horizontal */
 }
 
-.contenedor-panel-y-pedidos {
+.contenedor-panel-y-pedidoss {
     display: flex;
     gap: 10rem;
     height: 100%;

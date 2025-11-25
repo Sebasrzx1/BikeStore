@@ -127,7 +127,7 @@ input[type="text"],
 input[type="number"],
 select,
 textarea {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins';
   font-size: 14px;
   color: #202124;
   padding: 10px 14px;

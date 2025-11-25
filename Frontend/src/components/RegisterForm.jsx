@@ -56,7 +56,7 @@ export default function RegisterForm({ setIsRegistering }) {
     }
 
     // Remover espacios múltiples
-    limpio = limpio.replace(/\s{2,}/g, " ").trim();
+    limpio = limpio.replace(/\s{2,}/g, " ");
 
     return limpio;
   };
