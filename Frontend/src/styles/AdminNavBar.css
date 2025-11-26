@@ -2,7 +2,8 @@
   color: white;
   margin: 0;
   display: flex;
-  width: 280px; /* Ancho fijo para desktop */
+  width: 280px;
+  /* Ancho fijo para desktop */
   height: 100vh;
   padding: 24px;
   flex-direction: column;
@@ -63,6 +64,10 @@
   padding: 8px 0;
   cursor: pointer;
   transition: background 0.3s ease;
+  transition: 0.5s;
+  border-radius: 8px;
+  border: 1px solid black;
+
 }
 
 .Cont-Nav-Opt button {
@@ -130,12 +135,37 @@
   transition: 0.3s;
 }
 
+
+.volver-admin:hover {
+  background-color: rgb(165, 20, 20);
+  width: 160px;
+  padding-left: 9px;
+  transition: 0.5s;
+  border-radius: 8px;
+}
+
+/**/
+
+.btn-cerrar-sesionAdmin:hover{
+    background-color: rgb(156, 34, 34);
+    border: 1px solid rgb(110, 0, 0);
+    border-radius: 10px;
+}
+
+.btn-cerrar-sesionAdmin:hover svg path {
+    stroke: #ffffff;
+    transition: stroke 0.3s ease;
+}
+
+
+
 /* ============================================
    RESPONSIVE PARA TABLETS (1024px y menos)
 ============================================ */
 @media (max-width: 1024px) {
   .panel-botones {
-    width: 200px; /* Ancho fijo para tablets */
+    width: 200px;
+    /* Ancho fijo para tablets */
     padding: 20px;
   }
 
@@ -172,7 +202,8 @@
   }
 
   .panel-botones {
-    width: 250px; /* Ancho fijo para móviles */
+    width: 250px;
+    /* Ancho fijo para móviles */
     transform: translateX(-100%);
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
   }

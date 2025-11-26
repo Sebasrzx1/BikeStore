@@ -38,7 +38,7 @@ const StyledWrapper = styled.div`
   .inputGroup {
     font-family: 'Segoe UI', sans-serif;
     margin: 1em 0;
-    width: 690px;
+    width: 100%;
     position: relative;
   }
 

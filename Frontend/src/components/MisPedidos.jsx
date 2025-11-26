@@ -150,7 +150,7 @@ const MisPedidos = () => {
                       {pedido.estado === "En alistamiento" && (
                         <button
                           disabled={cargando}
-                          className="btn-cancelar-pedido"
+                          className="btn-cancelar-pedido3"
                           onClick={() => setPedidoCancelar(pedido)}
                         >
                           Cancelar pedido
