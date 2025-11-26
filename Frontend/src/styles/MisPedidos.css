@@ -167,7 +167,7 @@
 }
 
 .btn-detalles {
-    background: brown;
+    background: rgb(53, 53, 53);
     border-radius: 8px;
     padding: 5px 8px;
     cursor: pointer;
@@ -177,8 +177,19 @@
 }
 
 .btn-detalles:hover {
-    background: rgba(197, 10, 10, 0.882);
+    background: rgba(65, 65, 65, 0.882);
     cursor: pointer;
+}
+
+.btn-cancelar-pedido3{
+    width: 120px;
+    font-size: 12px;
+    background-color: rgb(160, 35, 35);
+    height: 30px;
+    border-radius: 10px;
+}
+.btn-cancelar-pedido3:hover{
+    background-color: rgb(204, 38, 38);
 }
 
 .lista-pedidos{

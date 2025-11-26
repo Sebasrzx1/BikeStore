@@ -92,6 +92,14 @@
   padding-top: 0.5rem;
 }
 
+.inv-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 20px;
+}
+
 /* 🔥 Ocultar botones al imprimir */
 @media print {
   .inv-buttons {
@@ -168,5 +176,13 @@
 @media (max-width: 600px) {
   .inv-container {
     padding: 1rem 1.2rem;
+  }
+
+  .inv-table th,
+  .inv-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    display: flex;
   }
 }
