@@ -177,13 +177,33 @@ const DireccionEnvio = ({ usuario, onActualizar, onCancel }) => {
 
           <div
             style={{
+<<<<<<< HEAD
               display: "flex",
               justifyContent: "center",
+=======
+              marginTop: "1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "10px",
+>>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
             }}
           >
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
             </button>
+<<<<<<< HEAD
+=======
+            <button
+              type="button"
+              onClick={() => {
+                setMostrarFormulario(false);
+                if (onCancel) onCancel();
+              }}
+              className="btn-cancelar"
+            >
+              Cancelar
+            </button>
+>>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
           </div>
         </form>
       )}
