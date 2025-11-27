@@ -37,8 +37,8 @@ const PanelCliente = ({ user, onLogout }) => {
                             strokeLinejoin="round" />
                             <path d="M2.35547 5.01294L8.5931 8.59367L14.8307 5.01294" 
                             stroke="black" 
-                            strokeWidth="1.43229" s
-                            trokeLinecap="round" 
+                            strokeWidth="1.43229"
+                            trokelinecap="round" 
                             strokeLinejoin="round" />
                             <path d="M5.37109 3.05786L11.8164 6.74601" stroke="black" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
