@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/DireccionEnvio.css";
 
-const DireccionEnvio = ({ usuario, onActualizar, onCancel }) => {
+const DireccionEnvio = ({ usuario, onActualizar }) => {
   const [direccionData, setDireccionData] = useState({
     departamento: "",
     direccion: "",
@@ -111,12 +111,6 @@ const DireccionEnvio = ({ usuario, onActualizar, onCancel }) => {
               <p>
                 <strong>Código postal:</strong> {direccionData.codigo_postal}
               </p>
-              <button
-                className="btn-editar-direccion"
-                onClick={() => setMostrarFormulario(true)}
-              >
-                Editar dirección
-              </button>
             </div>
           ) : (
             <div className="contenedor-sin-registro">
@@ -179,22 +173,12 @@ const DireccionEnvio = ({ usuario, onActualizar, onCancel }) => {
             style={{
               marginTop: "1rem",
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent: "center",
               gap: "10px",
             }}
           >
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMostrarFormulario(false);
-                if (onCancel) onCancel();
-              }}
-              className="btn-cancelar"
-            >
-              Cancelar
             </button>
           </div>
         </form>

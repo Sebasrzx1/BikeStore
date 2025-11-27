@@ -69,14 +69,14 @@
 }
 
 .text p {
-    color: #666;
+    color: #4b575e;
 }
 
 /* Contenedor de imágenes (Slider) */
 .contenedor-imagenes {
     margin-bottom: 60px;
     padding: 20px;
-    background: rgb(145, 11, 11);
+    background: rgba(184, 191, 201, 0.822);
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
