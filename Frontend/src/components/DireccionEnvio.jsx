@@ -180,6 +180,17 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
             </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMostrarFormulario(false);
+                if (onCancel) onCancel();
+              }}
+              className="btn-cancelar"
+            >
+              Cancelar
+            </button>
+
           </div>
         </form>
       )}

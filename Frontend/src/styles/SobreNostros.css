@@ -76,9 +76,10 @@
 .contenedor-imagenes {
     margin-bottom: 60px;
     padding: 20px;
-    background: rgba(184, 191, 201, 0.822);
+    background: rgb(145, 11, 11);
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
 }
 
 .slider-item img {
