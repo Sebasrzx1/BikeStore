@@ -1,0 +1,165 @@
+.contenedor-panel {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    width: 315px;
+    height: auto;
+    padding: 24px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+}
+
+.mispedidos {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    height: 30px;
+    align-items: center;
+    padding: 10px;
+}
+
+.ContOpciones {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    height: 30px;
+    align-items: center;
+    padding: 10px;
+}
+
+.btn-logout {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    height: 30px;
+    align-items: center;
+    padding: 10px;
+}
+
+.icon-perfil-panel img {
+    display: flex;
+    width: 96px;
+    height: 96px;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-correo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+}
+
+.name-correo p {
+    color: #877b7b;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+
+.name-correo h1 {
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+.options {
+    border-top: 1px solid #c5c5c5;
+    padding-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
+
+}
+
+.options button {
+    width: 100%;
+    font-family: 'Poppins';
+    font-size: 12px;
+    border-radius: 8px;
+    padding: 5px;
+    display: flex;
+    color: black;
+}
+
+
+/*BOTON AJUSTE DE CUENTA HOVER*/
+/* --- HOVER DEL BOTÓN --- */
+.options button:hover .ContOpciones {
+    color: #ffffff;
+    background-color: rgb(156, 34, 34);
+    border: 1px solid rgb(110, 0, 0);
+    border-radius: 10px;
+}
+
+/* --- HOVER DEL SVG (CAMBIA EL TRAZO) --- */
+.options button:hover svg path {
+    stroke: #ffffff;
+    /* Cambia el color del icono */
+    transition: stroke 0.3s ease;
+}
+
+/* Si quieres que cambie el relleno (solo si el SVG usa fill) */
+.options button:hover svg {
+    fill: #000000;
+
+}
+
+
+
+/*BOTON CERRAR SESION DE CUENTA HOVER*/
+
+.options button:hover .btn-logout {
+    color: #ffffff;
+    background-color: rgb(156, 34, 34);
+    border: 1px solid rgb(110, 0, 0);
+    border-radius: 10px;
+}
+
+.options button:hover svg path {
+    stroke: #ffffff;
+    transition: stroke 0.3s ease;
+}
+
+
+.options button:hover svg {
+    fill: #ffffff00;
+
+}
+
+
+/*BOTON MIS PEDIDOS*/
+
+.options button:hover .mispedidos {
+    color: #ffffff;
+    background-color: rgb(156, 34, 34);
+    border: 1px solid rgb(92, 0, 0);
+    border-radius: 10px;
+}
+
+.options button:hover svg path {
+    stroke: #ffffff;
+    transition: stroke 0.3s ease;
+}
+
+
+.options button:hover svg {
+    fill: #ffffff00;
+}

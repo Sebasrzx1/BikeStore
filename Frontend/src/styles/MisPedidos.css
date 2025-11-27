@@ -1,0 +1,284 @@
+/* ========================= */
+/* CONTENEDORES GENERALES    */
+/* ========================= */
+
+.contenedor-general {
+    font-family: Poppins;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: auto;
+    min-height: 532px;
+    width: 100%;
+    overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+.contenedor-panel-y-pedidoss {
+    display: flex;
+    gap: 10rem;
+    height: 100%;
+    width: 100%;
+}
+
+/* Panel lateral */
+.contenedorPanel {
+    display: flex;
+    padding-top: 60px;
+    height: min-content;
+}
+
+/* ========================= */
+/* CONTENEDOR DE PEDIDOS     */
+/* ========================= */
+
+.contenedor-pedidos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+    gap: 20px;
+    border: 1px solid rgba(179, 179, 179, 0.579);
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+/* ========================= */
+/* FILTROS                   */
+/* ========================= */
+
+.filtros {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* para que no se desborden */
+}
+
+.filtros button {
+    color: black;
+    border: 1px solid rgb(125, 125, 125);
+    padding: 5px;
+    border-radius: 10px;
+    font-size: 15px;
+    background: white;
+}
+
+.filtros button:hover {
+    color: white;
+    background: rgb(130, 2, 2);
+    transition: 0.5s;
+}
+
+/* ========================= */
+/* LISTA DE PEDIDOS          */
+/* ========================= */
+
+.lista-pedidos p {
+    color: black;
+}
+
+/* ========================= */
+/* CARD DE PEDIDO            */
+/* ========================= */
+
+.pedido-card {
+    width: 700px;
+    max-width: 100%; /* IMPORTANTE para evitar desbordes */
+    background: white;
+    display: flex;
+    flex-direction: row;
+    border-radius: 15px;
+    box-shadow: 0 0 8px 1px rgb(210,210,210);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* ========================= */
+/* SLIDER DE IMÁGENES        */
+/* ========================= */
+
+.slider-container {
+    width: 35%;
+    min-width: 150px;
+    height: 100%;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+.slide-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    border-right: 1px solid rgb(230,230,230);
+}
+
+/* ========================= */
+/* INFO DEL PEDIDO           */
+/* ========================= */
+
+.pedido-info {
+    flex: 1;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.No_pedido_fecha{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    font-size: 20px;
+    width: 50%;
+}
+
+.No_pedido_fecha p{
+    font-size: 15px;
+    color: black;
+}
+
+.Estado_total_verDetalle{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
+}
+
+#estado{
+    font-size: 12px;
+    border: 2px solid rgba(108, 108, 108, 0.471);
+    padding: 0px 5px;
+    border-radius: 15px;
+    color: rgba(0, 0, 0, 0.668);
+    font-weight: bold;
+}
+
+#totalPedido{
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+}
+
+.btn-detalles {
+    background: rgb(53, 53, 53);
+    border-radius: 8px;
+    padding: 5px 8px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    width: max-content;
+}
+
+.btn-detalles:hover {
+    background: rgba(65, 65, 65, 0.882);
+    cursor: pointer;
+}
+
+.btn-cancelar-pedido3{
+    width: 120px;
+    font-size: 12px;
+    background-color: rgb(160, 35, 35);
+    height: 30px;
+    border-radius: 10px;
+}
+.btn-cancelar-pedido3:hover{
+    background-color: rgb(204, 38, 38);
+}
+
+.lista-pedidos{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ========================= */
+/*       RESPONSIVE          */
+/* ========================= */
+
+/* TABLETS */
+@media (max-width: 992px) {
+
+    .contenedor-panel-y-pedidos {
+        gap: 3rem;
+    }
+
+    .contenedor-pedidos {
+        width: 100%;
+    }
+
+    .pedido-card {
+        width: 100%;
+    }
+    
+}
+
+/* CELULARES GRANDES */
+@media (max-width: 768px) {
+
+    .contenedor-panel-y-pedidos {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .contenedorPanel {
+        padding-top: 0;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contenedor-pedidos {
+        width: 100%;
+    }
+
+    .pedido-card {
+        flex-direction: column;
+        width: 100%;
+        max-width: 450px; /* centrado y tamaño ideal */
+        margin: 0 auto;
+    }
+
+    .slider-container {
+        width: 100%;
+        height: 200px;
+    }
+
+    .pedido-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .No_pedido_fecha, .Estado_total_verDetalle {
+        width: 100%;
+        align-items: center;
+    }
+}
+
+/* CELULARES PEQUEÑOS */
+@media (max-width: 480px) {
+
+    .pedido-card {
+        max-width: 100%;
+    }
+
+    .slider-container {
+        height: 170px;
+    }
+
+    #totalPedido {
+        font-size: 18px;
+    }
+
+    .No_pedido_fecha h3 {
+        font-size: 18px;
+    }
+}

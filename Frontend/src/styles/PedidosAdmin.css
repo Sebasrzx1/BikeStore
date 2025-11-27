@@ -1,0 +1,187 @@
+.pedidos-container2 {
+  width: 667.5px;
+  height: 460px;
+  padding: 16px 24px 24px 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-family: Poppins;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.titulo-pedidos2 {
+  margin: 0 0 12px 0;
+  font-weight: 600;
+  font-size: 20px;
+  user-select: none;
+}
+
+.tabs2 {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  user-select: none;
+}
+
+.tab-btn2 {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tab-btn.active2 {
+  background-color: #92000a;
+  color: white;
+}
+
+.lista-pedidos2 {
+  flex-grow: 1;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+  user-select: none;
+}
+
+.pedido-row2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.pedido-info2 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 360px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pedido-id2 {
+  font-weight: 700;
+  color: #222;
+}
+
+.pedido-usuario2,
+.pedido-fecha2 {
+  color: #666;
+  font-size: 12px;
+}
+
+.pedido-valor2 {
+  font-weight: 600;
+  min-width: 110px;
+  text-align: right;
+  color: #111;
+  user-select: text;
+}
+
+.select-estado2 {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.select-estado2:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.sin-pedidos2 {
+  color: #888;
+  font-style: italic;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.btn-cancelar-pedido {
+  font-family: Poppins;
+    background-color: #8B0000;
+  padding: 7px;
+  border-radius: 15px;
+}
+
+.btn{
+  font-family: Poppins;
+  background-color: #8B0000;
+  padding: 7px;
+  border-radius: 15px;
+}
+
+.btn:hover{
+  background-color: #580000;
+}
+
+.modal-cancelar-pedido {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+
+.modal-content-cancelar {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.btn-confirmar-cancelar, .btn-cancelar-cancelar {
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  min-width: 100px;
+}
+
+.btn-confirmar-cancelar {
+  background-color: #8B0000;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+.btn-confirmar-cancelar:hover {
+  background-color: #b92a36;
+}
+
+.btn-cancelar-cancelar {
+  background-color: #ccc;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+.btn-cancelar-cancelar:hover {
+  background-color: #aaa;
+}

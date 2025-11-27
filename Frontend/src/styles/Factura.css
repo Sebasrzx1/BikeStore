@@ -1,0 +1,188 @@
+/* Invoice.css */
+.inv-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgb(23 23 23 / 10%);
+  font-family: "Inter", sans-serif;
+  color: #202020;
+}
+
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.inv-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.inv-date {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.inv-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inv-section-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #900909;
+  padding-bottom: 0.2rem;
+  color: #900909;
+}
+
+.inv-info {
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0.12rem 0;
+}
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.inv-table th,
+.inv-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+.inv-table th {
+  background-color: #fafafa;
+  font-weight: 600;
+}
+
+.inv-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111;
+}
+
+.inv-summary-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inv-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #900909;
+  border-top: 2px solid #900909;
+  padding-top: 0.5rem;
+}
+
+.inv-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+/* 🔥 Ocultar botones al imprimir */
+@media print {
+  .inv-buttons {
+    display: none !important;
+  }
+
+  /* El área que sí se imprime */
+  .factura-print-area {
+    width: 100%;
+    padding: 20px;
+  }
+
+  body {
+    background: white !important;
+  }
+}
+
+/* Estilos sugeridos para botones */
+.btn-print,
+.btn-primary,
+.btn-secondary {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 0.7rem;
+}
+
+.btn-print {
+  background: #1a73e8;
+  color: white;
+}
+
+.btn-primary {
+  background: #900909;
+  color: white;
+}
+
+.btn-secondary {
+  background: #555;
+  color: white;
+}
+
+
+@media print {
+
+  /* Ocultar navbar */
+  nav,
+  .navbar,
+  .header,
+  #navbar,
+  .admin-navbar,
+  .cliente-navbar {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Ocultar botones */
+  .inv-buttons {
+    display: none !important;
+  }
+
+  /* Mantener solo la factura */
+  .factura-print-area {
+    width: 100%;
+    padding: 20px;
+  }
+
+  body {
+    background: white !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .inv-container {
+    padding: 1rem 1.2rem;
+  }
+
+  .inv-table th,
+  .inv-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    display: flex;
+  }
+}

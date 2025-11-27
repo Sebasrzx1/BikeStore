@@ -1,0 +1,264 @@
+/* ------------------------- */
+/* CONTENEDORES PRINCIPALES */
+/* ------------------------- */
+
+.cont-pm-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.pm-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+}
+
+/* ------------------------- */
+/* ENCABEZADO */
+/* ------------------------- */
+
+.Cont-pm {
+  width: 100%;
+  max-width: 790px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pm-back-link {
+  font-size: 0.9rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.pm-title {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.pm-subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* ------------------------- */
+/* LAYOUT DEL CONTENIDO */
+/* ------------------------- */
+
+.pm-main-content {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  /* 🔥 Hace que sea responsive */
+}
+
+/* ------------------------- */
+/* FORMULARIO */
+/* ------------------------- */
+
+.pm-form {
+  width: 100%;
+  max-width: 760px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  border-radius: 16px;
+  border: 1.5px solid rgba(0, 0, 0, 0.10);
+  background: #FFF;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.pm-label {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
+}
+
+/* ------------------------- */
+/* MÉTODOS DE PAGO */
+/* ------------------------- */
+
+.pm-methods {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  /* 🔥 Responsive */
+  justify-content: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pm-method-btn {
+  width: 100%;
+  max-width: 220px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 12px;
+  background: #F5F5F5;
+  border: 1.5px solid #F5F5F5;
+  cursor: pointer;
+  transition: 0.2s ease;
+  color: black;
+
+}
+
+.pm-method-btn:hover {
+  border-color: #900909;
+}
+
+.pm-method-selected {
+  border-color: #900909;
+  background: #fff;
+}
+
+/* ------------------------- */
+/* SEGURIDAD */
+/* ------------------------- */
+
+.cont-pm-security {
+  width: 100%;
+  display: flex;
+  padding: 16px;
+  gap: 12px;
+  border-radius: 12px;
+  border: 1.5px solid #B9F8CF;
+  background: #F0FDF4;
+}
+
+.cont-pm-security p {
+  color: #016630;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ------------------------- */
+/* BOTÓN CONFIRMAR */
+/* ------------------------- */
+
+.pm-confirm-btn {
+  width: 100%;
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 100px;
+  background: #8B0000;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pm-confirm-btn:hover {
+  background: #bb0d0d;
+}
+
+/* ------------------------- */
+/* RESUMEN */
+/* ------------------------- */
+
+.pm-summary {
+  width: 100%;
+  max-width: 350px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(0, 0, 0, 0.10);
+  background: #FFF;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.pm-summary-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.cont-pm-general {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pm-summary-item,
+.pm-summary-total {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pm-summary-item span {
+  font-size: 14px;
+  color: #717182;
+}
+
+.pm-summary-total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #900909;
+}
+
+.input-tarjeta{
+  width: 100%;
+}
+
+/* ------------------------- */
+/* RESPONSIVE */
+/* ------------------------- */
+
+@media (max-width: 992px) {
+  .pm-main-content {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .pm-form {
+    padding: 24px;
+  }
+
+  .pm-method-btn {
+    max-width: 100%;
+  }
+
+  .pm-summary {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pm-title {
+    font-size: 1.6rem;
+  }
+
+  .pm-summary-item span,
+  .pm-summary-total span {
+    font-size: 13px;
+  }
+
+  .pm-method-btn {
+    height: 90px;
+  }
+}

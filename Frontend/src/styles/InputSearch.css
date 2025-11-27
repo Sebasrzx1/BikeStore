@@ -1,0 +1,27 @@
+.inputSearch-wrapper {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.inputSearch {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 1em;
+  background-color: #ccc;
+  font-size: 0.9rem;
+  box-shadow: inset 2px 5px 10px rgba(0,0,0,0.25);
+  transition: 250ms ease-in-out;
+}
+
+.inputSearch:focus {
+  background-color: #fff;
+  transform: scale(1.04);
+  box-shadow: 13px 13px 40px #acacac,
+             -13px -13px 40px #ffffff;
+}
+
+.inputSearch::placeholder {
+  color: #555;
+}

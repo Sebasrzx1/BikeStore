@@ -1,0 +1,335 @@
+/* Fondo modal */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.modal-fondo.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Contenedor modal */
+.modal-modal {
+  background: white;
+  width: 640px;
+  max-width: 95vw; /* Ajustado para más margen en pantallas pequeñas */
+  max-height: 95vh; /* Limita la altura para evitar desbordes verticales */
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 56px rgba(0,0,0,0.15);
+  overflow: hidden;
+  overflow-y: auto; /* Permite scroll si el contenido es largo */
+  font-family: 'Poppins', sans-serif;
+  transform: scale(0.9); /* Cambiado a 0.9 para menos escala inicial */
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.modal-fondo.show .modal-modal {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Header rojo */
+.modal-header {
+  background: #8B0000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 12px;
+  flex-shrink: 0; /* Evita que se comprima */
+}
+
+.modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modal-header svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.modal-header-text h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.modal-header-text p {
+  margin: 4px 0 0;
+  font-weight: 400;
+  font-size: 0.875rem;
+  opacity: 0.9;
+  color: white;
+}
+
+/* Botón cerrar */
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 28px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  opacity: 0.75;
+}
+
+/* Formulario */
+.modal-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1; /* Permite que el formulario ocupe el espacio restante */
+  overflow-y: auto; /* Scroll interno si es necesario */
+}
+
+/* Campo horizontal */
+.fieldset-horizontal {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.fieldset-horizontal label {
+  flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #3a3a3a;
+  gap: 6px;
+}
+
+/* Inputs y selects */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  font-family: 'Poppins';
+  font-size: 14px;
+  color: #202124;
+  padding: 10px 14px;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 8px;
+  background: #F9F9F9;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #8B0000;
+  background: white;
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Etiquetas */
+.desc-label,
+.imagenes-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #3a3a3a;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Contenedor para upload */
+.upload-container {
+  border: 1.5px dashed #bbb;
+  border-radius: 12px;
+  height: 110px;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #717182;
+  font-size: 0.85rem;
+  cursor: pointer;
+  position: relative;
+  padding: 12px;
+}
+.upload-container p {
+  color: #717182;
+}
+
+.upload-container input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+}
+
+/* Preview imagen */
+.imagen-preview {
+  margin-top: 12px;
+  max-height: 100px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+/* Footer botones */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 24px; /* Agregado padding bottom para separación */
+  flex-shrink: 0; /* Evita compresión */
+}
+
+.btn-cancelar,
+.btn-guardar {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar {
+  height: 41.33px;
+  display: flex;
+  background: #fff;
+  color: #444;
+  border: 1.5px solid #ccc;
+}
+
+.btn-cancelar:hover {
+  background: #efefef;
+}
+
+.btn-guardar {
+  background: #8B0000;
+  color: white;
+}
+
+.btn-guardar:hover {
+  background: #a30000;
+}
+
+/* ============================================
+   RESPONSIVE PARA PANTALLAS PEQUEÑAS
+============================================ */
+@media (max-width: 768px) {
+  .modal-modal {
+    max-width: 95vw; /* Más margen */
+    max-height: 90vh; /* Menos altura para caber mejor */
+    transform: scale(0.95); /* Escala inicial más cercana a 1 para móviles */
+  }
+
+  .modal-header {
+    padding: 12px 16px; /* Padding reducido */
+  }
+
+  .modal-header-text h2 {
+    font-size: 1.1rem; /* Fuente más pequeña */
+  }
+
+  .modal-header-text p {
+    font-size: 0.8rem;
+  }
+
+  .modal-form {
+    padding: 16px; /* Padding reducido */
+    gap: 16px; /* Gap menor */
+  }
+
+  .fieldset-horizontal {
+    gap: 16px; /* Gap menor */
+  }
+
+  .fieldset-horizontal label {
+    flex: 1 1 180px; /* Campos más estrechos */
+    font-size: 0.85rem; /* Fuente más pequeña */
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 13px; /* Fuente más pequeña */
+    padding: 8px 12px; /* Padding reducido */
+  }
+
+  .upload-container {
+    height: 90px; /* Altura reducida */
+    font-size: 0.8rem;
+  }
+
+  .modal-footer {
+    padding: 0 16px 16px; /* Padding reducido */
+    gap: 8px; /* Gap menor */
+  }
+
+  .btn-cancelar,
+  .btn-guardar {
+    font-size: 13px; /* Fuente más pequeña */
+    padding: 8px 16px; /* Padding reducido */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-modal {
+    max-width: 98vw; /* Casi full width */
+    max-height: 95vh;
+  }
+
+  .fieldset-horizontal {
+    flex-direction: column; /* Campos en columna para mejor ajuste */
+    gap: 12px;
+  }
+
+  .fieldset-horizontal label {
+    flex: 1 1 auto; /* Sin restricción de ancho */
+  }
+
+  .modal-form {
+    padding: 12px;
+  }
+
+  .modal-header {
+    padding: 10px 12px;
+  }
+
+  .modal-footer {
+    flex-direction: column; /* Botones en columna si es necesario */
+    gap: 8px;
+  }
+}

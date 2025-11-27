@@ -1,0 +1,237 @@
+/* ============================================
+   CONTENEDOR GENERAL (centra todo)
+============================================ */
+.contenedor-general {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    background: #f7f7f7;
+}
+
+/* ============================================
+   CONTENEDOR PANEL + DETALLE
+============================================ */
+.contenedor-panel-y-pedidos {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* ============================================
+   PANEL LATERAL (PanelCliente)
+============================================ */
+.contenedorPanel {
+    width: 300px;
+    min-width: 260px;
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL DEL DETALLE
+============================================ */
+.contenedor-detalle {
+    width: 60%;
+    max-width: 900px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(200, 200, 200, 0.7);
+    padding: 20px;
+    gap: 20px;
+    border-radius: 20px;
+    background: #fff;
+    margin: auto;
+
+    /* FIX IMPORTANTE */
+    min-height: 750px;
+    height: auto;
+}
+
+/* ============================================
+   INFO DEL PEDIDO
+============================================ */
+.pedido {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    border: 1px solid rgba(176, 176, 176, 0.5);
+    border-radius: 20px;
+    background: white;
+}
+
+.pedido strong {
+    color: black;
+}
+.pedido p {
+    color: rgb(97, 97, 97);
+}
+
+/* ============================================
+   CONTENEDOR DE PRODUCTOS
+============================================ */
+.contenedor-imgProductosName {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+}
+
+/* ============================================
+   SLIDER DE IMÁGENES
+============================================ */
+.imagenes_pedido {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.imagenes_pedido img {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* ============================================
+   LISTA DE ÍTEMS
+============================================ */
+.items-pedido {
+    max-height: 260px;
+    overflow-y: auto;
+    border: 1px solid rgba(200, 200, 200, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.item-card {
+    padding: 10px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
+    margin-bottom: 18px;
+}
+#tituloProduct{
+    color: black;
+}
+.item-card p{
+    color: rgb(107, 107, 107);
+}
+
+/* ============================================
+   BOTÓN VOLVER
+============================================ */
+#btn-volver {
+    padding: 8px 20px;
+    font-size: 16px;
+    color: white;
+    border: 1px solid rgb(115, 3, 3);
+    border-radius: 12px;
+    font-weight: bold;
+    background: rgb(163, 13, 13);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#btn-volver:hover {
+    background: rgb(128, 4, 4);
+    transform: scale(1.07);
+}
+
+/* ============================================
+   SCROLL PERSONALIZADO
+============================================ */
+.items-pedido::-webkit-scrollbar,
+.imagenes_pedido::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.items-pedido::-webkit-scrollbar-thumb,
+.imagenes_pedido::-webkit-scrollbar-thumb {
+    background: rgba(150, 150, 150, 0.5);
+    border-radius: 8px;
+}
+
+
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .contenedor-panel-y-pedidos {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .contenedorPanel {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .contenedor-detalle {
+        width: 80%;
+    }
+}
+
+/* Celulares grandes */
+@media (max-width: 600px) {
+
+    .contenedorPanel {
+        width: 95%;
+    }
+
+    .contenedor-detalle {
+        width: 95%;
+        padding: 15px;
+        gap: 15px;
+
+        /* evita desbordes */
+        min-height: 650px;
+    }
+
+    .pedido {
+        padding: 15px;
+    }
+
+    .imagenes_pedido img {
+        height: 80px;
+        width: 80px;
+    }
+
+    #btn-volver {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Celulares pequeños */
+@media (max-width: 420px) {
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .pedido {
+        font-size: 14px;
+    }
+
+    .imagenes_pedido img {
+        height: 70px;
+        width: 70px;
+    }
+
+    .item-card {
+        font-size: 14px;
+    }
+}

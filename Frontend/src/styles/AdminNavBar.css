@@ -1,0 +1,274 @@
+.panel-botones {
+  color: white;
+  margin: 0;
+  display: flex;
+  width: 280px;
+  /* Ancho fijo para desktop */
+  height: 100vh;
+  padding: 24px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.ContAdmin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.Cont-Nav-Tit {
+  display: flex;
+  width: 208px;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.Cont-Nav-Tit h4 {
+  color: #99A1AF;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.Cont-Nav-Opt {
+  border-top: 1px solid #3f4854;
+  border-bottom: 1px solid #3f4854;
+  padding-block: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.Cont-Logout button {
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  display: flex;
+  color: white;
+  background: none;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  transition: 0.5s;
+  border-radius: 8px;
+  border: 1px solid black;
+
+}
+
+.Cont-Nav-Opt button {
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  display: flex;
+  color: white;
+  background: none;
+  border: none;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.Cont-Nav-Opt button:hover {
+  border-radius: 12px;
+  background: #8B0000;
+}
+
+.Cont-Nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+}
+
+.panel-botones img {
+  width: 204px;
+  height: 71px;
+  flex-shrink: 0;
+  aspect-ratio: 204/71;
+}
+
+/* Botón hamburguesa (oculto por defecto) */
+.hamburger-btn {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+  background: #8B0000;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.3s ease;
+}
+
+.hamburger-btn:hover {
+  background: #a30000;
+}
+
+.hamburger-btn span {
+  width: 20px;
+  height: 2px;
+  background: white;
+  transition: 0.3s;
+}
+
+
+.volver-admin:hover {
+  background-color: rgb(165, 20, 20);
+  width: 160px;
+  padding-left: 9px;
+  transition: 0.5s;
+  border-radius: 8px;
+}
+
+/**/
+
+.btn-cerrar-sesionAdmin:hover{
+    background-color: rgb(156, 34, 34);
+    border: 1px solid rgb(110, 0, 0);
+    border-radius: 10px;
+}
+
+.btn-cerrar-sesionAdmin:hover svg path {
+    stroke: #ffffff;
+    transition: stroke 0.3s ease;
+}
+
+
+
+/* ============================================
+   RESPONSIVE PARA TABLETS (1024px y menos)
+============================================ */
+@media (max-width: 1024px) {
+  .panel-botones {
+    width: 200px;
+    /* Ancho fijo para tablets */
+    padding: 20px;
+  }
+
+  .Cont-Nav-Tit {
+    width: 180px;
+  }
+
+  .Cont-Nav-Tit h1 {
+    font-size: 1.2rem;
+  }
+
+  .Cont-Nav-Tit h4 {
+    font-size: 13px;
+  }
+
+  .Cont-Nav-Opt button,
+  .Cont-Logout button {
+    font-size: 0.9rem;
+    padding: 6px 0;
+  }
+
+  .panel-botones img {
+    width: 180px;
+    height: auto;
+  }
+}
+
+/* ============================================
+   RESPONSIVE PARA MÓVILES (768px y menos)
+============================================ */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .panel-botones {
+    width: 250px;
+    /* Ancho fijo para móviles */
+    transform: translateX(-100%);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .panel-botones.abierto {
+    transform: translateX(0);
+  }
+
+  .Cont-Nav-Tit {
+    width: 100%;
+  }
+
+  .Cont-Nav-Tit h1 {
+    font-size: 1.1rem;
+  }
+
+  .Cont-Nav-Tit h4 {
+    font-size: 12px;
+  }
+
+  .Cont-Nav-Opt button,
+  .Cont-Logout button {
+    font-size: 0.85rem;
+    padding: 10px 0;
+  }
+
+  .panel-botones img {
+    width: 150px;
+    height: auto;
+  }
+}
+
+/* ============================================
+   RESPONSIVE PARA PANTALLAS MUY PEQUEÑAS (480px y menos)
+============================================ */
+@media (max-width: 480px) {
+  .hamburger-btn {
+    width: 35px;
+    height: 35px;
+  }
+
+  .hamburger-btn span {
+    width: 16px;
+  }
+
+  .panel-botones {
+    width: 220px;
+    padding: 16px;
+  }
+
+  .Cont-Nav-Tit h1 {
+    font-size: 1rem;
+  }
+
+  .Cont-Nav-Tit h4 {
+    font-size: 11px;
+  }
+
+  .Cont-Nav-Opt button,
+  .Cont-Logout button {
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .panel-botones img {
+    width: 120px;
+  }
+}
