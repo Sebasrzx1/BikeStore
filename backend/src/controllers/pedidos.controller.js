@@ -84,48 +84,77 @@ class PedidosController {
 
   // 🔹 Obtener detalle de un pedido específico (cliente)
   async obtenerPedidoPorId(req, res) {
-    console.log("Usuario autenticado:", req.usuario);
+  console.log("Usuario autenticado:", req.usuario);
 
-    try {
-      const id_usuario = req.usuario.id_usuario;
-      const id_pedido = req.params.id;
+  try {
+    const id_usuario = req.usuario.id_usuario;
+    const rol = req.usuario.rol;
+    const id_pedido = req.params.id;
 
-      const [pedidoData] = await db.query(
-        `SELECT id_pedido, estado, fecha
-         FROM pedidos
-         WHERE id_pedido = ? AND id_usuario = ?`,
-        [id_pedido, id_usuario]
-      );
+    let pedidoData;
 
-      if (pedidoData.length === 0) {
-        return res.status(403).json({
-          success: false,
-          message: "No tienes permiso para ver este pedido",
-        });
-      }
-
-      const pedido = pedidoData[0];
-      const [items] = await db.query(
-        `SELECT dp.id_detalle, dp.id_producto, dp.cantidad,
-                pr.nombre_producto, pr.precio_unitario, pr.imagen AS imagen_url,
-                (dp.cantidad * pr.precio_unitario) AS total_item
-         FROM detalle_pedido dp
-         INNER JOIN productos pr ON dp.id_producto = pr.id_producto
-         WHERE dp.id_pedido = ?`,
+    // 🔹 Si es ADMIN puede ver cualquier pedido (ahora incluye los datos del usuario)
+    if (rol?.toLowerCase() === "administrador") {
+      [pedidoData] = await db.query(
+        `SELECT 
+            p.id_pedido, p.estado, p.fecha, p.id_usuario,
+            u.nombre, u.apellido, u.telefono,
+            u.direccion, u.ciudad, u.departamento, 
+            u.codigo_postal, u.pais
+         FROM pedidos p
+         INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
+         WHERE p.id_pedido = ?`,
         [id_pedido]
       );
 
-      pedido.total = items.reduce((acc, item) => acc + item.total_item, 0);
-      pedido.items = items;
-
-      return res.json({ success: true, pedido });
-    } catch (error) {
-      console.error("Error en obtenerPedidoPorId:", error);
-      return res
-        .status(500)
-        .json({ success: false, message: "Error al obtener el pedido" });
+    } else {
+      // 🔹 Usuario normal: solo puede ver sus propios pedidos
+      [pedidoData] = await db.query(
+        `SELECT 
+            p.id_pedido, p.estado, p.fecha, p.id_usuario,
+            u.nombre, u.apellido, u.telefono,
+            u.direccion, u.ciudad, u.departamento, 
+            u.codigo_postal, u.pais
+         FROM pedidos p
+         INNER JOIN usuarios u ON p.id_usuario = u.id_usuario
+         WHERE p.id_pedido = ? AND p.id_usuario = ?`,
+        [id_pedido, id_usuario]
+      );
     }
+
+    if (pedidoData.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "No tienes permiso para ver este pedido",
+      });
+    }
+
+    const pedido = pedidoData[0];
+
+    // 🔹 Obtener productos del pedido
+    const [items] = await db.query(
+      `SELECT dp.id_detalle, dp.id_producto, dp.cantidad,
+              pr.nombre_producto, pr.precio_unitario, pr.imagen AS imagen_url,
+              (dp.cantidad * pr.precio_unitario) AS total_item
+       FROM detalle_pedido dp
+       INNER JOIN productos pr ON dp.id_producto = pr.id_producto
+       WHERE dp.id_pedido = ?`,
+      [id_pedido]
+    );
+
+    pedido.total = items.reduce((acc, item) => acc + item.total_item, 0);
+    pedido.items = items;
+
+    return res.json({ success: true, pedido });
+
+  } catch (error) {
+    console.error("Error en obtenerPedidoPorId:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Error al obtener el pedido" });
   }
+}
+
 
   // 🔹 Crear un nuevo pedido
   async crearPedido(req, res) {

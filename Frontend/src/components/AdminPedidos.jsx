@@ -23,6 +23,11 @@ export default function AdminPedidos() {
   const [filtro, setFiltro] = useState("todos");
   const [cambiandoEstado, setCambiandoEstado] = useState(null);
 
+  // Modal
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [detallePedido, setDetallePedido] = useState(null);
+  const [cargandoDetalle, setCargandoDetalle] = useState(false);
+
   const obtenerPedidos = async () => {
     try {
       setCargando(true);
@@ -61,6 +66,33 @@ export default function AdminPedidos() {
       alert("Error al cambiar estado");
     } finally {
       setCambiandoEstado(null);
+    }
+  };
+
+  const abrirModal = async (id_pedido) => {
+    setModalAbierto(true);
+    setCargandoDetalle(true);
+    setDetallePedido(null);
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get(
+        `http://localhost:3000/api/pedidos/${id_pedido}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!res.data.pedido) {
+        throw new Error("Pedido no encontrado");
+      }
+
+      setDetallePedido(res.data.pedido);
+    } catch (err) {
+      console.error("Error al cargar detalle:", err);
+      alert("No se pudo cargar el detalle del pedido");
+    } finally {
+      setCargandoDetalle(false);
     }
   };
 
@@ -131,10 +163,71 @@ export default function AdminPedidos() {
                 <option value="En envío">En envío</option>
                 <option value="Entregados">Entregados</option>
               </select>
+
+              {/* Botón para abrir el modal */}
+              <button
+                className="btn-detalle2"
+                onClick={() => abrirModal(p.id_pedido)}
+              >
+                Ver detalle
+              </button>
             </div>
           ))
         )}
       </div>
+
+      {/* Modal */}
+      {modalAbierto && (
+        <div className="modal-detalle-overlay">
+          <div className="modal-detalle">
+            <button
+              className="cerrar-modal"
+              onClick={() => setModalAbierto(false)}
+            >
+              ✕
+            </button>
+
+            {cargandoDetalle ? (
+              <p>Cargando detalles...</p>
+            ) : !detallePedido ? (
+              <p>No se encontró el pedido.</p>
+            ) : (
+              <>
+                <h2>PED - {detallePedido.id_pedido}</h2>
+                <p><strong>Usuario:</strong> {detallePedido.nombre} {detallePedido.apellido} </p>
+                <p><strong>Dirección:</strong> {detallePedido.direccion}</p>
+                <p><strong>Estado:</strong> {detallePedido.estado}</p>
+                <p><strong>Fecha:</strong> {new Date(detallePedido.fecha).toLocaleString()}</p>
+                <p><strong>Total:</strong> ${detallePedido.total}</p>
+
+                <h3>Productos</h3>
+
+                <div className="detalle-items-container">
+                  {detallePedido.items && detallePedido.items.length > 0 ? (
+                    detallePedido.items.map((item) => (
+                      <div key={item.id_detalle} className="item-modal">
+                        <img
+                          src={`http://localhost:3000/uploads/productos/${item.imagen_url}`}
+                          alt={item.nombre_producto}
+                          className="img-item-modal"
+                        />
+                        <div>
+                          <p><strong>{item.nombre_producto}</strong></p>
+                          <p>Cantidad: {item.cantidad}</p>
+                          <p>Precio: ${item.precio_unitario}</p>
+                          <p>Subtotal: ${item.total_item}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Este pedido no tiene productos.</p>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
