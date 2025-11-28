@@ -2,11 +2,7 @@
   font-family: Poppins;
   display: block;
   width: 100%;
-<<<<<<< HEAD
   max-width: 800px;
-=======
-    max-width: 800px;
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   margin: 0 auto;
   padding: 32px 20px;
   border-radius: 16px;
@@ -23,12 +19,8 @@
   justify-content: center;
   gap: 8px;
   align-items: center;
-<<<<<<< HEAD
   margin-bottom: 24px;
   /* separación abajo */
-=======
-  margin-bottom: 24px; /* separación abajo */
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
 }
 
 .direccion-envio h3 {
@@ -44,12 +36,8 @@
   flex-shrink: 0;
 }
 
-<<<<<<< HEAD
 .contenedor-sin-registro,
 .direccion-info {
-=======
-.contenedor-sin-registro, .direccion-info {
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   margin-top: 12px;
   width: 100%;
   display: flex;
@@ -67,13 +55,9 @@
   word-break: break-word;
 }
 
-<<<<<<< HEAD
 .direccion-envio button,
 .btn-editar-direccion,
 .btn-agregar-direccion {
-=======
-.direccion-envio button, .btn-editar-direccion, .btn-agregar-direccion {
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   width: 100%;
   max-width: 360px;
   height: 40px;
@@ -84,11 +68,7 @@
   font-weight: 600;
   border: none;
   cursor: pointer;
-<<<<<<< HEAD
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-=======
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   transition: background-color 0.3s ease;
 }
 
@@ -108,10 +88,6 @@
 label {
   font-family: Poppins;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
 .direccion-form label {
   font-weight: 500;
   font-size: 14px;
@@ -137,23 +113,15 @@ label {
 }
 
 
-<<<<<<< HEAD
 /* Botones del formulario (Guardar ) ajustados */
 .btn-guardar-direccion {
   width: 100%;
   height: 40px;
   margin-top: 10px;
-=======
-/* Botones del formulario (Guardar y Cancelar) ajustados */
-.btn-guardar-direccion, .btn-cancelar {
-  width: 48%;
-  height: 40px;
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   border-radius: 50px;
   font-weight: 600;
   border: none;
   cursor: pointer;
-<<<<<<< HEAD
   background-color: #8B0000;
   color: white;
   transition: background-color 0.3s ease;
@@ -173,43 +141,14 @@ label {
 }
 
 
-=======
-
-  display: flex;            /* <-- centra horizontal y vertical */
-  align-items: center;
-  justify-content: center;
-
-  line-height: 1;           /* <-- corrige el desajuste de texto */
-}
-.btn-guardar-direccion {
-  background-color: #8B0000;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-.btn-guardar-direccion:hover {
-  background-color: rgb(180, 15, 15);
-}
-.btn-cancelar {
-  background-color: #ccc;
-  color: #333;
-  transition: background-color 0.3s ease;
-}
-.btn-cancelar:hover {
-  background-color: #aaa;
-}
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
 .modal-direccion-envio {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-<<<<<<< HEAD
   background-color: rgba(0, 0, 0, 0.5);
   /* fondo oscuro */
-=======
-  background-color: rgba(0, 0, 0, 0.5); /* fondo oscuro */
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,10 +177,6 @@ label {
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
 .btn-cerrar-modal:hover {
   background-color: #aaa;
 }
@@ -255,22 +190,13 @@ label {
   }
 
   .direccion-envio button,
-<<<<<<< HEAD
   .btn-guardar-direccion {
-=======
-  .btn-guardar-direccion,
-  .btn-cancelar {
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
     max-width: 100%;
     width: 100%;
   }
 
-<<<<<<< HEAD
   .contenedor-sin-registro,
   .direccion-info {
-=======
-  .contenedor-sin-registro, .direccion-info {
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
     padding: 0 10px;
     gap: 12px;
   }
@@ -290,8 +216,5 @@ label {
   .direccion-envio h3 {
     font-size: 20px;
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ee0a360f9dc24ac583357fb45baeb6b518dec16d
+

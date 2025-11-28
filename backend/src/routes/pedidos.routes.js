@@ -4,30 +4,21 @@ const verificarToken = require("../middlewares/auth.middleware");
 const PedidosController = require("../controllers/pedidos.controller");
 
 // Cliente: obtener sus pedidos
-router.get("/mis-pedidos", verificarToken, (req, res) =>
-  PedidosController.obtenerMisPedidos(req, res)
-);
+router.get("/mis-pedidos", verificarToken, PedidosController.obtenerMisPedidos);
 
-router.get("/todos", verificarToken, (req, res) =>
-  PedidosController.obtenerTodosLosPedidos(req, res)
-);
+// ADMIN: obtener todos los pedidos
+router.get("/todos", verificarToken, PedidosController.obtenerTodosLosPedidos);
 
-// Cliente: obtener detalle de un pedido
-router.get("/:id", verificarToken, (req, res) =>
-  PedidosController.obtenerPedidoPorId(req, res)
-);
+// ADMIN / CLIENTE: obtener detalle del pedido
+router.get("/:id", verificarToken, PedidosController.obtenerPedidoPorId);
 
-router.put("/:id/estado", verificarToken, (req, res) =>
-  PedidosController.cambiarEstadoPedido(req, res)
-);
+// ADMIN: cambiar estado
+router.put("/:id/estado", verificarToken, PedidosController.cambiarEstadoPedido);
 
-router.put("/:id/cancelar", verificarToken, (req, res) =>
-  PedidosController.cancelarPedido(req, res)
-);
+// Cliente: cancelar pedido
+router.put("/:id/cancelar", verificarToken, PedidosController.cancelarPedido);
 
-router.post("/crear-pedido", verificarToken, (req, res) =>
-  PedidosController.crearPedido(req, res)
-);
-
+// Crear pedido
+router.post("/crear-pedido", verificarToken, PedidosController.crearPedido);
 
 module.exports = router;
