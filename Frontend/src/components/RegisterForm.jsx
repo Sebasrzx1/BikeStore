@@ -72,7 +72,7 @@ export default function RegisterForm({ setIsRegistering }) {
         case "nombre":
         case "apellido":
           if (!soloLetras.test(valor)) error = "Solo se permiten letras y espacios.";
-          else if (valor.length > 30) error = "Máximo 30 caracteres.";
+          else if (valor.length > 15) error = "Máximo 15 caracteres.";
           break;
 
         case "telefono":

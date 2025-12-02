@@ -4,8 +4,8 @@ USE bikestore_sebas;
 # -------- Creación de la tabla usuarios (Clientes y administradores) -----------#
 CREATE TABLE usuarios(
 id_usuario int primary key auto_increment,
-nombre varchar(30),
-apellido varchar(30),
+nombre varchar(15),
+apellido varchar(15),
 rol enum('Administrador','Cliente'),
 email varchar(100),
 contraseña varchar(200),
