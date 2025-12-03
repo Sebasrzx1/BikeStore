@@ -60,6 +60,7 @@
 
 .botonIZQ,
 .botonDER {
+  color: black;
   font-family: Poppins;
   display: flex;
   height: 29px;

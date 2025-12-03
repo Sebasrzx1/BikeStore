@@ -1,5 +1,6 @@
-// src/components/CuentaHeader.jsx
+// src/components/PanelCliente.jsx
 import React from "react";
+import PropTypes from "prop-types";
 import "../styles/PanelCliente.css";
 import { useNavigate } from "react-router-dom";
 
@@ -30,17 +31,34 @@ const PanelCliente = ({ user, onLogout }) => {
                 <button onClick={() => navigate("/mis-pedidos")}>
                     <div className="mispedidos">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                            <path d="M7.8776 15.5619C8.09534 15.6876 8.34233 15.7538 8.59375 15.7538C8.84517 15.7538 9.09216 15.6876 9.3099 15.5619L14.3229 12.6973C14.5404 12.5718 14.7211 12.3912 14.8468 12.1737C14.9725 11.9563 15.0388 11.7096 15.0391 11.4584V5.72924C15.0388 5.47807 14.9725 5.23139 14.8468 5.01393C14.7211 4.79648 14.5404 4.6159 14.3229 4.49031L9.3099 1.62573C9.09216 1.50002 8.84517 1.43384 8.59375 1.43384C8.34233 1.43384 8.09534 1.50002 7.8776 1.62573L2.86458 4.49031C2.64706 4.6159 2.46639 4.79648 2.3407 5.01393C2.215 5.23139 2.1487 5.47807 2.14844 5.72924V11.4584C2.1487 11.7096 2.215 11.9563 2.3407 12.1737C2.46639 12.3912 2.64706 12.5718 2.86458 12.6973L7.8776 15.5619Z" stroke="black" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M8.59375 15.7552V8.59375" stroke="Black" 
-                            strokeWidth="1.43229" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" />
-                            <path d="M2.35547 5.01294L8.5931 8.59367L14.8307 5.01294" 
-                            stroke="black" 
-                            strokeWidth="1.43229"
-                            trokelinecap="round" 
-                            strokeLinejoin="round" />
-                            <path d="M5.37109 3.05786L11.8164 6.74601" stroke="black" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
+                            <path
+                                d="M7.8776 15.5619C8.09534 15.6876 8.34233 15.7538 8.59375 15.7538C8.84517 15.7538 9.09216 15.6876 9.3099 15.5619L14.3229 12.6973C14.5404 12.5718 14.7211 12.3912 14.8468 12.1737C14.9725 11.9563 15.0388 11.7096 15.0391 11.4584V5.72924C15.0388 5.47807 14.9725 5.23139 14.8468 5.01393C14.7211 4.79648 14.5404 4.6159 14.3229 4.49031L9.3099 1.62573C9.09216 1.50002 8.84517 1.43384 8.59375 1.43384C8.34233 1.43384 8.09534 1.50002 7.8776 1.62573L2.86458 4.49031C2.64706 4.6159 2.46639 4.79648 2.3407 5.01393C2.215 5.23139 2.1487 5.47807 2.14844 5.72924V11.4584C2.1487 11.7096 2.215 11.9563 2.3407 12.1737C2.46639 12.3912 2.64706 12.5718 2.86458 12.6973L7.8776 15.5619Z"
+                                stroke="black"
+                                strokeWidth="1.43229"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M8.59375 15.7552V8.59375"
+                                stroke="black"
+                                strokeWidth="1.43229"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M2.35547 5.01294L8.5931 8.59367L14.8307 5.01294"
+                                stroke="black"
+                                strokeWidth="1.43229"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M5.37109 3.05786L11.8164 6.74601"
+                                stroke="black"
+                                strokeWidth="1.43229"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
                         </svg>
                         Mis pedidos
                     </div>
@@ -71,7 +89,6 @@ const PanelCliente = ({ user, onLogout }) => {
                                 strokeLinejoin="round"
                             />
                         </svg>
-
                         Ajuste de cuenta
                     </div>
                 </button>
@@ -116,13 +133,14 @@ const PanelCliente = ({ user, onLogout }) => {
     );
 };
 
+// ----- PropTypes -----
+PanelCliente.propTypes = {
+    user: PropTypes.shape({
+        nombre: PropTypes.string.isRequired,
+        apellido: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+    }),
+    onLogout: PropTypes.func.isRequired,
+};
+
 export default PanelCliente;
-
-
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <path d="M7.8776 15.5619C8.09534 15.6876 8.34233 15.7538 8.59375 15.7538C8.84517 15.7538 9.09216 15.6876 9.3099 15.5619L14.3229 12.6973C14.5404 12.5718 14.7211 12.3912 14.8468 12.1737C14.9725 11.9563 15.0388 11.7096 15.0391 11.4584V5.72924C15.0388 5.47807 14.9725 5.23139 14.8468 5.01393C14.7211 4.79648 14.5404 4.6159 14.3229 4.49031L9.3099 1.62573C9.09216 1.50002 8.84517 1.43384 8.59375 1.43384C8.34233 1.43384 8.09534 1.50002 7.8776 1.62573L2.86458 4.49031C2.64706 4.6159 2.46639 4.79648 2.3407 5.01393C2.215 5.23139 2.1487 5.47807 2.14844 5.72924V11.4584C2.1487 11.7096 2.215 11.9563 2.3407 12.1737C2.46639 12.3912 2.64706 12.5718 2.86458 12.6973L7.8776 15.5619Z" stroke="white" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M8.59375 15.7552V8.59375" stroke="white" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M2.35547 5.01294L8.5931 8.59367L14.8307 5.01294" stroke="white" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M5.37109 3.05786L11.8164 6.74601" stroke="white" strokeWidth="1.43229" strokeLinecap="round" strokeLinejoin="round" />
-</svg>
-

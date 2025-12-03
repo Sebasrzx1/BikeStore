@@ -5,6 +5,7 @@ export default function InputSearch({ value, onChange, placeholder }) {
   return (
     <div className="inputSearch-wrapper">
       <input
+        id="buscar"
         type="text"
         className="inputSearch"
         value={value}

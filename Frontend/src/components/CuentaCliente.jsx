@@ -6,7 +6,7 @@ import DireccionEnvio from "./DireccionEnvio.jsx";
 import PanelCliente from "./PanelCliente.jsx";
 
 const CuentaCliente = () => {
-  const { user, logout, updateUser } = useAuth(); // contexto
+  const { user, logout, updateUser } = useAuth();
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState({
@@ -15,13 +15,17 @@ const CuentaCliente = () => {
     telefono: "",
     pais: "",
     email: "",
+    direccion: "",
+    ciudad: "",
+    departamento: "",
+    codigo_postal: "",
   });
 
   const [contraseñaActual, setContraseñaActual] = useState("");
   const [nuevaContraseña, setNuevaContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
 
-  // FUNCION: obtén datos del perfil (la puedes reutilizar)
+  // OBTENER PERFIL
   const obtenerDatosPerfil = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -44,9 +48,6 @@ const CuentaCliente = () => {
       }
 
       const data = await res.json();
-
-      // Si la ruta devuelve { success: true, usuario: {...} } o solo el objeto,
-      // ajusta según tu respuesta real. Aquí soporte ambos casos:
       const perfil = data.usuario ? data.usuario : data;
 
       setUsuario({
@@ -60,28 +61,23 @@ const CuentaCliente = () => {
         departamento: perfil.departamento || "",
         codigo_postal: perfil.codigo_postal || "",
       });
-
-
-      // si quieres también sincronizar con el contexto (opcional)
-      // updateUser({ nombre: perfil.nombre, apellido: perfil.apellido });
     } catch (error) {
       console.error("Error al obtener perfil:", error);
       setMensaje("❌ No se pudo cargar la información del usuario");
     }
   };
 
-  // carga inicial
   useEffect(() => {
     obtenerDatosPerfil();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // solo al montar
+  }, []);
 
-  // Manejar cambios en los inputs
+  // Manejador de inputs
   const handleChange = (e) => {
     setUsuario({ ...usuario, [e.target.name]: e.target.value });
   };
 
-  // Guardar cambios: enviamos solo campos no vacíos (evita sobrescribir con "")
+  // GUARDAR CAMBIOS
   const handleGuardar = async (e) => {
     e.preventDefault();
     setMensaje("Guardando cambios...");
@@ -90,22 +86,14 @@ const CuentaCliente = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No autenticado");
 
-      // Construimos payload solo con campos modificables/no vacíos
       const payload = {};
-      if (usuario.nombre && usuario.nombre.trim() !== "")
-        payload.nombre = usuario.nombre.trim();
-      if (usuario.apellido && usuario.apellido.trim() !== "")
-        payload.apellido = usuario.apellido.trim();
-      if (
-        typeof usuario.telefono !== "undefined" &&
-        usuario.telefono !== null &&
-        usuario.telefono.toString().trim() !== ""
-      )
-        payload.telefono = usuario.telefono.toString().trim();
-      if (usuario.pais && usuario.pais.trim() !== "")
-        payload.pais = usuario.pais.trim();
 
-      // Contraseña solo si se proporcionó
+      if (usuario.nombre?.trim()) payload.nombre = usuario.nombre.trim();
+      if (usuario.apellido?.trim()) payload.apellido = usuario.apellido.trim();
+      if (usuario.telefono?.toString().trim())
+        payload.telefono = usuario.telefono.toString().trim();
+      if (usuario.pais?.trim()) payload.pais = usuario.pais.trim();
+
       if (contraseñaActual && nuevaContraseña) {
         payload.contraseñaActual = contraseñaActual;
         payload.nuevaContraseña = nuevaContraseña;
@@ -136,13 +124,11 @@ const CuentaCliente = () => {
       setContraseñaActual("");
       setNuevaContraseña("");
 
-      // refrescar datos del perfil para mantener UI consistente
       await obtenerDatosPerfil();
 
-      // actualizar contexto para que el nombre arriba cambie inmediatamente
       updateUser({
-        nombre: usuario.nombre || (user && user.nombre),
-        apellido: usuario.apellido || (user && user.apellido),
+        nombre: usuario.nombre || user?.nombre,
+        apellido: usuario.apellido || user?.apellido,
       });
     } catch (error) {
       console.error("Error al guardar perfil:", error);
@@ -150,95 +136,107 @@ const CuentaCliente = () => {
     }
   };
 
+  // LOGOUT
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
   return (
-
     <div className="cuenta-cliente">
-      
       <div className="contenedor-cuenta-cliente">
+
         <div className="contendor-componente-panelCliente">
           <PanelCliente user={user} onLogout={handleLogout} />
         </div>
+
         <div className="contajustes">
-        <div className="contenedor-datos-personales">
-          <div className="encabezado">
-            <h1>Ajustes de Cuenta</h1>
-            <p>Administra tus datos personles y direccion de envio</p>
+          <div className="contenedor-datos-personales">
+
+            <div className="encabezado">
+              <h1>Ajustes de Cuenta</h1>
+              <p>Administra tus datos personales y dirección de envío</p>
+            </div>
+
+            {/* FORMULARIO EDITABLE */}
+            <div className="contenedor-formularios">
+              <h3>Editar información personal</h3>
+
+              <form onSubmit={handleGuardar} className="cuenta-form">
+
+                <label htmlFor="nombre">Nombre:</label>
+                <input
+                  id="nombre"
+                  type="text"
+                  name="nombre"
+                  value={usuario.nombre}
+                  onChange={handleChange}
+                  required
+                />
+
+                <label htmlFor="apellido">Apellido:</label>
+                <input
+                  id="apellido"
+                  type="text"
+                  name="apellido"
+                  value={usuario.apellido}
+                  onChange={handleChange}
+                  required
+                />
+
+                <label htmlFor="telefono">Teléfono:</label>
+                <input
+                  id="telefono"
+                  type="text"
+                  name="telefono"
+                  value={usuario.telefono}
+                  onChange={handleChange}
+                />
+
+                <label htmlFor="pais">País:</label>
+                <input
+                  id="pais"
+                  type="text"
+                  name="pais"
+                  value={usuario.pais}
+                  onChange={handleChange}
+                />
+
+                <h4>Cambiar Contraseña</h4>
+
+                <label htmlFor="passActual">Contraseña actual:</label>
+                <input
+                  id="passActual"
+                  type="password"
+                  value={contraseñaActual}
+                  onChange={(e) => setContraseñaActual(e.target.value)}
+                />
+
+                <label htmlFor="passNueva">Nueva contraseña:</label>
+                <input
+                  id="passNueva"
+                  type="password"
+                  value={nuevaContraseña}
+                  onChange={(e) => setNuevaContraseña(e.target.value)}
+                />
+
+                <button type="submit" className="btn-guardar">
+                  Guardar cambios
+                </button>
+              </form>
+
+              {mensaje && <p className="mensaje">{mensaje}</p>}
+            </div>
+
+            {/* DIRECCIÓN DE ENVÍO */}
+            <DireccionEnvio
+              usuario={usuario}
+              onActualizar={obtenerDatosPerfil}
+            />
           </div>
-
-          {/* formulario para editar */}
-          <div className="contenedor-formularios">
-            <h3>Editar información personal</h3>
-            <form onSubmit={handleGuardar} className="cuenta-form">
-              <label>Nombre:</label>
-              <input
-                type="text"
-                name="nombre"
-                value={usuario.nombre || ""}
-                onChange={handleChange}
-                required
-              />
-
-              <label>Apellido:</label>
-              <input
-                type="text"
-                name="apellido"
-                value={usuario.apellido || ""}
-                onChange={handleChange}
-                required
-              />
-
-              <label>Teléfono:</label>
-              <input
-                type="text"
-                name="telefono"
-                value={usuario.telefono || ""}
-                onChange={handleChange}
-              />
-
-              <label>País:</label>
-              <input
-                type="text"
-                name="pais"
-                value={usuario.pais || ""}
-                onChange={handleChange}
-              />
-
-              <h4>Cambiar Contraseña</h4>
-              <label>Contraseña actual:</label>
-              <input
-                type="password"
-                value={contraseñaActual}
-                onChange={(e) => setContraseñaActual(e.target.value)}
-              />
-
-              <label>Nueva contraseña:</label>
-              <input
-                type="password"
-                value={nuevaContraseña}
-                onChange={(e) => setNuevaContraseña(e.target.value)}
-              />
-
-              <button type="submit" className="btn-guardar">
-                Guardar cambios
-              </button>
-            </form>
-            {mensaje && <p className="mensaje">{mensaje}</p>}
-          </div>
-
-          {/* componente DireccionEnvio fuera del form */}
-          <DireccionEnvio usuario={usuario} onActualizar={obtenerDatosPerfil} />
-
         </div>
-      </div>
 
       </div>
-
-
     </div>
   );
 };

@@ -45,8 +45,7 @@ export default function ForgotPassword() {
           <img src="/Logo.png" alt="BikeStore" className="loginLogo" />
           <h2 className="TituloLogin">Recuperar Contraseña</h2>
           <p className="ParrafoLogin">
-            Ingresa tu correo electrónico para recibir un código de
-            recuperación.
+            Ingresa tu correo electrónico para recibir un código de recuperación.
           </p>
         </div>
 
@@ -56,10 +55,11 @@ export default function ForgotPassword() {
           style={{ transition: "all 0.3s ease" }}
         >
           <div className="LoginCampo">
-            <label>Correo electrónico</label>
+            <label htmlFor="emailInput">Correo electrónico</label>
             <div className="ContCampo">
               <img src="../public/IconEmail.svg" alt="" />
               <input
+                id="emailInput"
                 className="LoginInput"
                 type="email"
                 placeholder="tu@correo.com"

@@ -1,29 +1,42 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import pluginReact from "eslint-plugin-react";
+import globals from "globals";
+import babelParser from "@babel/eslint-parser";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.{js,jsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      parser: babelParser,
       parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ["@babel/preset-react"],
+        },
+      },
+      globals: {
+        ...globals.browser,
       },
     },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+
+    plugins: {
+      react: pluginReact,
+      "jsx-a11y": jsxA11y,
+    },
+
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      ...pluginReact.configs.recommended.rules,
+      ...jsxA11y.configs.recommended.rules,
     },
   },
-])
+
+  // Ignorar archivos
+  {
+    ignores: ["dist", "node_modules"],
+  },
+];

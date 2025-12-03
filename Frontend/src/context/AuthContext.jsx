@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [redirectPath, setRedirectPath] = useState("/");
 
-  // Al cargar, intenta recuperar usuario y token guardados
+  // Carga inicial desde localStorage
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("usuario");
@@ -16,17 +16,17 @@ export const AuthProvider = ({ children }) => {
       try {
         setUser(JSON.parse(userData));
         setIsAuthenticated(true);
+        // Refrescar usuario en segundo plano sin bloquear la UI
+        refrescarUsuario().catch((e) => {
+          console.warn("No se pudo refrescar usuario de backend:", e);
+        });
       } catch (e) {
         console.error("Error parsing stored user:", e);
-        localStorage.removeItem("usuario");
-        localStorage.removeItem("token");
-        setUser(null);
-        setIsAuthenticated(false);
+        logout();
       }
     }
   }, []);
 
-  // Iniciar sesión
   const login = (usuario, token) => {
     if (token) localStorage.setItem("token", token);
     if (usuario) localStorage.setItem("usuario", JSON.stringify(usuario));
@@ -34,17 +34,14 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(Boolean(usuario));
   };
 
-  // Obtener token
   const getToken = () => localStorage.getItem("token");
 
-  // Actualizar usuario localmente
   const updateUser = (nuevosDatos) => {
     const usuarioActualizado = { ...user, ...nuevosDatos };
     setUser(usuarioActualizado);
     localStorage.setItem("usuario", JSON.stringify(usuarioActualizado));
   };
 
-  // Cerrar sesión
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
@@ -52,23 +49,21 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // Verificar rol admin
   const isAdmin =
     Boolean(user?.rol) &&
     (user.rol.toString().toLowerCase() === "administrador" ||
       user.rol.toString().toLowerCase() === "admin");
 
-  // Función para refrescar datos actuales del usuario desde backend
+  // Refresca usuario desde backend sin hacer logout automático
   const refrescarUsuario = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No autenticado");
 
-      const res = await fetch("http://localhost:3000/api/usuarios/perfil/mis-datos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        "http://localhost:3000/api/usuarios/perfil/mis-datos",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       if (!res.ok) throw new Error("Error al obtener usuario");
 
@@ -80,8 +75,8 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       return data.usuario;
     } catch (error) {
-      console.error("Error refrescando usuario:", error);
-      logout(); // Desloguear en caso de error
+      console.warn("Error refrescando usuario:", error);
+      // No hacemos logout automático
       return null;
     }
   };

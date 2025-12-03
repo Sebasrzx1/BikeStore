@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import "../styles/DireccionEnvio.css";
 
 const DireccionEnvio = ({ usuario, onActualizar }) => {
@@ -10,11 +11,11 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
   });
   const [mostrarFormulario, setMostrarFormulario] = useState(true);
   const [mensaje, setMensaje] = useState("");
-  const [hasEdited, setHasEdited] = useState(false); // 🟢 Nuevo: Bandera para saber si el usuario editó
+  const [hasEdited, setHasEdited] = useState(false);
 
-  // ✅ Cargar datos actuales del usuario SOLO inicialmente (al montar)
+  // Cargar datos iniciales
   useEffect(() => {
-    if (usuario && !hasEdited) { // 🟢 Solo carga si NO ha editado
+    if (usuario && !hasEdited) {
       setDireccionData({
         departamento: usuario.departamento || "",
         direccion: usuario.direccion || "",
@@ -22,15 +23,13 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
         ciudad: usuario.ciudad || "",
       });
     }
-  }, [usuario, hasEdited]); // 🟢 Agrega hasEdited como dependencia
+  }, [usuario, hasEdited]);
 
-  // Manejador de cambios
   const handleChange = (e) => {
-    setHasEdited(true); // 🟢 Marca que el usuario empezó a editar
+    setHasEdited(true);
     setDireccionData({ ...direccionData, [e.target.name]: e.target.value });
   };
 
-  // Guardar dirección
   const handleGuardarDireccion = async (e) => {
     e.preventDefault();
     setMensaje("Guardando dirección...");
@@ -39,22 +38,11 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No autenticado");
 
-      // Enviar SOLO los campos de dirección
       const payload = {};
-      if (
-        direccionData.departamento &&
-        direccionData.departamento.trim() !== ""
-      )
-        payload.departamento = direccionData.departamento.trim();
-      if (direccionData.direccion && direccionData.direccion.trim() !== "")
-        payload.direccion = direccionData.direccion.trim();
-      if (
-        direccionData.codigo_postal &&
-        direccionData.codigo_postal.toString().trim() !== ""
-      )
-        payload.codigo_postal = direccionData.codigo_postal.toString().trim();
-      if (direccionData.ciudad && direccionData.ciudad.trim() !== "")
-        payload.ciudad = direccionData.ciudad.trim();
+      if (direccionData.departamento.trim()) payload.departamento = direccionData.departamento.trim();
+      if (direccionData.direccion.trim()) payload.direccion = direccionData.direccion.trim();
+      if (direccionData.codigo_postal.toString().trim()) payload.codigo_postal = direccionData.codigo_postal.toString().trim();
+      if (direccionData.ciudad.trim()) payload.ciudad = direccionData.ciudad.trim();
 
       if (Object.keys(payload).length === 0) {
         setMensaje("⚠️ No hay cambios para guardar.");
@@ -74,14 +62,13 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
       );
 
       const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.message || "Error al guardar dirección");
+      if (!res.ok) throw new Error(data.message || "Error al guardar dirección");
 
       setMensaje("✅ Dirección actualizada con éxito");
       setMostrarFormulario(false);
-      setHasEdited(false); // 🟢 Resetea la bandera después de guardar
+      setHasEdited(false);
 
-      if (onActualizar) onActualizar(); // refresca datos del usuario
+      if (onActualizar) onActualizar();
     } catch (error) {
       console.error("Error al guardar dirección:", error);
       setMensaje(`❌ ${error.message}`);
@@ -99,18 +86,10 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
         <>
           {direccionData.direccion ? (
             <div className="direccion-info">
-              <p>
-                <strong>Dirección:</strong> {direccionData.direccion}
-              </p>
-              <p>
-                <strong>Ciudad:</strong> {direccionData.ciudad}
-              </p>
-              <p>
-                <strong>Departamento:</strong> {direccionData.departamento}
-              </p>
-              <p>
-                <strong>Código postal:</strong> {direccionData.codigo_postal}
-              </p>
+              <p><strong>Dirección:</strong> {direccionData.direccion}</p>
+              <p><strong>Ciudad:</strong> {direccionData.ciudad}</p>
+              <p><strong>Departamento:</strong> {direccionData.departamento}</p>
+              <p><strong>Código postal:</strong> {direccionData.codigo_postal}</p>
             </div>
           ) : (
             <div className="contenedor-sin-registro">
@@ -125,11 +104,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
           )}
         </>
       ) : (
-        <form
-          onSubmit={handleGuardarDireccion}
-          className="direccion-form"
-          noValidate
-        >
+        <form onSubmit={handleGuardarDireccion} className="direccion-form" noValidate>
           <label htmlFor="departamento">Departamento:</label>
           <input
             id="departamento"
@@ -169,14 +144,7 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
             required
           />
 
-          <div
-            style={{
-              marginTop: "1rem",
-              display: "flex",
-              justifyContent: "center",
-              gap: "10px",
-            }}
-          >
+          <div style={{ marginTop: "1rem", display: "flex", justifyContent: "center", gap: "10px" }}>
             <button type="submit" className="btn-guardar-direccion">
               Guardar dirección
             </button>
@@ -187,6 +155,17 @@ const DireccionEnvio = ({ usuario, onActualizar }) => {
       {mensaje && <p className="mensaje">{mensaje}</p>}
     </div>
   );
+};
+
+// ✅ Validación de PropTypes
+DireccionEnvio.propTypes = {
+  usuario: PropTypes.shape({
+    departamento: PropTypes.string,
+    direccion: PropTypes.string,
+    codigo_postal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ciudad: PropTypes.string,
+  }).isRequired,
+  onActualizar: PropTypes.func.isRequired,
 };
 
 export default DireccionEnvio;
