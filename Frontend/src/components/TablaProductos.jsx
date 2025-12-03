@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const TablaProductos = ({
   productos,
@@ -35,21 +36,17 @@ const TablaProductos = ({
                 <td>{p.nombre_producto}</td>
                 <td>{p.marca}</td>
                 <td>{obtenerNombreCategoria(p.id_categoria)}</td>
-
                 <td>
                   $
                   {Number(p.precio_unitario)
                     .toFixed(2)
                     .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
                 </td>
-
                 <td>{stock}</td>
-
                 <td>
                   <span className={`badge-estado ${estado}`}>{estado}</span>
                 </td>
-
-                <td>
+                <td className="acciones-producto">
                   <button
                     className="btn-editar"
                     onClick={() => abrirModalEditar(p)}
@@ -136,6 +133,25 @@ const TablaProductos = ({
       </tbody>
     </table>
   );
+};
+
+TablaProductos.propTypes = {
+  productos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id_producto: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+      nombre_producto: PropTypes.string.isRequired,
+      marca: PropTypes.string.isRequired,
+      id_categoria: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+      precio_unitario: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+      stock: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    })
+  ).isRequired,
+  obtenerNombreCategoria: PropTypes.func.isRequired,
+  abrirModalEditar: PropTypes.func.isRequired,
+  eliminarProducto: PropTypes.func.isRequired,
 };
 
 export default TablaProductos;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import "../styles/Navbar.css";
-import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ cantidadCarrito }) => {
   const { isAuthenticated, isAdmin } = useAuth();
@@ -51,7 +51,6 @@ const Navbar = ({ cantidadCarrito }) => {
             </button>
           )}
 
-          {/* Condición corregida: Mostrar carrito si NO es admin (invitado o cliente) */}
           {!isAdmin && (
             <div className="contcarrito">
               <div className="carrito-icono">
@@ -69,10 +68,19 @@ const Navbar = ({ cantidadCarrito }) => {
         <div
           className={`hamburger ${menuAbierto ? "active" : ""}`}
           onClick={toggleMenu}
+          role="button"
+          tabIndex={0}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" || e.key === " ") toggleMenu();
+          }}
         ></div>
       </nav>
     </div>
   );
+};
+
+Navbar.propTypes = {
+  cantidadCarrito: PropTypes.number.isRequired,
 };
 
 export default Navbar;

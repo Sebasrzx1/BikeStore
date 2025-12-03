@@ -90,9 +90,16 @@
 /* MÉTODOS DE PAGO */
 /* ------------------------- */
 
+.pm-fieldset {
+  width: 100%;
+  border: none;
+  display: flex;
+}
+
 .pm-methods {
   width: 100%;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   /* 🔥 Responsive */
   justify-content: center;

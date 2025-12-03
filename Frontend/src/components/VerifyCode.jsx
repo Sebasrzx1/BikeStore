@@ -98,10 +98,12 @@ export default function VerifyCode() {
         >
           {!verificado ? (
             <div className="LoginCampo">
-              <label>Código de verificación</label>
+              {/* 1️⃣ Label asociado correctamente */}
+              <label htmlFor="codigo">Código de verificación</label>
               <div className="ContCampo">
                 <img src="../public/Icon Lock.svg" alt="" />
                 <input
+                  id="codigo"
                   className="LoginInput"
                   type="text"
                   placeholder="Ingresa el código de 6 dígitos"
@@ -118,10 +120,12 @@ export default function VerifyCode() {
           ) : (
             <>
               <div className="LoginCampo">
-                <label>Nueva contraseña</label>
+                {/* 2️⃣ Label asociado correctamente */}
+                <label htmlFor="nueva-contrasena">Nueva contraseña</label>
                 <div className="ContCampo">
                   <img src="../public/Icon Lock.svg" alt="" />
                   <input
+                    id="nueva-contrasena"
                     className="LoginInput"
                     type="password"
                     placeholder="Nueva contraseña"
@@ -133,10 +137,12 @@ export default function VerifyCode() {
               </div>
 
               <div className="LoginCampo">
-                <label>Confirmar contraseña</label>
+                {/* 3️⃣ Label asociado correctamente */}
+                <label htmlFor="confirmar-contrasena">Confirmar contraseña</label>
                 <div className="ContCampo">
                   <img src="../public/Icon Lock.svg" alt="" />
                   <input
+                    id="confirmar-contrasena"
                     className="LoginInput"
                     type="password"
                     placeholder="Confirma tu contraseña"
@@ -168,6 +174,7 @@ export default function VerifyCode() {
             {mensaje}
           </p>
         )}
+
         {error && (
           <p
             className="auth-message"

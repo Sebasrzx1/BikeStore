@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "../styles/register.css";
 import Checkbox from "../components/Checkbox";
@@ -7,7 +8,6 @@ export default function RegisterForm({ setIsRegistering }) {
   const [errores, setErrores] = useState({});
   const [aceptaDatos, setAceptaDatos] = useState(false);
 
-  // MODALES
   const [modalAlerta, setModalAlerta] = useState({ visible: false, texto: "" });
   const [modalExito, setModalExito] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -28,40 +28,25 @@ export default function RegisterForm({ setIsRegistering }) {
   const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/;
   const soloNumeros = /^[0-9]+$/;
 
-  // 🔒 Sanitiza entradas removiendo caracteres peligrosos (previene XSS y SQL injection básica)
-  // Remueve: < > { } = & " ' ; -- /* */ ` ~ @ # $ % ^ * ( ) + | \ [ ] ? . , : ! 
-  // Permite solo letras, números, espacios y algunos símbolos seguros para emails/contraseñas
   const sanitizarEntrada = (valor, campo) => {
     let limpio = valor;
 
-    // Para campos de texto libre (nombre, apellido), permitir solo letras y espacios
     if (campo === "nombre" || campo === "apellido") {
       limpio = valor.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, "");
-    }
-    // Para teléfono, solo números
-    else if (campo === "telefono") {
+    } else if (campo === "telefono") {
       limpio = valor.replace(/[^0-9]/g, "");
-    }
-    // Para email, permitir letras, números, @, ., -, _
-    else if (campo === "email") {
+    } else if (campo === "email") {
       limpio = valor.replace(/[^A-Za-z0-9@._-]/g, "");
-    }
-    // Para contraseña, permitir letras, números y símbolos comunes, pero remover peligrosos
-    else if (campo === "contraseña" || campo === "confirmarContraseña") {
+    } else if (campo === "contraseña" || campo === "confirmarContraseña") {
       limpio = valor.replace(/[<>(){}=&"'`;~@#$%^|[\]?.,:!]/g, "");
-    }
-    // Para otros campos (como país), permitir solo letras y espacios
-    else {
+    } else {
       limpio = valor.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ ]/g, "");
     }
 
-    // Remover espacios múltiples
     limpio = limpio.replace(/\s{2,}/g, " ");
-
     return limpio;
   };
 
-  // 📌 Validación de campos
   const validarCampo = (campo, valor) => {
     let error = "";
 
@@ -103,7 +88,6 @@ export default function RegisterForm({ setIsRegistering }) {
     return error;
   };
 
-  // 🔄 Manejo del cambio en inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     const limpio = sanitizarEntrada(value, name);
@@ -112,7 +96,6 @@ export default function RegisterForm({ setIsRegistering }) {
     validarCampo(name, limpio);
   };
 
-  // 📤 Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,14 +129,8 @@ export default function RegisterForm({ setIsRegistering }) {
       return;
     }
 
-    const payload = {
-      nombre: formData.nombre,
-      apellido: formData.apellido,
-      telefono: formData.telefono,
-      email: formData.email,
-      contraseña: formData.contraseña,
-      pais: formData.pais,
-    };
+    const payload = { ...formData };
+    delete payload.confirmarContraseña;
 
     try {
       const response = await fetch(
@@ -169,7 +146,6 @@ export default function RegisterForm({ setIsRegistering }) {
 
       if (response.ok && data.success) {
         setModalExito(true);
-
         setTimeout(() => navigate("/login"), 2500);
 
         setFormData({
@@ -209,18 +185,22 @@ export default function RegisterForm({ setIsRegistering }) {
         </div>
 
         <div className="BotonesLogin">
-          <div className="botonIZQ" onClick={() => navigate("/login")}>
+          <button className="botonIZQ" onClick={() => navigate("/login")}>
             Iniciar sesión
-          </div>
-          <div className="botonDER">Registrarse</div>
+          </button>
+
+          <button className="botonDER" disabled>
+            Registrarse
+          </button>
         </div>
 
         <form className="CardRegister" onSubmit={handleSubmit}>
           {/* Nombre + Apellido */}
           <div className="nombre-apellido-row">
             <div className="contenedor-input-nombre">
-              <label>Nombre</label>
+              <label htmlFor="nombre">Nombre</label>
               <input
+                id="nombre"
                 className={`RegisterInput ${
                   errores.nombre
                     ? "input-error"
@@ -238,8 +218,9 @@ export default function RegisterForm({ setIsRegistering }) {
             </div>
 
             <div className="contenedor-input-apellido">
-              <label>Apellido</label>
+              <label htmlFor="apellido">Apellido</label>
               <input
+                id="apellido"
                 className={`RegisterInput ${
                   errores.apellido
                     ? "input-error"
@@ -261,8 +242,9 @@ export default function RegisterForm({ setIsRegistering }) {
 
           {/* Email */}
           <div className="auth-field">
-            <label>Correo electrónico</label>
+            <label htmlFor="email">Correo electrónico</label>
             <input
+              id="email"
               className={`InputNormal ${
                 errores.email
                   ? "input-error"
@@ -281,8 +263,9 @@ export default function RegisterForm({ setIsRegistering }) {
 
           {/* Teléfono */}
           <div className="auth-field">
-            <label>Teléfono</label>
+            <label htmlFor="telefono">Teléfono</label>
             <input
+              id="telefono"
               className={`InputNormal ${
                 errores.telefono
                   ? "input-error"
@@ -303,8 +286,9 @@ export default function RegisterForm({ setIsRegistering }) {
 
           {/* País */}
           <div className="auth-field">
-            <label>País</label>
+            <label htmlFor="pais">País</label>
             <select
+              id="pais"
               className="InputNormal"
               name="pais"
               value={formData.pais}
@@ -321,8 +305,9 @@ export default function RegisterForm({ setIsRegistering }) {
 
           {/* Contraseña */}
           <div className="auth-field">
-            <label>Contraseña</label>
+            <label htmlFor="contraseña">Contraseña</label>
             <input
+              id="contraseña"
               className={`InputNormal ${
                 errores.contraseña
                   ? "input-error"
@@ -343,8 +328,9 @@ export default function RegisterForm({ setIsRegistering }) {
 
           {/* Confirmar contraseña */}
           <div className="auth-field">
-            <label>Confirmar contraseña</label>
+            <label htmlFor="confirmarContraseña">Confirmar contraseña</label>
             <input
+              id="confirmarContraseña"
               className={`InputNormal ${
                 errores.confirmarContraseña
                   ? "input-error"
@@ -370,15 +356,17 @@ export default function RegisterForm({ setIsRegistering }) {
               id="aceptaDatos"
               checked={aceptaDatos}
               onChange={(e) => setAceptaDatos(e.target.checked)}
-              ></Checkbox>
+            ></Checkbox>
+
             <label htmlFor="aceptaDatos">
               Acepto el{" "}
-              <span
+              <button
+                type="button"
                 className="link-datos"
                 onClick={() => setMostrarModal(true)}
               >
                 tratamiento de mis datos personales
-              </span>
+              </button>
               .
             </label>
           </div>
@@ -391,8 +379,16 @@ export default function RegisterForm({ setIsRegistering }) {
 
       {/* Modal datos personales */}
       {mostrarModal && (
-        <div className="modal-overlay" onClick={() => setMostrarModal(false)}>
-          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-overlay"
+          role="presentation"
+          onMouseDown={() => setMostrarModal(false)}
+        >
+          <div
+            className="modal-contenido"
+            role="presentation"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             <h3>Tratamiento de datos personales</h3>
             <p>
               En BikeStore respetamos tu privacidad. Los datos que nos
@@ -407,9 +403,14 @@ export default function RegisterForm({ setIsRegistering }) {
       {modalFormularioVacio && (
         <div
           className="modal-overlay"
-          onClick={() => setModalFormularioVacio(false)}
+          role="presentation"
+          onMouseDown={() => setModalFormularioVacio(false)}
         >
-          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-contenido"
+            role="presentation"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             <h3 style={{ color: "red" }}>Formulario incompleto</h3>
             <p>
               Debes llenar el formulario y aceptar los términos y condiciones.
@@ -425,9 +426,14 @@ export default function RegisterForm({ setIsRegistering }) {
       {modalAlerta.visible && (
         <div
           className="modal-overlay"
-          onClick={() => setModalAlerta({ visible: false })}
+          role="presentation"
+          onMouseDown={() => setModalAlerta({ visible: false })}
         >
-          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-contenido"
+            role="presentation"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
             <h3 style={{ color: "red" }}>Error</h3>
             <p>{modalAlerta.texto}</p>
             <button onClick={() => setModalAlerta({ visible: false })}>
@@ -439,8 +445,8 @@ export default function RegisterForm({ setIsRegistering }) {
 
       {/* Modal éxito */}
       {modalExito && (
-        <div className="modal-overlay">
-          <div className="modal-contenido">
+        <div className="modal-overlay" role="presentation">
+          <div className="modal-contenido" role="presentation">
             <h3 style={{ color: "green" }}>✔ Registro exitoso</h3>
             <p>Serás redirigido al inicio de sesión...</p>
           </div>
@@ -449,3 +455,7 @@ export default function RegisterForm({ setIsRegistering }) {
     </div>
   );
 }
+
+RegisterForm.propTypes = {
+  setIsRegistering: PropTypes.func.isRequired,
+};

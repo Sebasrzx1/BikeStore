@@ -84,8 +84,7 @@ export default function Catalogo({ setCantidadCarrito }) {
       categoriasSeleccionadas.includes(prod.id_categoria);
 
     const dentroDelRango =
-      prod.precio_unitario >= precioMin &&
-      prod.precio_unitario <= precioMax;
+      prod.precio_unitario >= precioMin && prod.precio_unitario <= precioMax;
 
     return coincideBusqueda && coincideCategoria && dentroDelRango;
   });
@@ -109,15 +108,18 @@ export default function Catalogo({ setCantidadCarrito }) {
 
       <div className="tienda-contenido" data-aos="fade-in">
         {/* SIDEBAR FILTROS */}
-        <aside className={`tienda-filtros ${filtrosOpen ? "open" : ""}`} data-aos="slide-right">
+        <aside
+          className={`tienda-filtros ${filtrosOpen ? "open" : ""}`}
+          data-aos="slide-right"
+        >
           <div className="tienda-filtros-contenido">
             <h2 className="tienda-filtros-titulo">Filtros</h2>
 
             {/* Búsqueda */}
             <div className="tienda-busqueda">
-              <label>Buscar producto:</label>
-
+              <label htmlFor="buscar">Buscar producto:</label>
               <InputSearch
+                id="buscar"
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 placeholder="Ej. Bicicleta, casco..."
@@ -130,13 +132,15 @@ export default function Catalogo({ setCantidadCarrito }) {
               <ul>
                 {categorias.map((cat) => (
                   <li key={cat.id_categoria}>
-                  <Checkbox
-                    id={`cat-${cat.id_categoria}`}
-                    checked={categoriasSeleccionadas.includes(cat.id_categoria)}
-                    onChange={() => toggleCategoria(cat.id_categoria)}
-                    label={cat.nombre_categoria}
-                  />
-                </li>
+                    <Checkbox
+                      id={`cat-${cat.id_categoria}`}
+                      checked={categoriasSeleccionadas.includes(
+                        cat.id_categoria
+                      )}
+                      onChange={() => toggleCategoria(cat.id_categoria)}
+                      label={cat.nombre_categoria}
+                    />
+                  </li>
                 ))}
               </ul>
             </div>
@@ -150,10 +154,11 @@ export default function Catalogo({ setCantidadCarrito }) {
 
               <h3>Rango de precios</h3>
               <div className="rango-precios">
-                <label>Desde:</label>
+                <label htmlFor="rango-precio-max">Desde:</label>
 
                 <div className="rango-slider">
                   <input
+                    id="rango-precio-max"
                     type="range"
                     min={precioMin}
                     max={Math.max(
@@ -223,15 +228,15 @@ export default function Catalogo({ setCantidadCarrito }) {
                           ${p.precio_unitario.toLocaleString("es-CO")}
                         </p>
 
-                        <p className="tienda-stock">
-                          {p.stock} en stock
-                        </p>
+                        <p className="tienda-stock">{p.stock} en stock</p>
                       </div>
 
                       {/* BOTÓN CAMBIANTE */}
                       <button
                         disabled={sinStock}
-                        className={`tienda-btn-add ${sinStock ? "agotado" : ""}`}
+                        className={`tienda-btn-add ${
+                          sinStock ? "agotado" : ""
+                        }`}
                         onClick={() =>
                           agregarUnidadAlCarrito(
                             p,

@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
@@ -7,8 +9,8 @@ import { agregarUnidadAlCarrito } from "../utils/carrito";
 import { useNavigate, useLocation } from "react-router-dom";
 import HeroSlider from "./HeroSlider";
 import { useToast } from "../context/ToastContext";
-import BotonExplorar from "../components/BotonExplorar"
-import BotonSubrayado from "../components/BotonSubrayado"
+import BotonExplorar from "../components/BotonExplorar";
+import BotonSubrayado from "../components/BotonSubrayado";
 
 const Homepage = ({ setCantidadCarrito }) => {
   const [productos, setProductos] = useState([]);
@@ -29,7 +31,6 @@ const Homepage = ({ setCantidadCarrito }) => {
         const res = await axios.get("http://localhost:3000/api/productos");
         setProductos(res.data);
 
-        // Leer categoría desde URL
         const searchParams = new URLSearchParams(location.search);
         const categoriaParam = searchParams.get("categoria");
 
@@ -54,10 +55,9 @@ const Homepage = ({ setCantidadCarrito }) => {
 
   const categoriasPermitidasIds = [1, 2, 3];
 
-  // ADAPTADO: antes ordenaba por salidas, que ya no existe.
   const productosFiltrados = productos
     .filter((p) => categoriasPermitidasIds.includes(Number(p.id_categoria)))
-    .sort(() => 0); // mantiene orden sin usar salidas
+    .sort(() => 0);
 
   const productosPorCategoria = {};
   categoriasPermitidasIds.forEach((id) => {
@@ -73,14 +73,16 @@ const Homepage = ({ setCantidadCarrito }) => {
       <section className="hero" data-aos="fade-up">
         <div className="heroTitulo">
           <h1>COMPRA POR CATÁLOGO</h1>
-          <p>
-            Encuentra exactamente lo que necesitas para tu viaje en bicicleta
-          </p>
+          <p>Encuentra exactamente lo que necesitas para tu viaje en bicicleta</p>
         </div>
 
-        <BotonSubrayado texto="Explorar catalogo" onClick={() => navigate("/catalogo")}></BotonSubrayado>
+        <BotonSubrayado
+          texto="Explorar catalogo"
+          onClick={() => navigate("/catalogo")}
+        />
 
         <div className="ContCategoria" data-aos="fade-in">
+
           {/* Bicicletas */}
           <div className="categoria-item" data-aos="slide-left" data-aos-delay="100">
             <div className="ContIcon">
@@ -88,17 +90,21 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <img src="../IconBike.svg" alt="IconoBicicletas" />
               </div>
             </div>
-            <div
+
+            {/* CORREGIDO: div → button */}
+            <button
               className="CategTitulo"
               onClick={() => navigate("/catalogo?categoria=bicicletas")}
             >
               <h4>Bicicletas</h4>
-            </div>
+            </button>
+
             <div className="CategPar">
               <p>Explora nuestra amplia gama de bicicletas</p>
             </div>
+
             <div className="CategBoton">
-            <BotonExplorar onClick={() => navigate("/catalogo?categoria=bicicletas")}></BotonExplorar>
+              <BotonExplorar onClick={() => navigate("/catalogo?categoria=bicicletas")} />
             </div>
           </div>
 
@@ -109,17 +115,21 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <img src="./public/IconAccesori.svg" alt="IconoAccesorios" />
               </div>
             </div>
-            <div
+
+            {/* CORREGIDO */}
+            <button
               className="CategTitulo"
               onClick={() => navigate("/catalogo?categoria=accesorios")}
             >
               <h4>Accesorios</h4>
-            </div>
+            </button>
+
             <div className="CategPar">
               <p>Equipo esencial para cada ocasión</p>
             </div>
+
             <div className="CategBoton">
-            <BotonExplorar onClick={() => navigate("/catalogo?categoria=accesorios")}></BotonExplorar>
+              <BotonExplorar onClick={() => navigate("/catalogo?categoria=accesorios")} />
             </div>
           </div>
 
@@ -130,19 +140,24 @@ const Homepage = ({ setCantidadCarrito }) => {
                 <img src="./public/IconStem.svg" alt="IconoRepuestos" />
               </div>
             </div>
-            <div
+
+            {/* CORREGIDO */}
+            <button
               className="CategTitulo"
               onClick={() => navigate("/catalogo?categoria=repuestos")}
             >
               <h4>Repuestos</h4>
-            </div>
+            </button>
+
             <div className="CategPar">
               <p>Hombre precavido vale x2</p>
             </div>
+
             <div className="CategBoton">
-            <BotonExplorar onClick={() => navigate("/catalogo?categoria=repuestos")}></BotonExplorar>
+              <BotonExplorar onClick={() => navigate("/catalogo?categoria=repuestos")} />
             </div>
           </div>
+
         </div>
       </section>
 
@@ -154,19 +169,30 @@ const Homepage = ({ setCantidadCarrito }) => {
 
         <div className="ContPopul">
           {Object.entries(productosPorCategoria).map(([id, items], index) => {
-            let nombreCategoria = "";
-            if (id === "1") nombreCategoria = "Bicicletas";
-            if (id === "2") nombreCategoria = "Repuestos";
-            if (id === "3") nombreCategoria = "Accesorios";
+            const nombres = {
+              1: "Bicicletas",
+              2: "Repuestos",
+              3: "Accesorios",
+            };
 
             return (
               <div key={id} className="categoria-seccion">
-                <h3 className="titulocategoria" data-aos="fade-in" data-aos-delay={index * 100}>
-                  {nombreCategoria}
+                <h3
+                  className="titulocategoria"
+                  data-aos="fade-in"
+                  data-aos-delay={index * 100}
+                >
+                  {nombres[id]}
                 </h3>
+
                 <div className="productos-grid">
                   {items.map((p, cardIndex) => (
-                    <div key={p.id_producto} className="cardProductos" data-aos="zoom-in" data-aos-delay={cardIndex * 100}>
+                    <div
+                      key={p.id_producto}
+                      className="cardProductos"
+                      data-aos="zoom-in"
+                      data-aos-delay={cardIndex * 100}
+                    >
                       <div className="card-img-wrapper">
                         {p.stock === 0 && (
                           <span className="etiqueta-sin-stock">Sin Stock</span>
@@ -234,6 +260,10 @@ const Homepage = ({ setCantidadCarrito }) => {
       </section>
     </div>
   );
+};
+
+Homepage.propTypes = {
+  setCantidadCarrito: PropTypes.func.isRequired,
 };
 
 export default Homepage;

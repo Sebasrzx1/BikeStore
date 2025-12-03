@@ -8,10 +8,7 @@ export default function LoginForm() {
   const [contraseña, setContraseña] = useState("");
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
 
-  // Validaciones
   const [errores, setErrores] = useState({});
-
-  // Modal Alertas
   const [modalAlerta, setModalAlerta] = useState({
     visible: false,
     texto: "",
@@ -20,22 +17,18 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const { login, redirectPath, setRedirectPath } = useAuth();
 
-  // --- VALIDAR CAMPOS ---
+  // Validación
   const validarCampo = (campo, valor) => {
     let error = "";
 
     if (!valor.trim()) {
       error = "Este campo es obligatorio.";
     } else {
-      if (campo === "email") {
-        if (!/\S+@\S+\.\S+/.test(valor)) {
-          error = "Correo electrónico no válido.";
-        }
+      if (campo === "email" && !/\S+@\S+\.\S+/.test(valor)) {
+        error = "Correo electrónico no válido.";
       }
-      if (campo === "contraseña") {
-        if (valor.length < 6) {
-          error = "Debe tener al menos 6 caracteres.";
-        }
+      if (campo === "contraseña" && valor.length < 6) {
+        error = "Debe tener al menos 6 caracteres.";
       }
     }
 
@@ -46,7 +39,6 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación antes de enviar
     const errorEmail = validarCampo("email", email);
     const errorPass = validarCampo("contraseña", contraseña);
 
@@ -103,27 +95,39 @@ export default function LoginForm() {
           </p>
         </div>
 
-        {/* Botones */}
+        {/* Botones superiores */}
         <div className="BotonesLogin">
-          <div className="botondir" onClick={() => navigate("/login")}>
+          <button
+            type="button"
+            className="botondir1"
+            onClick={() => navigate("/login")}
+          >
             Iniciar sesión
-          </div>
-          <div className="botonder" onClick={() => navigate("/register")}>
+          </button>
+
+          <button
+            type="button"
+            className="botonder1"
+            onClick={() => navigate("/register")}
+          >
             Registrarse
-          </div>
+          </button>
         </div>
 
         {/* FORM */}
         <form className="CardLogin" onSubmit={handleSubmit}>
           {/* Email */}
           <div className="LoginCampo">
-            <label>Correo electrónico</label>
+            <label htmlFor="emailInput">Correo electrónico</label>
+
             <div
-              className={`ContCampo ${errores.email ? "campo-error" : email ? "campo-exito" : ""
-                }`}
+              className={`ContCampo ${
+                errores.email ? "campo-error" : email ? "campo-exito" : ""
+              }`}
             >
-              <img src="../public/IconEmail.svg" alt="" />
+              <img src="../public/IconEmail.svg" alt="Icono Email" />
               <input
+                id="emailInput"
                 className="LoginInput"
                 type="email"
                 value={email}
@@ -140,13 +144,21 @@ export default function LoginForm() {
 
           {/* Contraseña */}
           <div className="LoginCampo">
-            <label>Contraseña</label>
+            <label htmlFor="passInput">Contraseña</label>
+
             <div
-              className={`ContCampo ${errores.contraseña ? "campo-error" : contraseña ? "campo-exito" : ""
-                }`}
+              className={`ContCampo ${
+                errores.contraseña
+                  ? "campo-error"
+                  : contraseña
+                  ? "campo-exito"
+                  : ""
+              }`}
             >
-              <img src="../public/Icon Lock.svg" alt="" />
+              <img src="../public/Icon Lock.svg" alt="Icono Candado" />
+
               <input
+                id="passInput"
                 type={mostrarContraseña ? "text" : "password"}
                 className="LoginInput"
                 value={contraseña}
@@ -155,15 +167,26 @@ export default function LoginForm() {
                   validarCampo("contraseña", e.target.value);
                 }}
               />
-              <img
-                src={
-                  mostrarContraseña
-                    ? "../public/IconEyeoff.svg"
-                    : "../public/IconEye.svg"
-                }
+
+              {/* Botón del ojo */}
+              <button
+                type="button"
                 className="icono-ojo"
                 onClick={() => setMostrarContraseña(!mostrarContraseña)}
-              />
+              >
+                <img
+                  src={
+                    mostrarContraseña
+                      ? "../public/IconEyeoff.svg"
+                      : "../public/IconEye.svg"
+                  }
+                  alt={
+                    mostrarContraseña
+                      ? "Ocultar contraseña"
+                      : "Mostrar contraseña"
+                  }
+                />
+              </button>
             </div>
 
             {errores.contraseña && (
@@ -190,9 +213,18 @@ export default function LoginForm() {
         {modalAlerta.visible && (
           <div
             className="modal-overlay"
+            role="button"
+            tabIndex={0}
             onClick={() => setModalAlerta({ visible: false })}
+            onKeyDown={(e) =>
+              e.key === "Escape" && setModalAlerta({ visible: false })
+            }
           >
-            <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="modal-contenido"
+              role="presentation"
+              onMouseDown={(e) => e.stopPropagation()}
+            >
               <h3 style={{ color: "red" }}>Error</h3>
               <p>{modalAlerta.texto}</p>
               <button onClick={() => setModalAlerta({ visible: false })}>
