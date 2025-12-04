@@ -15,6 +15,7 @@ const ProductoModal = ({
   onGuardar,
 }) => {
   const [mostrar, setMostrar] = useState(false);
+  const [errores, setErrores] = useState({}); // Estado para manejar errores de validación
 
   useEffect(() => {
     if (abierto) setMostrar(true);
@@ -22,7 +23,138 @@ const ProductoModal = ({
 
   const handleCerrar = () => {
     setMostrar(false);
+    setErrores({}); // Limpiar errores al cerrar
     setTimeout(() => onCerrar(), 300);
+  };
+
+  // Función para validar un campo específico
+  const validarCampo = (name, value) => {
+    let error = "";
+    switch (name) {
+      case "nombre_producto":
+        if (!value.trim()) {
+          error = "El nombre del producto es obligatorio.";
+        } else if (value.length > 100) {
+          error = "El nombre no puede exceder 100 caracteres.";
+        } else if (!/^[\p{L}0-9\s\-_.,]+$/u.test(value)) {
+          error = "El nombre solo puede contener letras, números, espacios y caracteres básicos.";
+        }
+        break;
+      case "marca":
+        if (!value.trim()) {
+          error = "La marca es obligatoria.";
+        } else if (value.length > 50) {
+          error = "La marca no puede exceder 50 caracteres.";
+        } else if (!/^[\p{L}0-9\s\-_.,]+$/u.test(value)) {
+          error = "La marca solo puede contener letras, números, espacios y caracteres básicos.";
+        }
+        break;
+      case "id_categoria":
+        if (!value) {
+          error = "Debe seleccionar una categoría.";
+        }
+        break;
+      case "stock":
+        if (modoEdicion) break; // No validar stock en edición, ya que es readOnly
+        if (value === "" || value < 0) {
+          error = "El stock debe ser un número entero positivo.";
+        } else if (!Number.isInteger(Number(value))) {
+          error = "El stock debe ser un número entero.";
+        }
+        break;
+      case "cantidad_a_agregar":
+        if (!modoEdicion) break; // Solo en edición
+        if (value !== "" && (value < 0 || !Number.isInteger(Number(value)))) {
+          error = "La cantidad a agregar debe ser un número entero positivo o cero.";
+        }
+        break;
+      case "material":
+        if (!value.trim()) {
+          error = "El material es obligatorio.";
+        } else if (value.length > 50) {
+          error = "El material no puede exceder 50 caracteres.";
+        } else if (!/^[\p{L}0-9\s\-_.,]+$/u.test(value)) {
+          error = "El material solo puede contener letras, números, espacios y caracteres básicos.";
+        }
+        break;
+      case "precio_unitario":
+        if (value === "" || value <= 0) {
+          error = "El precio debe ser un número positivo mayor a 0.";
+        } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+          error = "El precio debe tener hasta 2 decimales.";
+        }
+        break;
+      case "peso":
+        if (!value.trim()) {
+          error = "El peso es obligatorio.";
+        } else if (value.length > 20) {
+          error = "El peso no puede exceder 20 caracteres.";
+        } else if (!/^\d+(\.\d{1,2})?\s?(kg|lb|g|oz)$/i.test(value)) {
+          error = "El peso debe estar en formato como '5kg', '10.5lb', etc.";
+        }
+        break;
+      case "descripcion":
+        if (!value.trim()) {
+          error = "La descripción es obligatoria.";
+        } else if (value.length > 500) {
+          error = "La descripción no puede exceder 500 caracteres.";
+        }
+        break;
+      default:
+        break;
+    }
+    setErrores((prev) => ({ ...prev, [name]: error }));
+  };
+
+  // Manejar cambios en inputs con validación
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    onChange(e); // Llamar al handler original
+    validarCampo(name, value); // Validar el campo
+  };
+
+  // Manejar cambio de imagen con validación
+  const handleImagenChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (!allowedTypes.includes(file.type)) {
+        setErrores((prev) => ({ ...prev, imagen: "Solo se permiten imágenes PNG, JPG o WEBP." }));
+        return;
+      }
+      if (file.size > maxSize) {
+        setErrores((prev) => ({ ...prev, imagen: "La imagen no puede exceder 10MB." }));
+        return;
+      }
+      setErrores((prev) => ({ ...prev, imagen: "" })); // Limpiar error si es válido
+    }
+    onImagenChange(e); // Llamar al handler original
+  };
+
+  // Verificar si hay errores antes de guardar
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Validar todos los campos obligatorios
+    const camposObligatorios = [
+      "nombre_producto",
+      "marca",
+      "id_categoria",
+      "material",
+      "precio_unitario",
+      "peso",
+      "descripcion",
+    ];
+    if (!modoEdicion) camposObligatorios.push("stock");
+    let hayErrores = false;
+    camposObligatorios.forEach((campo) => {
+      validarCampo(campo, productoActual[campo]);
+      if (errores[campo]) hayErrores = true;
+    });
+    if (errores.imagen) hayErrores = true;
+    if (!hayErrores) {
+      onGuardar();
+    }
   };
 
   if (!mostrar) return null;
@@ -50,13 +182,7 @@ const ProductoModal = ({
         </div>
 
         {/* Formulario */}
-        <form
-          className="modal-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            onGuardar();
-          }}
-        >
+        <form className="modal-form" onSubmit={handleSubmit}>
           <div className="fieldset-horizontal">
             <label>
               Nombre del producto
@@ -65,9 +191,10 @@ const ProductoModal = ({
                 name="nombre_producto"
                 value={productoActual.nombre_producto}
                 placeholder="Ej: Bicicleta Mountain Pro X1"
-                onChange={onChange}
+                onChange={handleChange}
                 required
               />
+              {errores.nombre_producto && <span className="error">{errores.nombre_producto}</span>}
             </label>
 
             <label>
@@ -77,9 +204,10 @@ const ProductoModal = ({
                 name="marca"
                 value={productoActual.marca}
                 placeholder="Ej: Trek, Giant, Specialized"
-                onChange={onChange}
+                onChange={handleChange}
                 required
               />
+              {errores.marca && <span className="error">{errores.marca}</span>}
             </label>
           </div>
 
@@ -90,7 +218,7 @@ const ProductoModal = ({
               <select
                 name="id_categoria"
                 value={productoActual.id_categoria}
-                onChange={onChange}
+                onChange={handleChange}
                 required
               >
                 <option value="">Seleccionar categoría</option>
@@ -100,6 +228,7 @@ const ProductoModal = ({
                   </option>
                 ))}
               </select>
+              {errores.id_categoria && <span className="error">{errores.id_categoria}</span>}
             </label>
 
             {/* Stock */}
@@ -121,9 +250,10 @@ const ProductoModal = ({
                     min="0"
                     name="cantidad_a_agregar"
                     value={productoActual.cantidad_a_agregar}
-                    onChange={onChange}
+                    onChange={handleChange}
                     placeholder="Cantidad a añadir (ej: 10)"
                   />
+                  {errores.cantidad_a_agregar && <span className="error">{errores.cantidad_a_agregar}</span>}
                 </label>
               </>
             ) : (
@@ -134,9 +264,10 @@ const ProductoModal = ({
                   min="0"
                   name="stock"
                   value={productoActual.stock}
-                  onChange={onChange}
+                  onChange={handleChange}
                   required
                 />
+                {errores.stock && <span className="error">{errores.stock}</span>}
               </label>
             )}
 
@@ -147,9 +278,10 @@ const ProductoModal = ({
                 type="text"
                 name="material"
                 value={productoActual.material}
-                onChange={onChange}
+                onChange={handleChange}
                 required
               />
+              {errores.material && <span className="error">{errores.material}</span>}
             </label>
 
             {/* Precio */}
@@ -161,9 +293,10 @@ const ProductoModal = ({
                 step="0.01"
                 name="precio_unitario"
                 value={productoActual.precio_unitario}
-                onChange={onChange}
+                onChange={handleChange}
                 required
               />
+              {errores.precio_unitario && <span className="error">{errores.precio_unitario}</span>}
             </label>
 
             {/* Peso */}
@@ -173,10 +306,11 @@ const ProductoModal = ({
                 type="text"
                 name="peso"
                 value={productoActual.peso}
-                onChange={onChange}
+                onChange={handleChange}
                 required
                 placeholder="Ej: 5kg, 10lb"
               />
+              {errores.peso && <span className="error">{errores.peso}</span>}
             </label>
           </div>
 
@@ -187,10 +321,11 @@ const ProductoModal = ({
               name="descripcion"
               value={productoActual.descripcion}
               placeholder="Describa las características principales del producto"
-              onChange={onChange}
+              onChange={handleChange}
               rows={4}
               required
             />
+            {errores.descripcion && <span className="error">{errores.descripcion}</span>}
           </label>
 
           {/* Imagen */}
@@ -200,7 +335,7 @@ const ProductoModal = ({
               <input
                 type="file"
                 accept="image/png, image/jpeg, image/webp"
-                onChange={onImagenChange}
+                onChange={handleImagenChange}
                 required={!modoEdicion}
               />
               <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" viewBox="0 0 40 32" fill="none">
@@ -214,6 +349,7 @@ const ProductoModal = ({
                 PNG, JPG, WEBP hasta 10MB
               </p>
             </div>
+            {errores.imagen && <span className="error">{errores.imagen}</span>}
             {imagenPreview && (
               <img src={imagenPreview} alt="Vista previa" className="imagen-preview" />
             )}
