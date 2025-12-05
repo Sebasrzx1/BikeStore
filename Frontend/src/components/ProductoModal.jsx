@@ -370,7 +370,6 @@ const ProductoModal = ({
   );
 };
 
-// --- PropTypes para evitar los errores ---
 ProductoModal.propTypes = {
   abierto: PropTypes.bool.isRequired,
   modoEdicion: PropTypes.bool.isRequired,

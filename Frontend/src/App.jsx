@@ -21,7 +21,6 @@ import ForgotPassword from "./components/ForgotPassword";
 import VerifyCode from "./components/VerifyCode";
 import MisPedidos from "./components/MisPedidos.jsx";
 import DetallePedido from "./components/DetallePedido.jsx";
-import PanelCliente from "./components/PanelCliente.jsx";
 import SobreNosotros from "./components/SobreNostros.jsx";
 import ScrollToTop from "./components/scrollToTop.jsx";
 import Pago from "./components/Pago";
@@ -48,14 +47,15 @@ function AppContent({ cantidadCarrito, setCantidadCarrito }) {
   const location = useLocation();
 
   // Ocultamos el Navbar en estas páginas
-  const hideNavbar = [
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/verificar-codigo",
-    "/admin",
-    "/admin/gestion-productos",
-  ].includes(location.pathname);
+  const hideNavbar = 
+    location.pathname === "/login" ||
+  location.pathname === "/register" ||
+  location.pathname === "/forgot-password" ||
+  location.pathname === "/verificar-codigo" ||
+  location.pathname === "/admin" ||
+  location.pathname === "/admin/gestion-productos" ||
+  location.pathname.startsWith("/factura") ||   // 👈 AHÍ ESTÁ LA SOLUCIÓN
+  location.pathname === "/pago";
 
   return (
     <>
