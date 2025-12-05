@@ -45,7 +45,7 @@ const Factura = () => {
         {/* DETALLES DEL PEDIDO */}
         <div className="inv-section">
           <h2 className="inv-section-title">Detalles del Pedido</h2>
-          <p className="inv-info">ID Pedido: {pedido.id_pedido}</p>
+          <p className="inv-info">Direccion de envio: {usuario.direccion} {usuario.ciudad} {usuario.departamento}</p>
           <p className="inv-info">Estado: {pedido.estado}</p>
           <p className="inv-info">Método Pago: {pedido.metodo_pago}</p>
           <p className="inv-info">
