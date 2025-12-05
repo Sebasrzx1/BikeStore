@@ -108,6 +108,18 @@
   font-size: 14px;
 }
 
+.error {
+  color: red;
+}
+
+.mensaje.error {
+  color: red;
+}
+
+.mensaje.success {
+  color: green;
+}
+
 /* ✅ Responsividad */
 @media (max-width: 992px) {
   .contenedor-cuenta-cliente {

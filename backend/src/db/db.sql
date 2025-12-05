@@ -11,7 +11,7 @@ email varchar(100),
 contraseña varchar(200),
 telefono bigint,
 direccion varchar(100),
-ciudad varchar(25),
+ciudad varchar(14),
 departamento varchar(25),
 codigo_postal int,
 pais enum('Argentina','Colombia','Chile','Ecuador','Mexico')
