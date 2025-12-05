@@ -1,6 +1,5 @@
-// src/components/ProductoModal.jsx
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types"; // <--- Importamos PropTypes
+import PropTypes from "prop-types";
 import "../styles/ProductoModal.css";
 
 const ProductoModal = ({
@@ -15,7 +14,9 @@ const ProductoModal = ({
   onGuardar,
 }) => {
   const [mostrar, setMostrar] = useState(false);
-  const [errores, setErrores] = useState({}); // Estado para manejar errores de validación
+  const [errores, setErrores] = useState({});
+  const [modalExito, setModalExito] = useState(false); // Nuevo: para modal de éxito
+  const [mensajeExito, setMensajeExito] = useState(""); // Nuevo: mensaje dinámico
 
   useEffect(() => {
     if (abierto) setMostrar(true);
@@ -23,11 +24,13 @@ const ProductoModal = ({
 
   const handleCerrar = () => {
     setMostrar(false);
-    setErrores({}); // Limpiar errores al cerrar
+    setErrores({});
+    setModalExito(false); // Limpiar modal de éxito
+    setMensajeExito("");
     setTimeout(() => onCerrar(), 300);
   };
 
-  // Función para validar un campo específico
+  // Función para validar un campo específico (igual que antes)
   const validarCampo = (name, value) => {
     let error = "";
     switch (name) {
@@ -55,7 +58,7 @@ const ProductoModal = ({
         }
         break;
       case "stock":
-        if (modoEdicion) break; // No validar stock en edición, ya que es readOnly
+        if (modoEdicion) break;
         if (value === "" || value < 0) {
           error = "El stock debe ser un número entero positivo.";
         } else if (!Number.isInteger(Number(value))) {
@@ -63,7 +66,7 @@ const ProductoModal = ({
         }
         break;
       case "cantidad_a_agregar":
-        if (!modoEdicion) break; // Solo en edición
+        if (!modoEdicion) break;
         if (value !== "" && (value < 0 || !Number.isInteger(Number(value)))) {
           error = "La cantidad a agregar debe ser un número entero positivo o cero.";
         }
@@ -106,19 +109,19 @@ const ProductoModal = ({
     setErrores((prev) => ({ ...prev, [name]: error }));
   };
 
-  // Manejar cambios en inputs con validación
+  // Manejar cambios en inputs con validación (igual que antes)
   const handleChange = (e) => {
     const { name, value } = e.target;
-    onChange(e); // Llamar al handler original
-    validarCampo(name, value); // Validar el campo
+    onChange(e);
+    validarCampo(name, value);
   };
 
-  // Manejar cambio de imagen con validación
+  // Manejar cambio de imagen con validación (igual que antes)
   const handleImagenChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
-      const maxSize = 10 * 1024 * 1024; // 10MB
+      const maxSize = 10 * 1024 * 1024;
       if (!allowedTypes.includes(file.type)) {
         setErrores((prev) => ({ ...prev, imagen: "Solo se permiten imágenes PNG, JPG o WEBP." }));
         return;
@@ -127,15 +130,14 @@ const ProductoModal = ({
         setErrores((prev) => ({ ...prev, imagen: "La imagen no puede exceder 10MB." }));
         return;
       }
-      setErrores((prev) => ({ ...prev, imagen: "" })); // Limpiar error si es válido
+      setErrores((prev) => ({ ...prev, imagen: "" }));
     }
-    onImagenChange(e); // Llamar al handler original
+    onImagenChange(e);
   };
 
-  // Verificar si hay errores antes de guardar
+  // Modificado: Verificar errores y mostrar modal de éxito después de guardar
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validar todos los campos obligatorios
     const camposObligatorios = [
       "nombre_producto",
       "marca",
@@ -154,6 +156,13 @@ const ProductoModal = ({
     if (errores.imagen) hayErrores = true;
     if (!hayErrores) {
       onGuardar();
+      // Nuevo: Mostrar modal de éxito
+      setMensajeExito(modoEdicion ? "Producto editado con éxito" : "Producto añadido con éxito");
+      setModalExito(true);
+      setTimeout(() => {
+        setModalExito(false);
+        handleCerrar();
+      }, 2500);
     }
   };
 
@@ -212,7 +221,6 @@ const ProductoModal = ({
           </div>
 
           <div className="fieldset-horizontal">
-            {/* Categoría */}
             <label>
               Categoría
               <select
@@ -231,7 +239,6 @@ const ProductoModal = ({
               {errores.id_categoria && <span className="error">{errores.id_categoria}</span>}
             </label>
 
-            {/* Stock */}
             {modoEdicion ? (
               <>
                 <label>
@@ -271,7 +278,6 @@ const ProductoModal = ({
               </label>
             )}
 
-            {/* Material */}
             <label>
               Material
               <input
@@ -284,7 +290,6 @@ const ProductoModal = ({
               {errores.material && <span className="error">{errores.material}</span>}
             </label>
 
-            {/* Precio */}
             <label>
               Precio
               <input
@@ -299,7 +304,6 @@ const ProductoModal = ({
               {errores.precio_unitario && <span className="error">{errores.precio_unitario}</span>}
             </label>
 
-            {/* Peso */}
             <label>
               Peso
               <input
@@ -314,7 +318,6 @@ const ProductoModal = ({
             </label>
           </div>
 
-          {/* Descripción */}
           <label className="desc-label">
             Descripción
             <textarea
@@ -328,7 +331,6 @@ const ProductoModal = ({
             {errores.descripcion && <span className="error">{errores.descripcion}</span>}
           </label>
 
-          {/* Imagen */}
           <label className="imagenes-label">
             Imágenes del producto
             <div className="upload-container">
@@ -355,7 +357,6 @@ const ProductoModal = ({
             )}
           </label>
 
-          {/* Footer */}
           <div className="modal-footer">
             <button type="button" className="btn-cancelar" onClick={handleCerrar}>
               Cancelar
@@ -365,6 +366,16 @@ const ProductoModal = ({
             </button>
           </div>
         </form>
+
+        {/* Nuevo: Modal de éxito usando clases existentes del CSS */}
+        {modalExito && (
+          <div className="modal-overlay" role="presentation">
+            <div className="modal-contenido" role="presentation">
+              <h3 style={{ color: "green" }}>✔ {mensajeExito}</h3>
+              <p>El modal se cerrará automáticamente...</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -399,3 +410,4 @@ ProductoModal.propTypes = {
 };
 
 export default ProductoModal;
+
