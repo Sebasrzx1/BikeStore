@@ -110,8 +110,6 @@
   color: #000;
 }
 
-
-
 .desingloginregisterdesc:hover {
   border: 2px solid #8b0000;
   background: #9f0000;
@@ -207,11 +205,11 @@
 
   /* Ocultar perfil desktop en móviles */
   .desingloginregister {
-    position: relative ;
-    margin-right:70px;
+    position: relative;
+    margin-right: 70px;
   }
 
-  
+
 
   /* -------------------------------- */
   /* -------- BOTÓN HAMBURGUESA ----- */
@@ -253,14 +251,38 @@
     text-decoration: none;
     display: flex;
     width: 100px;
-    height: 42px;
+    height: 50px;
   }
 
-  .desingloginregisterdesc p {
+}
+
+@media (max-width: 540px) {
+  .navbar {
+    padding: 12px 15px;
+  }
+
+  .nav-logo img {
+    width: 120px;
+  }
+
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+    position: relative;
+    
+  }
+
+  .hamburger {
+    margin-left: 300px;
+  }
+
+  .desingloginregisterdesc {
     text-decoration: none;
-    font-size: 10px;
-
+    width: 80px;
+    height: 50px;
+    position: absolute;
+    margin-left: -110px;
   }
+
 }
 
 /* ----- Móviles pequeños ----- */
@@ -284,16 +306,11 @@
   .desingloginregisterdesc {
     text-decoration: none;
     width: 80px;
-    height: 42px;
+    height: 50px;
     position: absolute;
     margin-left: -180px;
   }
 
-  .desingloginregisterdesc p {
-    text-decoration: none;
-    font-size: 7px;
-
-  }
 }
 
 /* ----- Móviles pequeños ----- */
@@ -317,16 +334,11 @@
   .desingloginregisterdesc {
     text-decoration: none;
     width: 80px;
-    height: 42px;
+    height: 50px;
     position: absolute;
     margin-left: -180px;
   }
 
-  .desingloginregisterdesc p {
-    text-decoration: none;
-    font-size: 7px;
-
-  }
 }
 
 
@@ -352,15 +364,12 @@
   .desingloginregisterdesc {
     text-decoration: none;
     width: 80px;
-    height: 42px;
+    height: 50px;
     position: relative;
     margin-right: 57px;
   }
 
-  .desingloginregisterdesc p {
-    text-decoration: none;
-    font-size: 7px;
-  }
+
 }
 
 /* ----- Móviles super pequeños ----- */
@@ -378,30 +387,46 @@
   }
 
   .hamburger {
-    margin-left: 270px;
+    margin-left: 255px;
   }
 
   .desingloginregisterdesc {
     text-decoration: none;
-    width: 80px;
-    height: 42px;
+    width: 90px;
+    height: 50px;
     position: relative;
-    margin-right: 57px;
-  }
-
-  .desingloginregisterdesc p {
-    text-decoration: none;
-    font-size: 7px;
+    margin-right: 70px;
   }
 }
 
+@media (max-width: 360px) {
+  .navbar {
+    padding: 12px 15px;
+  }
 
+  .nav-logo img {
+    width: 120px;
+  }
 
+  .Contcarrito-accesoregistro {
+    gap: 15px;
+  }
 
+  .hamburger {
+    margin-left: 255px;
+  }
 
+  .desingloginregisterdesc {
+    text-decoration: none;
+    width: 90px;
+    height: 50px;
+    position: relative;
+    margin-right: 50px;
+  }
+}
 
 /* ----- Móviles con anchura pequeña ----- */
-@media (max-width: 360px) {
+@media (max-width: 330px) {
   .navbar {
     padding: 12px 15px;
   }
@@ -419,15 +444,11 @@
   }
 
   .desingloginregisterdesc {
-    text-decoration: none;
-    width: 80px;
-    height: 42px;
+    width: 60px;
+    height: 60px;
     position: relative;
-    margin-right: px;
-  }
-
-  .desingloginregisterdesc p {
-    text-decoration: none;
-    font-size: 7px;
+    margin-right: -3px;
+    margin-left: -160px;
+    font-size: 10px;
   }
 }

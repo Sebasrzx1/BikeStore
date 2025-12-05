@@ -2,8 +2,10 @@
    TIENDA — ESTILOS BASE
 ============================================ */
 * {
-  font-family: 'Poppins', sans-serif; /* Agregado sans-serif para fallback */
-  box-sizing: border-box; /* Mejor manejo de cajas */
+  font-family: 'Poppins', sans-serif;
+  /* Agregado sans-serif para fallback */
+  box-sizing: border-box;
+  /* Mejor manejo de cajas */
 }
 
 .tienda-page {
@@ -36,28 +38,36 @@
 }
 
 .ContTienda h1 {
-  font-weight: 700; /* Más peso para títulos */
-  color: #333; /* Mejor contraste */
+  font-weight: 700;
+  /* Más peso para títulos */
+  color: #333;
+  /* Mejor contraste */
 }
 
 .ContTienda p {
   color: rgb(85, 85, 85);
-  font-size: 1.1rem; /* Ligeramente más grande */
+  font-size: 1.1rem;
+  /* Ligeramente más grande */
 }
-.tienda-busqueda{
+
+.tienda-busqueda {
   width: 100%;
 }
 
 .tienda-busqueda input {
-  height: 35px; /* Un poco más alto para comodidad */
+  height: 35px;
+  /* Un poco más alto para comodidad */
   padding-left: 12px;
-  border-radius: 8px; /* Más redondeado */
+  border-radius: 8px;
+  /* Más redondeado */
   border: 1px solid rgb(156, 156, 156);
-  transition: border-color 0.3s ease; /* Transición suave */
+  transition: border-color 0.3s ease;
+  /* Transición suave */
 }
 
 .tienda-busqueda input:focus {
-  border-color: #b30000; /* Enfoque rojo para consistencia */
+  border-color: #b30000;
+  /* Enfoque rojo para consistencia */
   outline: none;
 }
 
@@ -72,7 +82,8 @@
   flex-direction: column;
   gap: 10px;
   z-index: 150;
-  height: auto; /* ← FIX IMPORTANTE */
+  height: auto;
+  /* ← FIX IMPORTANTE */
 }
 
 .tienda-filtros-contenido {
@@ -82,15 +93,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 30px; /* Cambiado a 30px para neumórfico */
-  background: #f5f5f5; /* Cambiado a sólido para neumórfico */
-  box-shadow: 10px 10px 20px #bebebe, /* Sombras neumórficas escaladas */
-  -10px -10px 20px #ffffff;
+  border-radius: 30px;
+  /* Cambiado a 30px para neumórfico */
+  background: #f5f5f5;
+  /* Cambiado a sólido para neumórfico */
+  box-shadow: 10px 10px 20px #bebebe,
+    /* Sombras neumórficas escaladas */
+    -10px -10px 20px #ffffff;
   gap: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Transiciones suaves */
 }
 
-.tienda-categorias{
+.tienda-categorias {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -98,27 +113,36 @@
   width: 100%;
 
 }
+
 .tienda-filtros-titulo {
-  font-size: 1.5rem; /* Un poco más grande */
-  font-weight: 700; /* Más peso */
+  font-size: 1.5rem;
+  /* Un poco más grande */
+  font-weight: 700;
+  /* Más peso */
   margin-bottom: 1.2rem;
   color: #222;
-  text-align: center; /* Centrado para mejor look */
+  text-align: center;
+  /* Centrado para mejor look */
 }
 
 .tienda-categorias h3 {
-  font-weight: 600; /* Más peso */
-  color: #444; /* Mejor contraste */
+  font-weight: 600;
+  /* Más peso */
+  color: #444;
+  /* Mejor contraste */
 }
-.tienda-categorias ul{
+
+.tienda-categorias ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
 
 }
+
 .tienda-categorias li {
   display: flex;
-  gap: 8px; /* Más espacio */
+  gap: 8px;
+  /* Más espacio */
   align-items: center;
 }
 
@@ -128,7 +152,8 @@
 }
 
 .tienda-categorias label:hover {
-  color: #b30000; /* Hover rojo */
+  color: #b30000;
+  /* Hover rojo */
 }
 
 /* ============================================
@@ -144,12 +169,15 @@
 
 .tienda-card {
   background: #fff;
-  border-radius: 15px; /* Más redondeado */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más moderna */
+  border-radius: 15px;
+  /* Más redondeado */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* Sombra más moderna */
   overflow: hidden;
   max-width: 500px;
   width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Transiciones suaves */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -157,7 +185,8 @@
 
 .tienda-card:hover {
   transform: scale(1.03);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Sombra más intensa en hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  /* Sombra más intensa en hover */
 }
 
 .tienda-card-img-wrapCatal {
@@ -175,7 +204,8 @@
 }
 
 .tienda-card-img:hover {
-  opacity: 0.9; /* Efecto hover sutil en imagen */
+  opacity: 0.9;
+  /* Efecto hover sutil en imagen */
 }
 
 .tienda-card-img img {
@@ -207,16 +237,20 @@
 .tienda-precio {
   color: #b30000;
   font-weight: bold;
-  font-size: 1.3rem; /* Un poco más grande */
+  font-size: 1.3rem;
+  /* Un poco más grande */
 }
 
 .tienda-btn-add {
   display: flex;
-  padding: 10px 20px; /* Ajustado para mejor proporción */
+  padding: 10px 20px;
+  /* Ajustado para mejor proporción */
   justify-content: center;
   align-items: center;
-  border-radius: 50px; /* Más redondeado */
-  background: linear-gradient(135deg, #8B0000, #a00000); /* Gradiente sutil */
+  border-radius: 50px;
+  /* Más redondeado */
+  background: linear-gradient(135deg, #8B0000, #a00000);
+  /* Gradiente sutil */
   gap: 6px;
   width: 100%;
   transition: background 0.3s ease, transform 0.2s ease;
@@ -229,12 +263,15 @@
 }
 
 .tienda-btn-add:hover {
-  background: linear-gradient(135deg, #7c0000, #900000); /* Gradiente más oscuro en hover */
-  transform: translateY(-2px); /* Efecto lift */
+  background: linear-gradient(135deg, #7c0000, #900000);
+  /* Gradiente más oscuro en hover */
+  transform: translateY(-2px);
+  /* Efecto lift */
 }
 
 .tienda-btn-add.agotado {
-  background: #ccc; /* Gris para agotado */
+  background: #ccc;
+  /* Gris para agotado */
 }
 
 .tienda-precios p {
@@ -348,7 +385,8 @@
   display: none;
   width: 100%;
   padding: 12px 16px;
-  background: linear-gradient(135deg, #8B0000, #a00000); /* Gradiente consistente */
+  background: linear-gradient(135deg, #8B0000, #a00000);
+  /* Gradiente consistente */
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -385,6 +423,9 @@
     margin-bottom: 20px;
   }
 
+  .tienda-productos {
+    grid-template-columns: 1fr;
+  }
   .tienda-card {
     max-width: 360px;
     width: 100%;
