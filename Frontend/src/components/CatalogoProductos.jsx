@@ -89,6 +89,18 @@ export default function Catalogo({ setCantidadCarrito }) {
     return coincideBusqueda && coincideCategoria && dentroDelRango;
   });
 
+  const limpiarFiltros = () => {
+    setCategoriasSeleccionadas([]);
+    setBusqueda("");
+
+    // Restaurar precios originales
+    if (productos.length > 0) {
+      const precios = productos.map((p) => p.precio_unitario);
+      setPrecioMin(Math.min(...precios));
+      setPrecioMax(Math.max(...precios));
+    }
+  };
+
   return (
     <div className="tienda-page">
       <div className="ContTienda" data-aos="fade-up">
@@ -176,6 +188,10 @@ export default function Catalogo({ setCantidadCarrito }) {
                   </div>
                 </div>
               </div>
+
+              <button className="btn-limpiar" onClick={limpiarFiltros}>
+                Limpiar filtros
+              </button>
             </div>
           </div>
         </aside>
@@ -234,9 +250,8 @@ export default function Catalogo({ setCantidadCarrito }) {
                       {/* BOTÓN CAMBIANTE */}
                       <button
                         disabled={sinStock}
-                        className={`tienda-btn-add ${
-                          sinStock ? "agotado" : ""
-                        }`}
+                        className={`tienda-btn-add ${sinStock ? "agotado" : ""
+                          }`}
                         onClick={() =>
                           agregarUnidadAlCarrito(
                             p,

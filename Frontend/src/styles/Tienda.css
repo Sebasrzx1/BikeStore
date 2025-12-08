@@ -327,6 +327,20 @@
   left: 0;
 }
 
+.btn-limpiar{
+  text-align: center;
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(179, 0, 0);
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  background: rgb(143, 0, 0);
+  font-size: 14px;
+}
+
+.btn-limpiar:hover{
+  background: #7c0000;
+}
 /* ============================================
    RESPONSIVE 1366px
 ============================================ */
